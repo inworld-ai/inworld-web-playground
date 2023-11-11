@@ -1,0 +1,56 @@
+{
+  "name": "inworld-web-gallery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@inworld/web-sdk": "1.9.1",
+    "@mui/icons-material": "^5.14.11",
+    "@mui/material": "^5.14.11",
+    "@react-three/drei": "^9.88.0",
+    "@react-three/fiber": "^8.14.3",
+    "@react-three/postprocessing": "^2.15.10",
+    "eslint-import-resolver-typescript": "3.6.1",
+    "leva": "^0.9.35",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.46.2",
+    "react-scripts": "5.0.1",
+    "three": "^0.157.0",
+    "three-stdlib": "^2.27.2"
+  },
+  "overrides": {
+    "react-scripts": {
+      "typescript": "^5"
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.23",
+    "@types/react-dom": "^18.2.8",
+    "@types/three": "^0.157.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-markdown": "^3.0.1",
+    "eslint-plugin-prettier": "^5.0.0",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "start": "set PORT=3030 && react-scripts start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "author": "",
+  "license": "ISC"
+}
