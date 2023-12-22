@@ -1,42 +1,44 @@
-import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import { Clock } from "three";
 
-import { FirstPersonCamera } from "../camera/FirstPersonCamera";
+import { useFrame } from "@react-three/fiber";
+
 import { CameraCore } from "../camera/CameraCore";
+import { FirstPersonCamera } from "../camera/FirstPersonCamera";
 import { InputController } from "../input/InputController";
 import { SoundController } from "../sound/SoundController";
-
-import { useSystem, STATE_PAUSED, STATE_RUNNING } from "../utils/system";
 import { SOUND_FOOTSTEPS } from "../sound/SoundIDs";
+import { useRays } from "../utils/rays";
+import { STATE_PAUSED, STATE_RUNNING, useSystem } from "../utils/system";
 
 interface PlayerControllerProps {
   cameraCore: CameraCore;
+  inputController: InputController;
   isLoaded: boolean;
 }
 
 function PlayerController(props: PlayerControllerProps) {
   const [fpsCamera, setFPSCamera] = useState<FirstPersonCamera>();
-  const [inputController, setInputController] = useState<InputController>();
   const [soundController, setSoundController] = useState<SoundController>();
 
   const clockRef = useRef(new Clock());
 
   const { state, setState } = useSystem();
+  const { setCamera } = useRays();
 
   useEffect(() => {
     if (props.isLoaded) {
       // console.log("PlayerController Init");
-      setInputController(new InputController());
       setSoundController(new SoundController({ camera: props.cameraCore }));
     }
   }, [props.isLoaded]);
 
   useEffect(() => {
-    if (inputController) {
-      setFPSCamera(new FirstPersonCamera(props.cameraCore, inputController));
-    }
-  }, [inputController]);
+    setFPSCamera(
+      new FirstPersonCamera(props.cameraCore, props.inputController)
+    );
+    if (setCamera) setCamera(props.cameraCore.camera);
+  }, []);
 
   useEffect(() => {
     if (soundController) {
@@ -49,21 +51,22 @@ function PlayerController(props: PlayerControllerProps) {
   }, [soundController, state]);
 
   useFrame((fstate, delta) => {
-    if (inputController) {
-      inputController.update();
-      // Check if the user pressed the escape key. If so pause the game.
-      if (inputController.keys["Escape"]) {
-        if (setState && state === STATE_RUNNING) {
-          setState(STATE_PAUSED);
-        }
+    props.inputController.update();
+    // Check if the user pressed the escape key. If so pause the game.
+    if (props.inputController.keys["Escape"]) {
+      if (setState && state === STATE_RUNNING) {
+        setState(STATE_PAUSED);
       }
+    }
+
+    if (state === STATE_RUNNING) {
       // Check if the character is running. If so play sound effect.
       const forwardVelocity =
-        (inputController.keys["w"] ? 1 : 0) +
-        (inputController.keys["s"] ? -1 : 0);
+        (props.inputController.keys["w"] ? 1 : 0) +
+        (props.inputController.keys["s"] ? -1 : 0);
       const strafeVelocity =
-        (inputController.keys["a"] ? 1 : 0) +
-        (inputController.keys["d"] ? -1 : 0);
+        (props.inputController.keys["a"] ? 1 : 0) +
+        (props.inputController.keys["d"] ? -1 : 0);
       if ((soundController && forwardVelocity !== 0) || strafeVelocity !== 0) {
         soundController?.play(SOUND_FOOTSTEPS);
       } else {

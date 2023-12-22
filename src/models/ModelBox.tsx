@@ -5,6 +5,7 @@ import { ModelFileLoader } from "../loaders/ModelFileLoader";
 
 interface ModelBoxProps {
   isLoaded: boolean;
+  name?: string;
   position: Vector3;
   scale: Vector3;
 }
@@ -38,7 +39,12 @@ function ModelBox(props: ModelBoxProps) {
   return (
     <>
       {isLoaded && (
-        <primitive object={box!.getModel()!} castShadow receiveShadow />
+        <primitive
+          name={props.name || "Box"}
+          object={box!.getModel()!}
+          castShadow
+          receiveShadow
+        />
       )}
     </>
   );

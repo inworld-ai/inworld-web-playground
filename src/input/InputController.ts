@@ -5,6 +5,8 @@ interface CurrentProps {
   mouseXDelta: number;
   mouseY: number;
   mouseYDelta: number;
+  pointX: number;
+  pointY: number;
 }
 
 type IKeyType = { [key: string]: any };
@@ -18,7 +20,6 @@ export class InputController {
   hasMoved: boolean;
 
   constructor() {
-    // console.log("InputController Init");
     this.current = {
       leftButton: false,
       rightButton: false,
@@ -26,6 +27,8 @@ export class InputController {
       mouseXDelta: 0,
       mouseY: 0,
       mouseYDelta: 0,
+      pointX: 0,
+      pointY: 0,
     }
     this.previous = null;
     this.keys = {};
@@ -44,19 +47,20 @@ export class InputController {
   }
 
   onContextMenu(e: MouseEvent) {
-    console.log('onContextMenu');
+    // console.log('onContextMenu');
     e.preventDefault();
   }
 
   onMouseDown(e: MouseEvent) {
     switch (e.button) {
       case 0: {
+        // console.log("onMouseDown")
+        this.current.pointX = (e.clientX / window.innerWidth) * 2 - 1;
+        this.current.pointY = -(e.clientY / window.innerHeight) * 2 + 1;
         this.current.leftButton = true;
         break;
       }
       case 2: {
-        this.current.mouseX = e.pageX - window.innerWidth / 2;
-        this.current.mouseY = e.pageY - window.innerHeight / 2;
         this.current.rightButton = true;
         break;
       }
@@ -77,9 +81,9 @@ export class InputController {
   }
 
   onMouseMove(e: MouseEvent) {
+    this.current.mouseX = e.pageX - window.innerWidth / 2;
+    this.current.mouseY = e.pageY - window.innerHeight / 2;
     if (this.current.rightButton) {
-      this.current.mouseX = e.pageX - window.innerWidth / 2;
-      this.current.mouseY = e.pageY - window.innerHeight / 2;
 
       if (this.previous === null) {
         this.previous = { ...this.current };

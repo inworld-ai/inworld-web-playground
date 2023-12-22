@@ -23,6 +23,11 @@ export const Config: Configuration = {
     configURI: process.env.REACT_APP_INNEQUIN_CONFIG_URI!,
     dracoURI: process.env.REACT_APP_DRACO_COMPRESSION_URI || '',
   },
+  RPM: {
+    baseURI: process.env.REACT_APP_RPM_BASE_URI!,
+    configURI: process.env.REACT_APP_RPM_CONFIG_URI!,
+    dracoURI: process.env.REACT_APP_DRACO_COMPRESSION_URI || '',
+  },
   INWORLD: {
     characterId: process.env.REACT_APP_INWORLD_CHARACTER_ID!,
     sceneId: process.env.REACT_APP_INWORLD_SCENE_ID!,

@@ -1,0 +1,38 @@
+.mainHud {
+  padding: 0 !important;
+  margin: 0 !important;
+  bottom: 10px;
+  left: 10px;
+  position: fixed !important;
+  max-width: 100% !important;
+  z-index: 10000;
+}
+
+.mainHud p {
+  font-family: monospace;
+  color: white;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.stackUI {
+  vertical-align: bottom;
+  align-items: self-end;
+}
+
+.stackLabels {
+  vertical-align: bottom;
+}
+
+.textRoomNameLabel {
+  vertical-align: bottom;
+  font-size: 20px !important;
+}
+
+.textFooterLabel {
+  vertical-align: bottom;
+}
+
+.linkInworld {
+  align-self: flex-end;
+}
