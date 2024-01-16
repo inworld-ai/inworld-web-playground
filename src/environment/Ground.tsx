@@ -1,5 +1,6 @@
-import { Grid } from "@react-three/drei";
-import { useControls } from "leva";
+import { useControls } from 'leva';
+
+import { Grid } from '@react-three/drei';
 
 function Ground() {
   const directionalCtl = useControls(
@@ -17,7 +18,7 @@ function Ground() {
       followCamera: false,
       infiniteGrid: true,
     },
-    { collapsed: true }
+    { collapsed: true, render: () => false }
   );
 
   return (

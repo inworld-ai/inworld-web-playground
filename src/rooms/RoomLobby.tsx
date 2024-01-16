@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { Euler, Vector3 } from "three";
+import { useCallback, useEffect } from 'react';
+import { Euler, Vector3 } from 'three';
 
-import ModelInnequin from "../models/ModelInnequin";
-import { useRooms } from "../utils/rooms";
-import RoomBase from "./RoomBase";
+import { STATE_OPEN, useInworld } from '../contexts/InworldProvider';
+import ModelInnequin from '../models/ModelInnequin';
+import RoomBase from './RoomBase';
 
 export type RoomLobbyProps = {
   name: string;
@@ -11,7 +11,20 @@ export type RoomLobbyProps = {
 };
 
 function RoomLobby(props: RoomLobbyProps) {
-  const { room, setRoom } = useRooms();
+  const CHARACTER_ID =
+    "workspaces/inworld-playground/characters/lobby_bot_-_innequin";
+  const NAME_INNEQUIN = "InnequinLobby";
+  const TRIGGER_WELCOME = "greet_player";
+
+  const { sendTrigger, state } = useInworld();
+
+  const onClick = useCallback((name: string) => {}, []);
+
+  useEffect(() => {
+    if (state === STATE_OPEN) {
+      sendTrigger(TRIGGER_WELCOME);
+    }
+  }, [state]);
 
   return (
     <>
@@ -22,9 +35,11 @@ function RoomLobby(props: RoomLobbyProps) {
           rotation={new Euler(0, 0, 0)}
         >
           <ModelInnequin
-            name="InnequinLobby"
+            name={NAME_INNEQUIN}
+            characterId={CHARACTER_ID}
             isLoaded={props.isLoaded}
             position={new Vector3(0, 0, -5)}
+            onClick={onClick}
           />
         </group>
       </RoomBase>

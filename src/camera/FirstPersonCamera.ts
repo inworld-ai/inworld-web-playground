@@ -1,13 +1,9 @@
-import { PerspectiveCamera, Quaternion, Vector3 } from 'three';
+import { Quaternion, Vector3 } from 'three';
+import { clamp } from 'three/src/math/MathUtils';
 
 import { InputController } from '../input/InputController';
+import { Config } from '../utils/config';
 import { CameraCore } from './CameraCore';
-
-const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max);
-
-const PLAYER_EYE_LEVEL = 1.5; // TODO Update this to reflect something editable?
-const GRAVITY = 9.8;
-const JUMP_POWER = 3;
 
 // This class handles the simulating movement of the camera from a first person perspective.
 export class FirstPersonCamera {
@@ -56,7 +52,7 @@ export class FirstPersonCamera {
   updateCamera(deltaS: number) {
     this.cameraCore.camera.quaternion.copy(this.rotation);
     this.cameraCore.camera.position.copy(this.translation);
-    this.cameraCore.camera.position.y = PLAYER_EYE_LEVEL;
+    this.cameraCore.camera.position.y = Config.THREEJS.PLAYER_SETTINGS.PLAYER_EYE_LEVEL;
     if (this.headBobActive) {
       this.cameraCore.camera.position.y += (Math.sin(this.headBobTimer * 20) * 0.1)
     }
@@ -79,7 +75,7 @@ export class FirstPersonCamera {
 
   updateJump(deltaS: number) {
     if (this.jumpActive) {
-      this.jumpVelocity -= GRAVITY * deltaS;
+      this.jumpVelocity -= Config.THREEJS.PLAYER_SETTINGS.GRAVITY * deltaS;
     }
     if (this.jumpVelocity <= 0) {
       this.jumpVelocity = 0;
@@ -132,7 +128,7 @@ export class FirstPersonCamera {
 
     if (this.inputController.keys[' ']) {
       if (!this.jumpActive) {
-        this.jumpVelocity = JUMP_POWER;
+        this.jumpVelocity = Config.THREEJS.PLAYER_SETTINGS.JUMP_POWER;
         this.jumpActive = true;
       }
     }

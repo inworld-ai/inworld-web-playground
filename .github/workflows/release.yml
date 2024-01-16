@@ -1,0 +1,95 @@
+name: Release & Publish to NPM
+
+on:
+  workflow_dispatch:
+    inputs:
+      increment:
+        type: choice
+        description: Select increment
+        options:
+          - patch
+          - minor
+          - major
+
+      package:
+        type: choice
+        description: Select package
+        options:
+          - '@inworld/web-core'
+          - '@inworld/web-threejs'
+
+jobs:
+  github-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo increment & package
+        run: echo "${{ inputs.increment }}" "${{ inputs.package }}"
+      - name: Set git user
+        run: git config --global user.email "github-service-account@inworld.ai" &&  git config --global user.name "CI-inworld"
+      - name: Checkout source code
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          ssh-key: ${{ secrets.GH_SERVICE_ACCOUNT_SSH_KEY }}
+      - name: Run build
+        uses: ./.github/actions/build_package
+        with:
+          package: ${{ inputs.package }}
+      - name: Bump version
+        run: |
+          yarn workspace ${{ inputs.package }} release:bump ${{ inputs.increment }} --ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  npm-release:
+    runs-on: ubuntu-latest
+    needs: [github-release]
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+        with:
+          ref: main
+      - name: Run build
+        uses: ./.github/actions/build_package
+        with:
+          package: ${{ inputs.package }}
+      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+      - name: Publish to npm
+        run: yarn workspace ${{ inputs.package }} release:publish
+
+  release-notification:
+    runs-on: [self-hosted, kubernetes, nodocker]
+    needs: [github-release, npm-release]
+    # always runs even if previous tasks are not successful
+    if: always()
+    steps:
+      - name: Checkout source code
+        if: needs.npm-release.result == 'success'
+        uses: actions/checkout@v3
+        with:
+          ref: main
+      - name: Extract version
+        if: needs.npm-release.result == 'success'
+        run: |
+          echo "version=$(yarn workspace ${{ inputs.package }} get:version)" >> $GITHUB_OUTPUT
+        id: extract-version
+      - name: Extract changelog
+        if: needs.npm-release.result == 'success'
+        run: |
+          echo "changelog=yarn workspace ${{ inputs.package }} get:changelog" >> $GITHUB_OUTPUT
+        id: extract-changelog
+      - name: Extract release notes
+        if: needs.npm-release.result == 'success'
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v1
+        with:
+          changelog_file: ${{ steps.extract-changelog.outputs.changelog }}
+      - name: Slack Notification
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.INTEGRATIONS_SLACK_WEBHOOK }}
+          SLACK_COLOR: ${{ contains(needs.*.result, 'failure') && 'danger' || 'good' }}
+          SLACK_TITLE: Release ${{ contains(needs.*.result, 'failure') && 'failure' || steps.extract-version.outputs.version }}
+          SLACK_MESSAGE: ${{ contains(needs.*.result, 'failure') && ':x:' || steps.extract-release-notes.outputs.release_notes }}
+          SLACK_FOOTER: '-Web SDK-'

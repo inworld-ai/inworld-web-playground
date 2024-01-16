@@ -1,7 +1,8 @@
-import { Audio, AudioListener, AudioLoader } from "three";
-import { ISoundCore } from "./ISoundCore";
+import { Audio, AudioListener, AudioLoader } from 'three';
 
-const SOUND_FILE_URI: string = "/assets/sounds/ambient/ambient-1.mp3";
+import { ISoundCore } from './ISoundCore';
+
+const SOUND_FILE_URI = "/assets/v1.0/sounds/ambient/ambient-1.mp3";
 
 export class SoundAmbient implements ISoundCore {
 

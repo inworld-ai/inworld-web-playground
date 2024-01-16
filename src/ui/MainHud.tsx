@@ -1,24 +1,20 @@
-import "./MainHud.css";
+import './MainHud.css';
 
-import { button, useControls } from "leva";
+import { button, useControls } from 'leva';
 
-import { Container, Stack, Typography } from "@mui/material";
+import { Container, Stack, Typography } from '@mui/material';
 
-import { useInworld } from "../contexts/InworldProvider";
+import { useInworld } from '../contexts/InworldProvider';
 import {
-  ROOM_ANIMATIONS,
-  ROOM_AVATARS,
-  ROOM_EMOTIONS,
-  ROOM_LOBBY,
-  useRooms,
-} from "../utils/rooms";
+    ROOM_ANIMATIONS, ROOM_AVATARS, ROOM_EMOTIONS, ROOM_GOALS, ROOM_LOBBY, useRooms
+} from '../contexts/RoomsProvider';
 
 function MainHud() {
   const { setRoom, uiLabel } = useRooms();
 
   const { name } = useInworld();
 
-  const directionalCtl = useControls(
+  useControls(
     "Rooms",
     {
       Lobby: button(() => {
@@ -32,6 +28,9 @@ function MainHud() {
       }),
       Emotions: button(() => {
         if (setRoom) setRoom(ROOM_EMOTIONS);
+      }),
+      Goals: button(() => {
+        if (setRoom) setRoom(ROOM_GOALS);
       }),
     },
     { collapsed: false }
@@ -51,6 +50,14 @@ function MainHud() {
             direction="column"
           >
             <Typography className="textRoomNameLabel">
+              {/* {label1.split("\n").map((str) => (
+                <>
+                  {str}
+                  <br />
+                </>
+              ))} */}
+              <br />
+              <br />
               Room: {uiLabel}
               <br />
               Character: {name}

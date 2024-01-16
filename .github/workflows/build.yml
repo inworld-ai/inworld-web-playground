@@ -1,0 +1,24 @@
+name: Build
+
+on:
+  pull_request:
+
+jobs:
+  build-pr:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: build-a-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+      - name: Run Web Core build
+        uses: ./.github/actions/build_package
+        with:
+          package: '@inworld/web-core'
+      - name: Run Web Threejs build
+        uses: ./.github/actions/build_package
+        with:
+          package: '@inworld/web-threejs'
+      - name: Run tests
+        run: yarn test

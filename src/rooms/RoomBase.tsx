@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
-
-import { useRooms } from "../utils/rooms";
+import { useRooms } from '../contexts/RoomsProvider';
 
 export type RoomBaseProps = {
   name: string;
@@ -14,10 +12,10 @@ function RoomBase(props: any) {
   const { room, setRoom, setUILabel } = useRooms();
 
   useEffect(() => {
-    console.log("Room init:", props.name);
+    // console.log("Room init:", props.name);
     if (setUILabel) setUILabel(props.name);
     return () => {
-      console.log("Room destroy:", props.name);
+      // console.log("Room destroy:", props.name);
     };
   }, []);
 

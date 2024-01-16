@@ -1,27 +1,27 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 import {
-  AdditionalPhonemeInfo,
-  Character,
-  EmotionEvent,
-  HistoryItem,
-  InworldConnectionService,
-  InworldPacket,
-} from "@inworld/web-core";
+    AdditionalPhonemeInfo, Character, EmotionEvent, HistoryItem, InworldConnectionService,
+    InworldPacket, TriggerEvent, TriggerParameter
+} from '@inworld/web-core';
 
-import { InworldService } from "../inworld/InworldService";
-import { Config } from "../utils/config";
-import { EmotionsMap } from "../utils/types";
+import { InworldService } from '../inworld/InworldService';
+import { Cursors } from '../types/cursors';
+import { EmotionsMap } from '../types/types';
+import { Config } from '../utils/config';
+import { useUI } from './UIProvider';
 
-export const STATE_ERROR: string = "state_error";
-export const STATE_INIT: string = "state_init";
-export const STATE_OPENING: string = "state_opening";
-export const STATE_OPEN: string = "state_open";
-export const STATE_READY: string = "state_ready";
+export const STATE_ACTIVE = "state_active";
+export const STATE_ERROR = "state_error";
+export const STATE_INIT = "state_init";
+export const STATE_OPENING = "state_opening";
+export const STATE_OPEN = "state_open";
+// export const STATE_READY: string = "state_ready";
 
 interface InworldContextValues {
   close: () => void;
   character: Character | undefined;
+  // characterId: string | undefined;
   characters: Character[];
   chatHistory: HistoryItem[];
   chatting: boolean;
@@ -34,19 +34,27 @@ interface InworldContextValues {
   prevChatHistory: HistoryItem[];
   prevTranscripts: string[];
   sendText: (text: string) => void;
+  sendTrigger: (
+    text: string,
+    parameters?: TriggerParameter[] | undefined
+  ) => void;
+  // setCharacterId: Dispatch<SetStateAction<string>> | null;
   startRecording: () => void;
   stopRecording: () => void;
   state: string;
+  triggerEvent: TriggerEvent | undefined;
 }
 
 type OpenConnectionType = {
   name: string;
+  characterId?: string;
   previousState?: string;
 };
 
 const InworldContext = createContext<InworldContextValues>({
   close: () => {},
   character: undefined,
+  // characterId: "",
   characters: [],
   chatHistory: [],
   chatting: false,
@@ -59,9 +67,12 @@ const InworldContext = createContext<InworldContextValues>({
   prevChatHistory: [],
   prevTranscripts: [],
   sendText: () => {},
+  sendTrigger: () => {},
+  // setCharacterId: null,
   startRecording: () => {},
   stopRecording: () => {},
   state: STATE_INIT,
+  triggerEvent: undefined,
 });
 
 const useInworld = () => useContext(InworldContext);
@@ -73,6 +84,7 @@ function InworldProvider({ children, ...props }: any) {
     InworldConnectionService | undefined
   >(undefined!);
   const [character, setCharacter] = useState<Character | undefined>(undefined!);
+  // const [characterId, setCharacterId] = useState<string>();
   const [characters, setCharacters] = useState<Character[]>([]);
   const [chatHistory, setChatHistory] = useState<HistoryItem[]>([]);
   const [chatting, setChatting] = useState(false);
@@ -87,6 +99,20 @@ function InworldProvider({ children, ...props }: any) {
   const [prevTranscripts, setPrevTranscripts] = useState<string[]>([]);
   const [isRecording, setIsRecording] = useState(false);
   const [state, setState] = useState<string>(STATE_INIT);
+  const [triggerEvent, setTriggerEvent] = useState<TriggerEvent>();
+
+  const { setCursor } = useUI();
+
+  useEffect(() => {
+    // console.log("InworldProvider: state", state);
+    if (setCursor) {
+      if (state === STATE_OPENING) {
+        setCursor(Cursors.Wait);
+      } else {
+        setCursor(Cursors.Auto);
+      }
+    }
+  }, [state]);
 
   const onHistoryChange = useCallback((history: HistoryItem[]) => {
     setChatHistory(history);
@@ -111,12 +137,15 @@ function InworldProvider({ children, ...props }: any) {
     setCharacter(undefined);
     setCharacters([]);
 
+    setPhonemes([]);
+
     setName("");
-    setState(STATE_READY);
+    setState(STATE_INIT);
   }, [connection]);
 
   const open = useCallback(
     async (props: OpenConnectionType) => {
+      // console.log("InworldProvider: open");
       setState(STATE_OPENING);
       setName(props.name);
       //   TODO Add duration and previous state
@@ -158,12 +187,13 @@ function InworldProvider({ children, ...props }: any) {
         onPhoneme: (phonemes: AdditionalPhonemeInfo[]) => {
           setPhonemes(phonemes);
         },
-        onReady: async () => {
-          console.log("Ready!");
-          setState(STATE_OPEN);
+        onReady: () => {
+          console.log("Active!");
+          setState(STATE_ACTIVE);
         },
         onDisconnect: () => {
           console.log("Disconnect!");
+          setState(STATE_OPEN);
         },
         onMessage: (inworldPacket: InworldPacket) => {
           if (
@@ -175,31 +205,35 @@ function InworldProvider({ children, ...props }: any) {
               ...currentState,
               [inworldPacket.packetId.interactionId]: inworldPacket.emotions,
             }));
+          } else if (
+            inworldPacket.isTrigger() &&
+            inworldPacket.packetId?.interactionId
+          ) {
+            setTriggerEvent(inworldPacket.trigger);
           }
+        },
+        onError: (err: Error) => {
+          console.log("InworldProvider: onError", err);
         },
       });
       console.log("InworldProvider - Opening Connection");
       const characters = await service.connection.getCharacters();
       const character = characters.find(
-        (c: Character) => c.resourceName === Config.INWORLD.characterId
+        (c: Character) =>
+          c.resourceName ===
+          (props.characterId ? props.characterId : Config.INWORLD.characterId)
       );
 
       console.log("InworldProvider - Getting Scene Characters");
       if (character) {
         service.connection.setCurrentCharacter(character);
-
-        // TODO Resolve for RPM
-        // const assets = character?.assets;
-        // const rpmImageUri = assets?.rpmImageUriPortrait;
-        // const avatarImg = assets?.avatarImg;
-        // setAvatar(avatarImg || rpmImageUri || '');
       }
 
       setConnection(service.connection);
       setCharacter(character);
       setCharacters(characters);
-      console.log("InworldProvider - Connected");
       setState(STATE_OPEN);
+      console.log("InworldProvider - Connected");
     },
     [chatHistory, connection, onHistoryChange, prevChatHistory, prevTranscripts]
   );
@@ -219,7 +253,20 @@ function InworldProvider({ children, ...props }: any) {
         connection.sendText(text);
       } else {
         throw new Error(
-          "Innequin - Error text sent before connection was open."
+          "Innequin - Error sendText before connection was open."
+        );
+      }
+    },
+    [connection, hasPlayedWorkaroundSound, playWorkaroundSound]
+  );
+
+  const sendTrigger = useCallback(
+    (trigger: string, parameters?: TriggerParameter[] | undefined) => {
+      if (trigger && connection) {
+        connection.sendTrigger(trigger, parameters);
+      } else {
+        throw new Error(
+          "Innequin - Error sendTrigger before connection was open."
         );
       }
     },
@@ -251,6 +298,7 @@ function InworldProvider({ children, ...props }: any) {
       value={{
         chatting,
         character,
+        // characterId,
         characters,
         chatHistory,
         close,
@@ -263,9 +311,12 @@ function InworldProvider({ children, ...props }: any) {
         prevChatHistory,
         prevTranscripts,
         sendText,
+        sendTrigger,
+        // setCharacterId,
         startRecording,
         stopRecording,
         state,
+        triggerEvent,
       }}
     >
       {children}

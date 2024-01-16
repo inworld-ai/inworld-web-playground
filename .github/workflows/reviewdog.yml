@@ -1,0 +1,50 @@
+name: Review changes
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**/.gitignore'
+      - '**/*.md'
+      - '**/proto/**'
+
+jobs:
+  eslint:
+    name: Eslint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+      - name: Find changes
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            changed:
+              - './**/*.{js,jsx,ts,tsx}'
+      - name: Run Web Core build
+        if: steps.changes.outputs.changed == 'true'
+        uses: ./.github/actions/build_package
+        with:
+          package: '@inworld/web-core'
+      - name: Run Web Threejs build
+        if: steps.changes.outputs.changed == 'true'
+        uses: ./.github/actions/build_package
+        with:
+          package: '@inworld/web-threejs'
+      - name: Review source code
+        if: steps.changes.outputs.changed == 'true'
+        uses: reviewdog/action-eslint@v1
+        with:
+          reporter: github-pr-review
+          workdir: ./
+          eslint_flags: '--cache ./**/*.{js,jsx,ts,tsx}'
+
+  linelint:
+    runs-on: ubuntu-latest
+    name: Check if all files end in newline
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Linelint
+        uses: fernandrone/linelint@master
+        id: linelint

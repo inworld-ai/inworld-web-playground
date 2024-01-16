@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from "react";
 import { BufferGeometry, Mesh, Vector3 } from "three";
 
-import { useClickable } from "../utils/clickable";
-import { Clickable } from "../utils/types";
+import { useClickable } from "../contexts/ClickableProvider";
+import { Clickable } from "../types/types";
 
 interface ClickableCubeProps {
   length: number;

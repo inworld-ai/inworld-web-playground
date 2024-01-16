@@ -1,12 +1,14 @@
-import React, { useState, SetStateAction, Dispatch } from "react";
+import React, { Dispatch, SetStateAction, useState } from 'react';
 
 interface SystemContextValues {
+  // inputEnabled: boolean;
   loading: boolean;
   loadingPercent: number;
-  state: string;
+  stateSystem: string;
+  // setInputEnabled: Dispatch<SetStateAction<boolean>> | null;
   setLoading: Dispatch<SetStateAction<boolean>> | null;
   setLoadingPercent: Dispatch<SetStateAction<number>> | null;
-  setState: Dispatch<SetStateAction<string>> | null;
+  setStateSystem: Dispatch<SetStateAction<string>> | null;
 }
 
 const STATE_ERROR: string = "state_error";
@@ -15,12 +17,14 @@ const STATE_PAUSED: string = "state_paused";
 const STATE_RUNNING: string = "state_running";
 
 const SystemContext = React.createContext<SystemContextValues>({
+  // inputEnabled: true,
   loading: false,
   loadingPercent: 0,
-  state: STATE_INIT,
+  stateSystem: STATE_INIT,
+  // setInputEnabled: null,
   setLoading: null,
   setLoadingPercent: null,
-  setState: null,
+  setStateSystem: null,
 });
 
 const useSystem = () => React.useContext(SystemContext);
@@ -30,17 +34,20 @@ function SystemProvider({ children, ...props }: any) {
 
   const [loading, setLoading] = useState(false);
   const [loadingPercent, setLoadingPercent] = useState(0);
-  const [state, setState] = useState(STATE_INIT);
+  // const [inputEnabled, setInputEnabled] = useState<boolean>(true);
+  const [stateSystem, setStateSystem] = useState(STATE_INIT);
 
   return (
     <SystemContext.Provider
       value={{
+        // inputEnabled,
         loading,
         loadingPercent,
-        state,
+        stateSystem,
+        // setInputEnabled,
         setLoading,
         setLoadingPercent,
-        setState,
+        setStateSystem,
       }}
     >
       {children}
@@ -49,10 +56,10 @@ function SystemProvider({ children, ...props }: any) {
 }
 
 export {
-  SystemProvider,
-  useSystem,
   STATE_ERROR,
   STATE_INIT,
   STATE_PAUSED,
   STATE_RUNNING,
+  SystemProvider,
+  useSystem,
 };

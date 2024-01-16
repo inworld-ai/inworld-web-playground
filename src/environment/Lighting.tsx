@@ -1,15 +1,8 @@
-import {
-  AccumulativeShadows,
-  RandomizedLight,
-  useHelper,
-} from "@react-three/drei";
-import { folder, useControls } from "leva";
-import { memo, useRef } from "react";
-import {
-  DirectionalLight,
-  DirectionalLightHelper,
-  DirectionalLightShadow,
-} from "three";
+import { folder, useControls } from 'leva';
+import { useRef } from 'react';
+import { DirectionalLight, DirectionalLightHelper } from 'three';
+
+import { useHelper } from '@react-three/drei';
 
 function Lighting() {
   const refDirLight = useRef<DirectionalLight>(null!);
@@ -54,7 +47,7 @@ function Lighting() {
         hemisphereIntensity: { value: 1, min: 0, max: 5, label: "Intensity" },
       }),
     },
-    { collapsed: true }
+    { collapsed: true, render: () => false }
   );
 
   // const spotCtl = useControls("Spot Light", {

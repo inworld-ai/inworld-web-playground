@@ -16,7 +16,7 @@ function ModelBox(props: ModelBoxProps) {
 
   useEffect(() => {
     if (props.isLoaded) {
-      setBox(new ModelFileLoader("/assets/models/wooden_box.glb"));
+      setBox(new ModelFileLoader("/assets/v1.0/models/wooden_box.glb"));
     }
   }, [props.isLoaded]);
 

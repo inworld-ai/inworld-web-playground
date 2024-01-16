@@ -9,14 +9,13 @@ import {
 } from "three";
 import { Sky, TextGeometry } from "three-stdlib";
 
-import { Plane } from "@react-three/drei";
 import { extend, RootState, useFrame, useThree } from "@react-three/fiber";
 
+import { useClickable } from "../contexts/ClickableProvider";
+import { useRays } from "../contexts/RaysProvider";
 import { InputController } from "../input/InputController";
 import { TextureFileLoader } from "../loaders/TextureFileLoader";
-import { useClickable } from "../utils/clickable";
-import { useRays } from "../utils/rays";
-import { Clickable } from "../utils/types";
+import { Clickable } from "../types/types";
 import ModelBox from "./ModelBox";
 import ModelInnequin from "./ModelInnequin";
 import ModelRoom from "./ModelRoom";
@@ -49,7 +48,9 @@ function ModelWorld(props: ModelWorldProps) {
   useEffect(() => {
     if (props.isLoaded) {
       // console.log("ModelWorld Init");
-      setTexture(new TextureFileLoader("/assets/textures/floor/texture-1.jpg"));
+      setTexture(
+        new TextureFileLoader("/assets/v1.0/textures/floor/texture-1.jpg")
+      );
     }
   }, [props.isLoaded]);
 
@@ -131,7 +132,7 @@ function ModelWorld(props: ModelWorldProps) {
             props.inputController.current.pointY
           )
         );
-        for (var i = 0; i < secs.length; i++) {
+        for (let i = 0; i < secs.length; i++) {
           if (Object.values(Clickable).includes(secs[i].object.name)) {
             if (checkClickable) checkClickable(secs[i].object.uuid);
           }
@@ -187,7 +188,7 @@ function ModelWorld(props: ModelWorldProps) {
             <ModelRoom
               isLoaded={props.isLoaded}
               name="RoomAnimations"
-              labelURI="/assets/textures/labels/animations.png"
+              labelURI="/assets/v1.0/textures/labels/animations.png"
               color="#65B741"
             />
             <ModelInnequin
@@ -209,7 +210,7 @@ function ModelWorld(props: ModelWorldProps) {
             <ModelRoom
               isLoaded={props.isLoaded}
               name="RoomAvatars"
-              labelURI="/assets/textures/labels/avatars.png"
+              labelURI="/assets/v1.0/textures/labels/avatars.png"
               color="#304D30"
             />
             <ModelInnequin
@@ -231,7 +232,7 @@ function ModelWorld(props: ModelWorldProps) {
             <ModelRoom
               isLoaded={props.isLoaded}
               name="RoomDynamicScenes"
-              labelURI="/assets/textures/labels/dynamic_scenes.png"
+              labelURI="/assets/v1.0/textures/labels/dynamic_scenes.png"
               color="#637E76"
             />
             <ModelInnequin
@@ -253,7 +254,7 @@ function ModelWorld(props: ModelWorldProps) {
             <ModelRoom
               isLoaded={props.isLoaded}
               name="RoomGoals"
-              labelURI="/assets/textures/labels/goals.png"
+              labelURI="/assets/v1.0/textures/labels/goals.png"
               color="#EC8F5E"
             />
             <ModelInnequin
@@ -301,7 +302,7 @@ function ModelWorld(props: ModelWorldProps) {
             <ModelRoom
               isLoaded={props.isLoaded}
               name="RoomNarratedActions"
-              labelURI="/assets/textures/labels/narrated_actions.png"
+              labelURI="/assets/v1.0/textures/labels/narrated_actions.png"
               color="#2B3499"
             />
           </group>
@@ -313,7 +314,7 @@ function ModelWorld(props: ModelWorldProps) {
             <ModelRoom
               isLoaded={props.isLoaded}
               name="RoomRelations"
-              labelURI="/assets/textures/labels/relations.png"
+              labelURI="/assets/v1.0/textures/labels/relations.png"
               color="#4F4A45"
             />
           </group>
@@ -325,7 +326,7 @@ function ModelWorld(props: ModelWorldProps) {
             <ModelRoom
               isLoaded={props.isLoaded}
               name="RoomSaveRestore"
-              labelURI="/assets/textures/labels/save_restore.png"
+              labelURI="/assets/v1.0/textures/labels/save_restore.png"
               color="#2D9596"
             />
           </group>
@@ -337,7 +338,7 @@ function ModelWorld(props: ModelWorldProps) {
             <ModelRoom
               isLoaded={props.isLoaded}
               name="RoomSkipPause"
-              labelURI="/assets/textures/labels/skip_pause.png"
+              labelURI="/assets/v1.0/textures/labels/skip_pause.png"
               color="#860A35"
             />
           </group>

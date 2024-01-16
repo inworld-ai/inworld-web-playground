@@ -1,38 +1,35 @@
-import "./Scene.css";
+import './Scene.css';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { Stats } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Stats } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
 
-import { CameraCore } from "../camera/CameraCore";
-import Background from "../environment/Background";
-import Ground from "../environment/Ground";
-import Lighting from "../environment/Lighting";
-import Shadows from "../environment/Shadows";
-import { InputController } from "../input/InputController";
-import LightingController from "../lighting/Lighting";
-import ModelWorld from "../models/ModelWorld";
-import PlayerController from "../player/PlayerController";
-import RoomAnimations from "../rooms/RoomAnimations";
-import RoomAvatars from "../rooms/RoomAvatars";
-import RoomBase from "../rooms/RoomBase";
-import RoomEmotions from "../rooms/RoomEmotions";
-import RoomLobby from "../rooms/RoomLobby";
+import { CameraCore } from '../camera/CameraCore';
+import { useInworld } from '../contexts/InworldProvider';
 import {
-  ROOM_ANIMATIONS,
-  ROOM_AVATARS,
-  ROOM_EMOTIONS,
-  ROOM_LOBBY,
-  useRooms,
-} from "../utils/rooms";
+    ROOM_ANIMATIONS, ROOM_AVATARS, ROOM_EMOTIONS, ROOM_GOALS, ROOM_LOBBY, useRooms
+} from '../contexts/RoomsProvider';
+import { useUI } from '../contexts/UIProvider';
+import Background from '../environment/Background';
+import Ground from '../environment/Ground';
+import Lighting from '../environment/Lighting';
+import { InputController } from '../input/InputController';
+import PlayerController from '../player/PlayerController';
+import RoomAnimations from '../rooms/RoomAnimations';
+import RoomAvatars from '../rooms/RoomAvatars';
+import RoomEmotions from '../rooms/RoomEmotions';
+import RoomGoals from '../rooms/RoomGoals';
+import RoomLobby from '../rooms/RoomLobby';
 
 function Scene() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [inputController, setInputController] = useState<InputController>();
   const [cameraCore, setCameraCore] = useState<CameraCore>();
 
+  const { close, state } = useInworld();
   const { room } = useRooms();
+  const { cursor } = useUI();
 
   useEffect(() => {
     // console.log("Scene init");
@@ -52,7 +49,7 @@ function Scene() {
     inputController && (
       <Canvas
         className="mainCanvas"
-        style={{ height: "100%", width: "100%" }}
+        style={{ cursor: `${cursor}` }}
         camera={cameraCore.camera}
         shadows
       >
@@ -61,6 +58,7 @@ function Scene() {
         {/* <Shadows /> */}
         <Ground />
         <Stats />
+        {room === ROOM_LOBBY && <RoomLobby name="LOBBY" isLoaded={isLoaded} />}
         {room === ROOM_ANIMATIONS && (
           <RoomAnimations name="ANIMATIONS" isLoaded={isLoaded} />
         )}
@@ -70,7 +68,7 @@ function Scene() {
         {room === ROOM_EMOTIONS && (
           <RoomEmotions name="EMOTIONS" isLoaded={isLoaded} />
         )}
-        {room === ROOM_LOBBY && <RoomLobby name="LOBBY" isLoaded={isLoaded} />}
+        {room === ROOM_GOALS && <RoomGoals name="GOALS" isLoaded={isLoaded} />}
 
         {/* <ModelWorld inputController={inputController} isLoaded={isLoaded} /> */}
         <PlayerController

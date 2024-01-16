@@ -154,11 +154,9 @@ function InputProvider({ children, ...props }: any) {
       if (state.rightButton) {
         if (previous === null) {
           setPrevious({ ...state });
-          console.log("onMouseMove B ");
           state.mouseXDelta = 0;
           state.mouseYDelta = 0;
         } else {
-          console.log("onMouseMove C");
           state.mouseXDelta = state.mouseX - previous.mouseX;
           state.mouseYDelta = state.mouseY - previous.mouseY;
         }

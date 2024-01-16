@@ -6,6 +6,7 @@
   position: fixed !important;
   max-width: 100% !important;
   z-index: 10000;
+  pointer-events: none;
 }
 
 .mainHud p {
@@ -17,7 +18,7 @@
 
 .stackUI {
   vertical-align: bottom;
-  align-items: self-end;
+  align-items: self-start;
 }
 
 .stackLabels {

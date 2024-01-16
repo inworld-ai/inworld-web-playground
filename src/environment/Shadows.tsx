@@ -1,6 +1,7 @@
-import { AccumulativeShadows, RandomizedLight } from "@react-three/drei";
-import { folder, useControls } from "leva";
-import { memo } from "react";
+import { folder, useControls } from 'leva';
+import { memo } from 'react';
+
+import { AccumulativeShadows, RandomizedLight } from '@react-three/drei';
 
 function Shadows() {
   const shadowCtl = useControls(
@@ -30,7 +31,7 @@ function Shadows() {
         },
       }),
     },
-    { collapsed: true }
+    { collapsed: true, render: () => false }
   );
 
   const Shadows = memo(() => (

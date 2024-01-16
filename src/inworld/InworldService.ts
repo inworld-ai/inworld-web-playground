@@ -11,6 +11,7 @@ export interface InworldServiceProps {
     continuation?: SessionContinuationProps;
     sceneName: string;
     playerName: string;
+    onError: (err: Error) => void;
     onReady: () => void;
     onPhoneme: (phonemeData: AdditionalPhonemeInfo[]) => void;
     onMessage: (inworldPacket: InworldPacket) => void;
@@ -30,7 +31,7 @@ export class InworldService {
             .setUser({ fullName: props.playerName })
             .setScene(props.sceneName)
             .setGenerateSessionToken(this.generateSessionToken)
-            .setOnError((err) => console.log(err))
+            .setOnError(props.onError)
             .setOnReady(props.onReady)
             .setOnMessage(props.onMessage)
             .setOnPhoneme(props.onPhoneme)

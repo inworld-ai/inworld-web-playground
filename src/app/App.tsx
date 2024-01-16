@@ -1,34 +1,37 @@
-import "./App.css";
+import './App.css';
 
-import Container from "@mui/material/Container";
+import Container from '@mui/material/Container';
 
-import { InworldProvider } from "../contexts/InworldProvider";
-import MainMenu from "../menus/MainMenu";
-import Scene from "../scene/Scene";
-import ChatScreen from "../ui/ChatScreen";
-import MainHud from "../ui/MainHud";
-import { ClickableProvider } from "../utils/clickable";
-import { RaysProvider } from "../utils/rays";
-import { RoomsProvider } from "../utils/rooms";
-import { SystemProvider } from "../utils/system";
+import { ClickableProvider } from '../contexts/ClickableProvider';
+import { InworldProvider } from '../contexts/InworldProvider';
+import { RaysProvider } from '../contexts/RaysProvider';
+import { RoomsProvider } from '../contexts/RoomsProvider';
+import { SystemProvider } from '../contexts/SystemProvider';
+import { UIProvider } from '../contexts/UIProvider';
+import Scene from '../scene/Scene';
+import ChatScreen from '../ui/ChatScreen';
+import MainHud from '../ui/MainHud';
+import MainMenu from '../ui/MainMenu';
 
 function App() {
   return (
     <SystemProvider>
-      <ClickableProvider>
-        <RaysProvider>
-          <RoomsProvider>
-            <InworldProvider>
-              <Container className="containerMain">
-                <Scene />
-                <ChatScreen />
-                <MainHud />
-                <MainMenu />
-              </Container>
-            </InworldProvider>
-          </RoomsProvider>
-        </RaysProvider>
-      </ClickableProvider>
+      <UIProvider>
+        <ClickableProvider>
+          <RaysProvider>
+            <RoomsProvider>
+              <InworldProvider>
+                <Container className="containerMain">
+                  <Scene />
+                  <MainHud />
+                  <ChatScreen />
+                  <MainMenu />
+                </Container>
+              </InworldProvider>
+            </RoomsProvider>
+          </RaysProvider>
+        </ClickableProvider>
+      </UIProvider>
     </SystemProvider>
   );
 }

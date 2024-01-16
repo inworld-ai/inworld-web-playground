@@ -4,11 +4,15 @@ import { useCallback, useState } from "react";
 
 import { Button, Container, Stack, TextField } from "@mui/material";
 
-import { STATE_OPEN, useInworld } from "../contexts/InworldProvider";
+import {
+  STATE_ACTIVE,
+  STATE_OPEN,
+  useInworld,
+} from "../contexts/InworldProvider";
 
 function ChatScreen() {
-  const { close, state } = useInworld();
-  const { isRecording, sendText, startRecording, stopRecording } = useInworld();
+  const { close, state, isRecording, sendText, startRecording, stopRecording } =
+    useInworld();
 
   const [text, onChangeText] = useState("");
 
@@ -38,7 +42,7 @@ function ChatScreen() {
 
   return (
     <>
-      {state === STATE_OPEN && (
+      {(state === STATE_OPEN || state === STATE_ACTIVE) && (
         <Container className="containerChat">
           <Stack className="stackChat" direction="column" spacing={2}>
             <Stack className="stackChatInput" direction="row" spacing={2}>

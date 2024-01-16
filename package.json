@@ -12,6 +12,7 @@
     "@react-three/drei": "^9.88.0",
     "@react-three/fiber": "^8.14.3",
     "@react-three/postprocessing": "^2.15.10",
+    "decompress": "^4.2.1",
     "eslint-import-resolver-typescript": "3.6.1",
     "leva": "^0.9.35",
     "react": "^18.2.0",
@@ -30,14 +31,18 @@
     "@types/react": "^18.2.23",
     "@types/react-dom": "^18.2.8",
     "@types/three": "^0.157.0",
+    "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-markdown": "^3.0.1",
     "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "prettier": "^3.1.1",
     "typescript": "^5.2.2"
   },
   "scripts": {
     "start": "set PORT=3030 && react-scripts start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node ./src/asset-library-installer.js"
   },
   "browserslist": {
     "production": [

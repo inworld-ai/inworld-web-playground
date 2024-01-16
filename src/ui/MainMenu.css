@@ -12,9 +12,18 @@
 }
 
 .paperMainMenu {
-    top: calc(50% - 150px);
+    top: calc(50% - 210px);
     width: 300px;
-    height: 300px;
+    height: 420px;
+    padding: 20px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.paperMicrophoneMenu {
+    top: calc(50% - 210px);
+    width: 300px;
+    height: 420px;
     padding: 20px;
     margin: 0 auto;
     position: relative;
