@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from 'react';
 
 type IClickablesType = { [key: string]: Function | null };
 
@@ -22,20 +22,20 @@ function ClickableProvider({ children, ...props }: any) {
   const addClickable = useCallback(
     (uuid: string, callback: Function) => {
       if (!clickables[uuid]) {
-        console.log("addClickable", uuid);
+        console.log('addClickable', uuid);
         const state = { ...clickables };
         state[uuid] = callback;
         setClickables(state);
       }
     },
-    [clickables]
+    [clickables],
   );
 
   const checkClickable = useCallback(
     (uuid: string) => {
       if (clickables[uuid]) clickables[uuid]!();
     },
-    [clickables]
+    [clickables],
   );
 
   return (

@@ -1,25 +1,24 @@
-import "./ChatScreen.css";
+import './ChatScreen.css';
 
-import { useCallback, useState } from "react";
-
-import { Button, Container, Stack, TextField } from "@mui/material";
+import { Button, Container, Stack, TextField } from '@mui/material';
+import { useCallback, useState } from 'react';
 
 import {
   STATE_ACTIVE,
   STATE_OPEN,
   useInworld,
-} from "../contexts/InworldProvider";
+} from '../contexts/InworldProvider';
 
 function ChatScreen() {
   const { close, state, isRecording, sendText, startRecording, stopRecording } =
     useInworld();
 
-  const [text, onChangeText] = useState("");
+  const [text, onChangeText] = useState('');
 
   const onPressSend = useCallback(() => {
-    if (text !== "") {
+    if (text !== '') {
       sendText(text);
-      onChangeText("");
+      onChangeText('');
     }
   }, [text]);
 
@@ -33,11 +32,11 @@ function ChatScreen() {
 
   const onKeyPress = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter") {
+      if (e.key === 'Enter') {
         onPressSend();
       }
     },
-    [onPressSend]
+    [onPressSend],
   );
 
   return (
@@ -66,9 +65,9 @@ function ChatScreen() {
                 className="chatButton"
                 variant="outlined"
                 onClick={() => onPressRec()}
-                style={{ width: "125px" }}
+                style={{ width: '125px' }}
               >
-                {isRecording ? "Stop Rec" : "Start Rec"}
+                {isRecording ? 'Stop Rec' : 'Start Rec'}
               </Button>
               <Button
                 className="chatButton"

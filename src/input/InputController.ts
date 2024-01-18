@@ -12,7 +12,6 @@ interface CurrentProps {
 type IKeyType = { [key: string]: any };
 
 export class InputController {
-
   current: CurrentProps;
   previous: CurrentProps | null;
   keys: IKeyType;
@@ -29,7 +28,7 @@ export class InputController {
       mouseYDelta: 0,
       pointX: 0,
       pointY: 0,
-    }
+    };
     this.previous = null;
     this.keys = {};
     this.previousKeys = {};
@@ -38,12 +37,36 @@ export class InputController {
   }
 
   init() {
-    document.addEventListener('mousedown', (e: MouseEvent) => this.onMouseDown(e), false);
-    document.addEventListener('mouseup', (e: MouseEvent) => this.onMouseUp(e), false);
-    document.addEventListener('mousemove', (e: MouseEvent) => this.onMouseMove(e), false);
-    document.addEventListener('keydown', (e: KeyboardEvent) => this.onKeyDown(e), false);
-    document.addEventListener('keyup', (e: KeyboardEvent) => this.onKeyUp(e), false);
-    document.body.addEventListener('contextmenu', (e: MouseEvent) => this.onContextMenu(e), false);
+    document.addEventListener(
+      'mousedown',
+      (e: MouseEvent) => this.onMouseDown(e),
+      false,
+    );
+    document.addEventListener(
+      'mouseup',
+      (e: MouseEvent) => this.onMouseUp(e),
+      false,
+    );
+    document.addEventListener(
+      'mousemove',
+      (e: MouseEvent) => this.onMouseMove(e),
+      false,
+    );
+    document.addEventListener(
+      'keydown',
+      (e: KeyboardEvent) => this.onKeyDown(e),
+      false,
+    );
+    document.addEventListener(
+      'keyup',
+      (e: KeyboardEvent) => this.onKeyUp(e),
+      false,
+    );
+    document.body.addEventListener(
+      'contextmenu',
+      (e: MouseEvent) => this.onContextMenu(e),
+      false,
+    );
   }
 
   onContextMenu(e: MouseEvent) {
@@ -84,7 +107,6 @@ export class InputController {
     this.current.mouseX = e.pageX - window.innerWidth / 2;
     this.current.mouseY = e.pageY - window.innerHeight / 2;
     if (this.current.rightButton) {
-
       if (this.previous === null) {
         this.previous = { ...this.current };
       }
@@ -114,5 +136,4 @@ export class InputController {
     }
     this.previous = { ...this.current };
   }
-
 }

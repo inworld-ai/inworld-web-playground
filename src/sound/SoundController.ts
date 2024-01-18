@@ -23,10 +23,9 @@ enum SoundControllerState {
 type SoundItem = {
   state: SoundState;
   sound: ISoundCore;
-}
+};
 
 export class SoundController {
-
   audioListener: AudioListener;
   soundTuner: { [key: string]: SoundItem };
   state: SoundControllerState;
@@ -42,8 +41,14 @@ export class SoundController {
   init() {
     // console.log('SoundController init');
     // this.soundTuner[SOUND_AMBIENT] = { state: SoundState.ON, sound: new SoundAmbient(this.audioListener) };
-    this.soundTuner[SOUND_FOOTSTEPS] = { state: SoundState.OFF, sound: new SoundFootStep(this.audioListener) };
-    this.soundTuner[SOUND_JUMP] = { state: SoundState.OFF, sound: new SoundJump(this.audioListener) };
+    this.soundTuner[SOUND_FOOTSTEPS] = {
+      state: SoundState.OFF,
+      sound: new SoundFootStep(this.audioListener),
+    };
+    this.soundTuner[SOUND_JUMP] = {
+      state: SoundState.OFF,
+      sound: new SoundJump(this.audioListener),
+    };
   }
 
   disable() {
@@ -68,7 +73,8 @@ export class SoundController {
 
   pause(sound: string) {
     if (this.state === SoundControllerState.ENABLED) {
-      if (!this.soundTuner[sound]) throw new Error(`SoundController pause sound not found ${sound}`)
+      if (!this.soundTuner[sound])
+        throw new Error(`SoundController pause sound not found ${sound}`);
       if (this.soundTuner[sound].state === SoundState.OFF) return;
       this.soundTuner[sound].state = SoundState.OFF;
       this.soundTuner[sound].sound.pause();
@@ -77,7 +83,8 @@ export class SoundController {
 
   play(sound: string) {
     if (this.state === SoundControllerState.ENABLED) {
-      if (!this.soundTuner[sound]) throw new Error(`SoundController play sound not found ${sound}`)
+      if (!this.soundTuner[sound])
+        throw new Error(`SoundController play sound not found ${sound}`);
       if (this.soundTuner[sound].state === SoundState.ON) return;
       this.soundTuner[sound].state = SoundState.ON;
       this.soundTuner[sound].sound.play();
@@ -86,11 +93,11 @@ export class SoundController {
 
   stop(sound: string) {
     if (this.state === SoundControllerState.ENABLED) {
-      if (!this.soundTuner[sound]) throw new Error(`SoundController stop sound not found ${sound}`)
+      if (!this.soundTuner[sound])
+        throw new Error(`SoundController stop sound not found ${sound}`);
       if (this.soundTuner[sound].state === SoundState.OFF) return;
       this.soundTuner[sound].state = SoundState.OFF;
       this.soundTuner[sound].sound.stop();
     }
   }
-
 }

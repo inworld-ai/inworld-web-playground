@@ -14,12 +14,12 @@ export type RoomAvatarsProps = {
 
 function RoomAvatars(props: RoomAvatarsProps) {
   const CHARACTER_ID =
-    "workspaces/inworld-playground/characters/avatar_bot_-_innequin";
-  const NAME_INNEQUIN = "InnequinAvatars1";
-  const NAME_SPHERE = "SphereAvatars";
-  const NAME_RPM = "RPMAvatars";
-  const SKIN_INNEQUIN = "SCIFI";
-  const TRIGGER_WELCOME = "greet_player";
+    'workspaces/inworld-playground/characters/avatar_bot_-_innequin';
+  const NAME_INNEQUIN = 'InnequinAvatars1';
+  const NAME_SPHERE = 'SphereAvatars';
+  const NAME_RPM = 'RPMAvatars';
+  const SKIN_INNEQUIN = 'SCIFI';
+  const TRIGGER_WELCOME = 'greet_player';
 
   const { sendTrigger, state } = useInworld();
 

@@ -1,7 +1,7 @@
-import { useCallback } from "react";
-import { DoubleSide, Euler, Vector3 } from "three";
+import { useCallback } from 'react';
+import { DoubleSide, Euler, Vector3 } from 'three';
 
-import ModelLabel from "./ModelLabel";
+import ModelLabel from './ModelLabel';
 
 interface ModelRoomProps {
   color?: string;
@@ -47,14 +47,14 @@ function ModelRoom(props: ModelRoomProps) {
         >
           <planeGeometry />
           <meshStandardMaterial
-            color={props.color || "#7F7D9C"}
+            color={props.color || '#7F7D9C'}
             side={DoubleSide}
             shadowSide={DoubleSide}
           />
         </mesh>
       );
     },
-    []
+    [],
   );
 
   const walls = wallsData.map((wall, i) => {
@@ -62,28 +62,28 @@ function ModelRoom(props: ModelRoomProps) {
       wall.pos,
       wall.rot,
       new Vector3(ROOM_DIM, WALL_HEIGHT, 1),
-      `ModelRoomWall${i}`
+      `ModelRoomWall${i}`,
     );
   });
 
   return (
     <group
-      name={props.name || "ModelRoom"}
+      name={props.name || 'ModelRoom'}
       position={props.position || new Vector3(0, 0, 0)}
       rotation={props.rotation || new Euler(0, 0, 0)}
     >
-      {walls}{" "}
+      {walls}{' '}
       {generateWall(
         new Vector3(-5, WALL_HEIGHT / 2, ROOM_DIM / 2),
         new Euler(0, 0, 0),
         new Vector3(5, WALL_HEIGHT, 1),
-        "ModelRoomWallLeft"
+        'ModelRoomWallLeft',
       )}
       {generateWall(
         new Vector3(5, WALL_HEIGHT / 2, ROOM_DIM / 2),
         new Euler(0, 0, 0),
         new Vector3(5, WALL_HEIGHT, 1),
-        "ModelRoomWallRight"
+        'ModelRoomWallRight',
       )}
       {props.labelURI && (
         <ModelLabel

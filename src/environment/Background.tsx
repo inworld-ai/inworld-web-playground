@@ -1,7 +1,6 @@
+import { Sky } from '@react-three/drei';
 import { useControls } from 'leva';
 import { Vector3 } from 'three';
-
-import { Sky } from '@react-three/drei';
 
 export type BackgroundProps = {
   visible: boolean;
@@ -13,7 +12,7 @@ export type BackgroundProps = {
 
 function Background() {
   const directionalCtl = useControls(
-    "Background",
+    'Background',
     {
       visible: true,
       distance: 450000,
@@ -22,7 +21,7 @@ function Background() {
       azimuth: 0.25,
     },
     { collapsed: true, render: () => false },
-    []
+    [],
   );
 
   return <>{directionalCtl.visible && <Sky {...directionalCtl} />}</>;

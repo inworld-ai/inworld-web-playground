@@ -16,7 +16,7 @@ interface UIContextValues {
 
 const UIContext = React.createContext<UIContextValues>({
   cursor: Cursors.Auto,
-  label1: "",
+  label1: '',
   menuCollapsed: true,
   menuWorldBuilder: true,
   setCursor: null,
@@ -29,7 +29,7 @@ const useUI = () => React.useContext(UIContext);
 
 function UIProvider({ children }: any) {
   const [cursor, setCursor] = useState<string>(Cursors.Auto);
-  const [label1, setLabel1] = useState("");
+  const [label1, setLabel1] = useState('');
   const [menuCollapsed, setMenuCollapsed] = useState(true);
   const [menuWorldBuilder, setMenuWorldBuilder] = useState(true);
 

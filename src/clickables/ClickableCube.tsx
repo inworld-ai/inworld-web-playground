@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef } from "react";
-import { BufferGeometry, Mesh, Vector3 } from "three";
+import { useCallback, useEffect, useRef } from 'react';
+import { BufferGeometry, Mesh, Vector3 } from 'three';
 
-import { useClickable } from "../contexts/ClickableProvider";
-import { Clickable } from "../types/types";
+import { useClickable } from '../contexts/ClickableProvider';
+import { Clickable } from '../types/types';
 
 interface ClickableCubeProps {
   length: number;
@@ -24,7 +24,7 @@ function ClickableCube(props: ClickableCubeProps) {
   }, [refCube, addClickable]);
 
   const onClick = useCallback(() => {
-    console.log("ClickableCube: onClick");
+    console.log('ClickableCube: onClick');
     if (props.onClick) {
       props.onClick();
     }
@@ -42,7 +42,7 @@ function ClickableCube(props: ClickableCubeProps) {
         attach="geometry"
       />
       <meshPhongMaterial
-        color={"#ffffff"}
+        color={'#ffffff'}
         opacity={0.1}
         transparent
         attach="material"

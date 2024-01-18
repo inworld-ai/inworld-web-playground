@@ -27,7 +27,9 @@ export const Config: Configuration = {
   INWORLD: {
     characterId: process.env.REACT_APP_INWORLD_CHARACTER_ID!,
     sceneId: process.env.REACT_APP_INWORLD_SCENE_ID!,
-    tokenURL: process.env.REACT_APP_INWORLD_GENERATE_TOKEN_URL || 'http://localhost:4000'
+    tokenURL:
+      process.env.REACT_APP_INWORLD_GENERATE_TOKEN_URL ||
+      'http://localhost:4000',
   },
   INNEQUIN: {
     baseURI: process.env.REACT_APP_INNEQUIN_BASE_URI!,
@@ -39,4 +41,4 @@ export const Config: Configuration = {
     configURI: process.env.REACT_APP_RPM_CONFIG_URI!,
     dracoURI: process.env.REACT_APP_DRACO_COMPRESSION_URI || '',
   },
-}
+};

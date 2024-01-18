@@ -4,7 +4,7 @@ import {
   useContext,
   useEffect,
   useState,
-} from "react";
+} from 'react';
 
 interface CurrentProps {
   leftButton: boolean;
@@ -70,30 +70,30 @@ function InputProvider({ children, ...props }: any) {
     if (loaded) return;
     // console.log("InputController Init");
     document.addEventListener(
-      "mousedown",
+      'mousedown',
       (e: MouseEvent) => onMouseDown(e),
-      false
+      false,
     );
     document.addEventListener(
-      "mouseup",
+      'mouseup',
       (e: MouseEvent) => onMouseUp(e),
-      false
+      false,
     );
     document.addEventListener(
-      "mousemove",
+      'mousemove',
       (e: MouseEvent) => onMouseMove(e),
-      false
+      false,
     );
     document.addEventListener(
-      "keydown",
+      'keydown',
       (e: KeyboardEvent) => onKeyDown(e),
-      false
+      false,
     );
-    document.addEventListener("keyup", (e: KeyboardEvent) => onKeyUp(e), false);
+    document.addEventListener('keyup', (e: KeyboardEvent) => onKeyUp(e), false);
     document.body.addEventListener(
-      "contextmenu",
+      'contextmenu',
       (e: MouseEvent) => onContextMenu(e),
-      false
+      false,
     );
     setLoaded(true);
   }, [loaded]);
@@ -124,7 +124,7 @@ function InputProvider({ children, ...props }: any) {
         }
       }
     },
-    [current]
+    [current],
   );
 
   const onMouseUp = useCallback(
@@ -143,7 +143,7 @@ function InputProvider({ children, ...props }: any) {
         }
       }
     },
-    [current]
+    [current],
   );
 
   const onMouseMove = useCallback(
@@ -164,7 +164,7 @@ function InputProvider({ children, ...props }: any) {
         setHasMoved(true);
       }
     },
-    [current, previous]
+    [current, previous],
   );
 
   const onKeyDown = useCallback(
@@ -173,7 +173,7 @@ function InputProvider({ children, ...props }: any) {
       state[e.key] = true;
       setKeys(state);
     },
-    [keys]
+    [keys],
   );
 
   const onKeyUp = useCallback(
@@ -182,7 +182,7 @@ function InputProvider({ children, ...props }: any) {
       state[e.key] = false;
       setKeys(state);
     },
-    [keys]
+    [keys],
   );
 
   const updateInput = useCallback(() => {

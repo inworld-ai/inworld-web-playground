@@ -5,12 +5,12 @@ export type Configuration = {
   INNEQUIN: InnequinAssetsConfiguration;
   RPM: RPMAssetsConfiguration;
   INWORLD: InworldConfiguration;
-}
+};
 
 export type ConfigurationWorld = {
   LENGTH: number;
   WIDTH: number;
-}
+};
 
 export type ConfigurationCamera = {
   POS_X: number;
@@ -37,9 +37,9 @@ export type InworldConfiguration = {
 };
 
 export type PlayerConfiguration = {
-  GRAVITY: number,
-  PLAYER_EYE_LEVEL: number,
-  JUMP_POWER: number,
+  GRAVITY: number;
+  PLAYER_EYE_LEVEL: number;
+  JUMP_POWER: number;
 };
 
 export type RPMAssetsConfiguration = {
@@ -53,14 +53,14 @@ export type ThreejsConfiguration = {
   DRACO_COMPRESSION_URI: string;
   PLAYER_SETTINGS: PlayerConfiguration;
   WORLD_SETTINGS: ConfigurationWorld;
-}
+};
 
 // Defines the name of the type of Clickable object
 export const Clickable = {
-  Cube: "ClickableCube",
-  Cylinder: "ClickableCube",
-  Sphere: "ClickableSphere",
-}
+  Cube: 'ClickableCube',
+  Cylinder: 'ClickableCube',
+  Sphere: 'ClickableSphere',
+};
 
 export interface EmotionsMap {
   [key: string]: EmotionEvent;

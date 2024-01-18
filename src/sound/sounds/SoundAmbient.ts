@@ -2,10 +2,9 @@ import { Audio, AudioListener, AudioLoader } from 'three';
 
 import { ISoundCore } from './ISoundCore';
 
-const SOUND_FILE_URI = "/assets/v1.0/sounds/ambient/ambient-1.mp3";
+const SOUND_FILE_URI = '/assets/v1.0/sounds/ambient/ambient-1.mp3';
 
 export class SoundAmbient implements ISoundCore {
-
   sound: Audio;
   isReady: boolean;
 
@@ -25,12 +24,14 @@ export class SoundAmbient implements ISoundCore {
         this.sound.setLoop(true);
         this.sound.setVolume(0.5);
       },
-      (xhr) => { // onProgress callback
+      (xhr) => {
+        // onProgress callback
         // console.log((xhr.loaded / xhr.total * 100) + '% loaded');
       },
-      (err) => { // onError callback
+      (err) => {
+        // onError callback
         console.log('An error happened');
-      }
+      },
     );
   }
 
@@ -45,5 +46,4 @@ export class SoundAmbient implements ISoundCore {
   stop() {
     this.sound.stop();
   }
-
 }

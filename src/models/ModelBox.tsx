@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
-import { Vector3 } from "three";
+import { useCallback, useEffect, useState } from 'react';
+import { Vector3 } from 'three';
 
-import { ModelFileLoader } from "../loaders/ModelFileLoader";
+import { ModelFileLoader } from '../loaders/ModelFileLoader';
 
 interface ModelBoxProps {
   isLoaded: boolean;
@@ -16,7 +16,7 @@ function ModelBox(props: ModelBoxProps) {
 
   useEffect(() => {
     if (props.isLoaded) {
-      setBox(new ModelFileLoader("/assets/v1.0/models/wooden_box.glb"));
+      setBox(new ModelFileLoader('/assets/v1.0/models/wooden_box.glb'));
     }
   }, [props.isLoaded]);
 
@@ -40,7 +40,7 @@ function ModelBox(props: ModelBoxProps) {
     <>
       {isLoaded && (
         <primitive
-          name={props.name || "Box"}
+          name={props.name || 'Box'}
           object={box!.getModel()!}
           castShadow
           receiveShadow

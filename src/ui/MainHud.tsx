@@ -1,12 +1,16 @@
 import './MainHud.css';
 
-import { button, useControls } from 'leva';
-
 import { Container, Stack, Typography } from '@mui/material';
+import { button, useControls } from 'leva';
 
 import { useInworld } from '../contexts/InworldProvider';
 import {
-    ROOM_ANIMATIONS, ROOM_AVATARS, ROOM_EMOTIONS, ROOM_GOALS, ROOM_LOBBY, useRooms
+  ROOM_ANIMATIONS,
+  ROOM_AVATARS,
+  ROOM_EMOTIONS,
+  ROOM_GOALS,
+  ROOM_LOBBY,
+  useRooms,
 } from '../contexts/RoomsProvider';
 
 function MainHud() {
@@ -15,7 +19,7 @@ function MainHud() {
   const { name } = useInworld();
 
   useControls(
-    "Rooms",
+    'Rooms',
     {
       Lobby: button(() => {
         if (setRoom) setRoom(ROOM_LOBBY);
@@ -33,7 +37,7 @@ function MainHud() {
         if (setRoom) setRoom(ROOM_GOALS);
       }),
     },
-    { collapsed: false }
+    { collapsed: false },
   );
 
   return (
@@ -63,7 +67,7 @@ function MainHud() {
               Character: {name}
             </Typography>
             <Typography className="textFooterLabel">
-              Inworld Web Playground- ver 1.0.0{" "}
+              Inworld Web Playground- ver 1.0.0{' '}
             </Typography>
           </Stack>
           <a className="linkInworld" href="https://www.inworld.ai">

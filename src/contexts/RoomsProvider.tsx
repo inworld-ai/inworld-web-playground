@@ -16,22 +16,22 @@ interface RoomsContextValues {
   setUILabel: Dispatch<SetStateAction<string>> | null;
 }
 
-const ROOM_LOBBY = "room_lobby";
-const ROOM_ANIMATIONS = "room_animation";
-const ROOM_AVATARS = "room_avatars";
-const ROOM_EMOTIONS = "room_emotions";
-const ROOM_GOALS = "room_goals";
+const ROOM_LOBBY = 'room_lobby';
+const ROOM_ANIMATIONS = 'room_animation';
+const ROOM_AVATARS = 'room_avatars';
+const ROOM_EMOTIONS = 'room_emotions';
+const ROOM_GOALS = 'room_goals';
 
-const STATE_INIT = "state_init";
-const STATE_LOADING = "state_loading";
-const STATE_RUNNING = "state_running";
+const STATE_INIT = 'state_init';
+const STATE_LOADING = 'state_loading';
+const STATE_RUNNING = 'state_running';
 
 const RoomsContext = React.createContext<RoomsContextValues>({
   loading: false,
   loadingPercent: 0,
   room: ROOM_LOBBY,
   state: STATE_INIT,
-  uiLabel: "",
+  uiLabel: '',
   setLoading: null,
   setLoadingPercent: null,
   setRoom: null,
@@ -48,13 +48,13 @@ function RoomsProvider({ children, ...props }: any) {
   const [loadingPercent, setLoadingPercent] = useState(0);
   const [room, setRoom] = useState(ROOM_LOBBY);
   const [state, setState] = useState(STATE_INIT);
-  const [uiLabel, setUILabel] = useState("");
+  const [uiLabel, setUILabel] = useState('');
 
   const { setLabel1 } = useUI();
 
   useEffect(() => {
     // console.log("Room: ", room);
-    if (setLabel1) setLabel1("");
+    if (setLabel1) setLabel1('');
   }, [room]);
 
   useEffect(() => {

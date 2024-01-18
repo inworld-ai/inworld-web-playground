@@ -7,7 +7,6 @@ import { CameraCore } from './CameraCore';
 
 // This class handles the simulating movement of the camera from a first person perspective.
 export class FirstPersonCamera {
-
   cameraCore: CameraCore;
   inputController: InputController;
   rotation: Quaternion;
@@ -38,8 +37,7 @@ export class FirstPersonCamera {
     this.init();
   }
 
-  init() {
-  }
+  init() {}
 
   update(deltaS: number) {
     this.updateRotation(deltaS);
@@ -52,20 +50,23 @@ export class FirstPersonCamera {
   updateCamera(deltaS: number) {
     this.cameraCore.camera.quaternion.copy(this.rotation);
     this.cameraCore.camera.position.copy(this.translation);
-    this.cameraCore.camera.position.y = Config.THREEJS.PLAYER_SETTINGS.PLAYER_EYE_LEVEL;
+    this.cameraCore.camera.position.y =
+      Config.THREEJS.PLAYER_SETTINGS.PLAYER_EYE_LEVEL;
     if (this.headBobActive) {
-      this.cameraCore.camera.position.y += (Math.sin(this.headBobTimer * 20) * 0.1)
+      this.cameraCore.camera.position.y +=
+        Math.sin(this.headBobTimer * 20) * 0.1;
     }
     if (this.jumpActive) {
-      this.cameraCore.camera.position.y += (this.jumpVelocity);
+      this.cameraCore.camera.position.y += this.jumpVelocity;
     }
   }
 
   updateHeadBob(deltaS: number) {
     if (this.headBobActive) {
       const wavelength = Math.PI;
-      const nextStep = 1 + Math.floor(((this.headBobTimer + 0.000001) * 10) / wavelength);
-      const nextStepTime = nextStep * wavelength / 10;
+      const nextStep =
+        1 + Math.floor(((this.headBobTimer + 0.000001) * 10) / wavelength);
+      const nextStepTime = (nextStep * wavelength) / 10;
       this.headBobTimer = Math.min(this.headBobTimer + deltaS, nextStepTime);
       if (this.headBobTimer === nextStepTime) {
         this.headBobActive = false;
@@ -89,7 +90,11 @@ export class FirstPersonCamera {
     const yh = this.inputController.current.mouseYDelta / window.innerHeight;
 
     this.phi += -xh * this.phiSpeed;
-    this.theta = clamp(this.theta + -yh * this.thetaSpeed, -Math.PI / 3, Math.PI / 3);
+    this.theta = clamp(
+      this.theta + -yh * this.thetaSpeed,
+      -Math.PI / 3,
+      Math.PI / 3,
+    );
 
     const qx = new Quaternion();
     qx.setFromAxisAngle(new Vector3(0, 1, 0), this.phi);
@@ -105,8 +110,12 @@ export class FirstPersonCamera {
 
   // Update camera position based on mouse
   updateTranslation(deltaS: number) {
-    const forwardVelocity = (this.inputController.keys['w'] ? 1 : 0) + (this.inputController.keys['s'] ? -1 : 0);
-    const strafeVelocity = (this.inputController.keys['a'] ? 1 : 0) + (this.inputController.keys['d'] ? -1 : 0);
+    const forwardVelocity =
+      (this.inputController.keys['w'] ? 1 : 0) +
+      (this.inputController.keys['s'] ? -1 : 0);
+    const strafeVelocity =
+      (this.inputController.keys['a'] ? 1 : 0) +
+      (this.inputController.keys['d'] ? -1 : 0);
 
     const qx = new Quaternion();
     qx.setFromAxisAngle(new Vector3(0, 1, 0), this.phi);
@@ -133,5 +142,4 @@ export class FirstPersonCamera {
       }
     }
   }
-
 }

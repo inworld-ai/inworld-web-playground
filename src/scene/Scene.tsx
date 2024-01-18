@@ -1,14 +1,18 @@
 import './Scene.css';
 
-import { useEffect, useState } from 'react';
-
 import { Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
+import { useEffect, useState } from 'react';
 
 import { CameraCore } from '../camera/CameraCore';
 import { useInworld } from '../contexts/InworldProvider';
 import {
-    ROOM_ANIMATIONS, ROOM_AVATARS, ROOM_EMOTIONS, ROOM_GOALS, ROOM_LOBBY, useRooms
+  ROOM_ANIMATIONS,
+  ROOM_AVATARS,
+  ROOM_EMOTIONS,
+  ROOM_GOALS,
+  ROOM_LOBBY,
+  useRooms,
 } from '../contexts/RoomsProvider';
 import { useUI } from '../contexts/UIProvider';
 import Background from '../environment/Background';

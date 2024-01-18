@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { DoubleSide, Euler, Mesh, Vector3 } from "three";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { DoubleSide, Euler, Mesh, Vector3 } from 'three';
 
-import { TextureFileLoader } from "../loaders/TextureFileLoader";
+import { TextureFileLoader } from '../loaders/TextureFileLoader';
 
 interface ModelLabelProps {
   isLoaded: boolean;

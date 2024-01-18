@@ -5,14 +5,14 @@ import React, {
   useCallback,
   useRef,
   useState,
-} from "react";
+} from 'react';
 import {
   Object3D,
   Object3DEventMap,
   PerspectiveCamera,
   Raycaster,
   Vector2,
-} from "three";
+} from 'three';
 
 interface RaysContextValues {
   camera: PerspectiveCamera | null;
@@ -38,15 +38,15 @@ function RaysProvider({ children, ...props }: any) {
     (
       objects: Object3D<Object3DEventMap>[],
       point: Vector2,
-      recursive: boolean | undefined = true
+      recursive: boolean | undefined = true,
     ) => {
-      if (!camera) throw new Error("Rays: Camera not set.");
+      if (!camera) throw new Error('Rays: Camera not set.');
       rayRef.current.setFromCamera(point, camera);
       if (!objects)
-        throw new Error("Rays: intersectObjects, objects undefined.");
+        throw new Error('Rays: intersectObjects, objects undefined.');
       return rayRef.current.intersectObjects(objects, recursive);
     },
-    [camera, rayRef]
+    [camera, rayRef],
   );
 
   return (

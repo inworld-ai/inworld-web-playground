@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { extend, RootState, useFrame, useThree } from '@react-three/fiber';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   DoubleSide,
   Euler,
@@ -6,20 +7,18 @@ import {
   RepeatWrapping,
   Vector2,
   Vector3,
-} from "three";
-import { Sky, TextGeometry } from "three-stdlib";
+} from 'three';
+import { Sky, TextGeometry } from 'three-stdlib';
 
-import { extend, RootState, useFrame, useThree } from "@react-three/fiber";
-
-import { useClickable } from "../contexts/ClickableProvider";
-import { useRays } from "../contexts/RaysProvider";
-import { InputController } from "../input/InputController";
-import { TextureFileLoader } from "../loaders/TextureFileLoader";
-import { Clickable } from "../types/types";
-import ModelBox from "./ModelBox";
-import ModelInnequin from "./ModelInnequin";
-import ModelRoom from "./ModelRoom";
-import ModelRPM from "./ModelRPM";
+import { useClickable } from '../contexts/ClickableProvider';
+import { useRays } from '../contexts/RaysProvider';
+import { InputController } from '../input/InputController';
+import { TextureFileLoader } from '../loaders/TextureFileLoader';
+import { Clickable } from '../types/types';
+import ModelBox from './ModelBox';
+import ModelInnequin from './ModelInnequin';
+import ModelRoom from './ModelRoom';
+import ModelRPM from './ModelRPM';
 
 extend({ TextGeometry });
 
@@ -49,7 +48,7 @@ function ModelWorld(props: ModelWorldProps) {
     if (props.isLoaded) {
       // console.log("ModelWorld Init");
       setTexture(
-        new TextureFileLoader("/assets/v1.0/textures/floor/texture-1.jpg")
+        new TextureFileLoader('/assets/v1.0/textures/floor/texture-1.jpg'),
       );
     }
   }, [props.isLoaded]);
@@ -122,15 +121,15 @@ function ModelWorld(props: ModelWorldProps) {
       //     )
       //   );
       // }
-      console.log("Run");
+      console.log('Run');
       setClicked(true);
       if (intersectObjects) {
         const secs = intersectObjects(
           scene.children,
           new Vector2(
             props.inputController.current.pointX,
-            props.inputController.current.pointY
-          )
+            props.inputController.current.pointY,
+          ),
         );
         for (let i = 0; i < secs.length; i++) {
           if (Object.values(Clickable).includes(secs[i].object.name)) {

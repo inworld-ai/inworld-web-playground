@@ -1,18 +1,17 @@
-import { useControls } from "leva";
-import { useRef } from "react";
+import { Sky, useHelper } from '@react-three/drei';
+import { useControls } from 'leva';
+import { useRef } from 'react';
 import {
   DirectionalLight,
   DirectionalLightHelper,
   DirectionalLightShadow,
-} from "three";
-
-import { Sky, useHelper } from "@react-three/drei";
+} from 'three';
 
 function LightingController() {
   const refDirLight = useRef<DirectionalLight>(null!);
-  useHelper(refDirLight, DirectionalLightHelper, 1, "red");
+  useHelper(refDirLight, DirectionalLightHelper, 1, 'red');
 
-  const ambCtl = useControls("Ambient Light", {
+  const ambCtl = useControls('Ambient Light', {
     visible: true,
     intensity: { value: 1, min: 0, max: 5 },
   });
@@ -29,7 +28,7 @@ function LightingController() {
   //   castShadow: true,
   // });
 
-  const directionalCtl = useControls("Directional Light", {
+  const directionalCtl = useControls('Directional Light', {
     visible: true,
     position: {
       x: 0,
@@ -65,7 +64,7 @@ function LightingController() {
       />
       <hemisphereLight
         name="Light 2"
-        args={["#fff", "#333"]}
+        args={['#fff', '#333']}
         intensity={ambCtl.intensity}
       />
       <directionalLight

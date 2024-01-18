@@ -1,9 +1,20 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-
 import {
-    AdditionalPhonemeInfo, Character, EmotionEvent, HistoryItem, InworldConnectionService,
-    InworldPacket, TriggerEvent, TriggerParameter
+  AdditionalPhonemeInfo,
+  Character,
+  EmotionEvent,
+  HistoryItem,
+  InworldConnectionService,
+  InworldPacket,
+  TriggerEvent,
+  TriggerParameter,
 } from '@inworld/web-core';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { InworldService } from '../inworld/InworldService';
 import { Cursors } from '../types/cursors';
@@ -11,11 +22,11 @@ import { EmotionsMap } from '../types/types';
 import { Config } from '../utils/config';
 import { useUI } from './UIProvider';
 
-export const STATE_ACTIVE = "state_active";
-export const STATE_ERROR = "state_error";
-export const STATE_INIT = "state_init";
-export const STATE_OPENING = "state_opening";
-export const STATE_OPEN = "state_open";
+export const STATE_ACTIVE = 'state_active';
+export const STATE_ERROR = 'state_error';
+export const STATE_INIT = 'state_init';
+export const STATE_OPENING = 'state_opening';
+export const STATE_OPEN = 'state_open';
 // export const STATE_READY: string = "state_ready";
 
 interface InworldContextValues {
@@ -36,7 +47,7 @@ interface InworldContextValues {
   sendText: (text: string) => void;
   sendTrigger: (
     text: string,
-    parameters?: TriggerParameter[] | undefined
+    parameters?: TriggerParameter[] | undefined,
   ) => void;
   // setCharacterId: Dispatch<SetStateAction<string>> | null;
   startRecording: () => void;
@@ -61,7 +72,7 @@ const InworldContext = createContext<InworldContextValues>({
   connection: undefined,
   emotionEvent: undefined,
   isRecording: false,
-  name: "",
+  name: '',
   open: () => {},
   phonemes: [],
   prevChatHistory: [],
@@ -139,7 +150,7 @@ function InworldProvider({ children, ...props }: any) {
 
     setPhonemes([]);
 
-    setName("");
+    setName('');
     setState(STATE_INIT);
   }, [connection]);
 
@@ -183,19 +194,20 @@ function InworldProvider({ children, ...props }: any) {
         //     },
         //   }),
         sceneName: Config.INWORLD.sceneId,
-        playerName: "Friend",
+        playerName: 'Friend',
         onPhoneme: (phonemes: AdditionalPhonemeInfo[]) => {
           setPhonemes(phonemes);
         },
         onReady: () => {
-          console.log("Active!");
+          console.log('Active!');
           setState(STATE_ACTIVE);
         },
         onDisconnect: () => {
-          console.log("Disconnect!");
+          console.log('Disconnect!');
           setState(STATE_OPEN);
         },
         onMessage: (inworldPacket: InworldPacket) => {
+          console.log(inworldPacket);
           if (
             inworldPacket.isEmotion() &&
             inworldPacket.packetId?.interactionId
@@ -213,18 +225,18 @@ function InworldProvider({ children, ...props }: any) {
           }
         },
         onError: (err: Error) => {
-          console.log("InworldProvider: onError", err);
+          console.log('InworldProvider: onError', err);
         },
       });
-      console.log("InworldProvider - Opening Connection");
+      console.log('InworldProvider - Opening Connection');
       const characters = await service.connection.getCharacters();
       const character = characters.find(
         (c: Character) =>
           c.resourceName ===
-          (props.characterId ? props.characterId : Config.INWORLD.characterId)
+          (props.characterId ? props.characterId : Config.INWORLD.characterId),
       );
 
-      console.log("InworldProvider - Getting Scene Characters");
+      console.log('InworldProvider - Getting Scene Characters');
       if (character) {
         service.connection.setCurrentCharacter(character);
       }
@@ -233,9 +245,15 @@ function InworldProvider({ children, ...props }: any) {
       setCharacter(character);
       setCharacters(characters);
       setState(STATE_OPEN);
-      console.log("InworldProvider - Connected");
+      console.log('InworldProvider - Connected');
     },
-    [chatHistory, connection, onHistoryChange, prevChatHistory, prevTranscripts]
+    [
+      chatHistory,
+      connection,
+      onHistoryChange,
+      prevChatHistory,
+      prevTranscripts,
+    ],
   );
 
   const playWorkaroundSound = useCallback(() => {
@@ -253,11 +271,11 @@ function InworldProvider({ children, ...props }: any) {
         connection.sendText(text);
       } else {
         throw new Error(
-          "Innequin - Error sendText before connection was open."
+          'Innequin - Error sendText before connection was open.',
         );
       }
     },
-    [connection, hasPlayedWorkaroundSound, playWorkaroundSound]
+    [connection, hasPlayedWorkaroundSound, playWorkaroundSound],
   );
 
   const sendTrigger = useCallback(
@@ -266,11 +284,11 @@ function InworldProvider({ children, ...props }: any) {
         connection.sendTrigger(trigger, parameters);
       } else {
         throw new Error(
-          "Innequin - Error sendTrigger before connection was open."
+          'Innequin - Error sendTrigger before connection was open.',
         );
       }
     },
-    [connection, hasPlayedWorkaroundSound, playWorkaroundSound]
+    [connection, hasPlayedWorkaroundSound, playWorkaroundSound],
   );
 
   const startRecording = useCallback(async () => {

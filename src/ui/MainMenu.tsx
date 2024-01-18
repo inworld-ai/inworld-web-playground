@@ -1,18 +1,22 @@
 import './MainMenu.css';
 
-import { useCallback, useEffect, useState } from 'react';
-
 import { Button, Paper, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
+import { useCallback, useEffect, useState } from 'react';
 
 import {
-    ROOM_ANIMATIONS, ROOM_AVATARS, ROOM_EMOTIONS, ROOM_GOALS, ROOM_LOBBY, useRooms
+  ROOM_ANIMATIONS,
+  ROOM_AVATARS,
+  ROOM_EMOTIONS,
+  ROOM_GOALS,
+  ROOM_LOBBY,
+  useRooms,
 } from '../contexts/RoomsProvider';
 import { STATE_RUNNING, useSystem } from '../contexts/SystemProvider';
 
 function MainMenu() {
-  const STATE_MAIN = "state_main";
-  const STATE_MICROPHONE = "state_microphone";
+  const STATE_MAIN = 'state_main';
+  const STATE_MICROPHONE = 'state_microphone';
 
   const [state, setState] = useState<string>(STATE_MAIN);
 
@@ -35,7 +39,7 @@ function MainMenu() {
         setRoom(name);
       }
     },
-    [room, setRoom]
+    [room, setRoom],
   );
 
   const onClickState = useCallback((state: string) => {

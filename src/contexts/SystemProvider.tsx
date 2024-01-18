@@ -11,10 +11,10 @@ interface SystemContextValues {
   setStateSystem: Dispatch<SetStateAction<string>> | null;
 }
 
-const STATE_ERROR: string = "state_error";
-const STATE_INIT: string = "state_init";
-const STATE_PAUSED: string = "state_paused";
-const STATE_RUNNING: string = "state_running";
+const STATE_ERROR = 'state_error';
+const STATE_INIT = 'state_init';
+const STATE_PAUSED = 'state_paused';
+const STATE_RUNNING = 'state_running';
 
 const SystemContext = React.createContext<SystemContextValues>({
   // inputEnabled: true,

@@ -1,10 +1,13 @@
+import { EmotionBehaviorCode } from '@inworld/web-core';
 import { button, useControls } from 'leva';
 import { useCallback, useEffect, useState } from 'react';
 import { Euler, Vector3 } from 'three';
 
-import { EmotionBehaviorCode } from '@inworld/web-core';
-
-import { STATE_ACTIVE, STATE_OPEN, useInworld } from '../contexts/InworldProvider';
+import {
+  STATE_ACTIVE,
+  STATE_OPEN,
+  useInworld,
+} from '../contexts/InworldProvider';
 import { useUI } from '../contexts/UIProvider';
 import ModelInnequin from '../models/ModelInnequin';
 import ModelRPM from '../models/ModelRPM';
@@ -17,23 +20,23 @@ export type RoomEmotionsProps = {
 };
 
 function RoomEmotions(props: RoomEmotionsProps) {
-  const CHARACTER_ID = "workspaces/inworld-playground/characters/emotion_bot";
+  const CHARACTER_ID = 'workspaces/inworld-playground/characters/emotion_bot';
   const EMOTIONS_SUPPORTED = {
-    ANGER: "emotion_anger",
-    DISGUST: "emotion_disgust",
-    JOY: "emotion_anger",
-    NEUTRAL: "emotion_neutral",
-    SADNESS: "emotion_sadness",
-    SURPRISE: "emotion_surprise",
+    ANGER: 'emotion_anger',
+    DISGUST: 'emotion_disgust',
+    JOY: 'emotion_anger',
+    NEUTRAL: 'emotion_neutral',
+    SADNESS: 'emotion_sadness',
+    SURPRISE: 'emotion_surprise',
   };
-  const NAME_INNEQUIN = "InnequinEmotions";
-  const NAME_RPM = "RPMEmotions";
-  const SKIN_INNEQUIN = "DOTS";
-  const TRIGGER_WELCOME = "greet_player";
+  const NAME_INNEQUIN = 'InnequinEmotions';
+  const NAME_RPM = 'RPMEmotions';
+  const SKIN_INNEQUIN = 'DOTS';
+  const TRIGGER_WELCOME = 'greet_player';
 
   const [activeCharacter, setActiveCharacter] = useState<string>();
   const [emotionCurrent, setEmotionCurrent] = useState<string>(
-    camelize(EmotionBehaviorCode.NEUTRAL)
+    camelize(EmotionBehaviorCode.NEUTRAL),
   );
   const [emotionOptions, setEmotionOptions] = useState({});
 
@@ -41,10 +44,10 @@ function RoomEmotions(props: RoomEmotionsProps) {
   const { setLabel1 } = useUI();
 
   const emotionsCtl = useControls(
-    "Emotions",
+    'Emotions',
     emotionOptions,
     { collapsed: false },
-    [emotionOptions]
+    [emotionOptions],
   );
 
   useEffect(() => {
@@ -55,14 +58,14 @@ function RoomEmotions(props: RoomEmotionsProps) {
   useEffect(() => {
     onUpdateMenus();
     if (setLabel1) {
-      const label = "Emotion: " + emotionCurrent;
+      const label = 'Emotion: ' + emotionCurrent;
       setLabel1(label);
     }
   }, [emotionCurrent]);
 
   useEffect(() => {
     if (state !== STATE_OPEN && state !== STATE_ACTIVE) {
-      setActiveCharacter("");
+      setActiveCharacter('');
       setEmotionOptions({});
     }
   }, [state]);
@@ -74,10 +77,10 @@ function RoomEmotions(props: RoomEmotionsProps) {
   const onChangeEmotion = useCallback(
     (emotion: string) => {
       if (!activeCharacter) {
-        console.log("onChangeEmotion:", emotion);
+        console.log('onChangeEmotion:', emotion);
       }
     },
-    [activeCharacter, state]
+    [activeCharacter, state],
   );
 
   useEffect(() => {
@@ -97,24 +100,24 @@ function RoomEmotions(props: RoomEmotionsProps) {
           break;
         default:
           throw new Error(
-            "RoomEmotions: onClick character name not found: " + name
+            'RoomEmotions: onClick character name not found: ' + name,
           );
       }
     },
-    [activeCharacter]
+    [activeCharacter],
   );
 
   const onClickEmotion = useCallback(
     (emotion: string) => {
-      console.log("onClickEmotion:", emotion, state);
+      console.log('onClickEmotion:', emotion, state);
       if (state !== STATE_OPEN && state !== STATE_ACTIVE) return;
       sendTrigger(
         EMOTIONS_SUPPORTED[
           emotion.toUpperCase() as keyof typeof EMOTIONS_SUPPORTED
-        ].toLowerCase()
+        ].toLowerCase(),
       );
     },
-    [state]
+    [state],
   );
 
   const onUpdateMenus = useCallback(() => {

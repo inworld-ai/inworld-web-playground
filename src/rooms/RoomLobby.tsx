@@ -12,9 +12,9 @@ export type RoomLobbyProps = {
 
 function RoomLobby(props: RoomLobbyProps) {
   const CHARACTER_ID =
-    "workspaces/inworld-playground/characters/lobby_bot_-_innequin";
-  const NAME_INNEQUIN = "InnequinLobby";
-  const TRIGGER_WELCOME = "greet_player";
+    'workspaces/inworld-playground/characters/lobby_bot_-_innequin';
+  const NAME_INNEQUIN = 'InnequinLobby';
+  const TRIGGER_WELCOME = 'greet_player';
 
   const { sendTrigger, state } = useInworld();
 

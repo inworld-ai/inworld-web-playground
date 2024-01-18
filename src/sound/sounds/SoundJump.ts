@@ -2,10 +2,9 @@ import { Audio, AudioListener, AudioLoader } from 'three';
 
 import { ISoundCore } from './ISoundCore';
 
-const SOUND_FILE_URI = "/assets/v1.0/sounds/jumping/jumping.wav";
+const SOUND_FILE_URI = '/assets/v1.0/sounds/jumping/jumping.wav';
 
 export class SoundJump implements ISoundCore {
-
   sound: Audio;
   isReady: boolean;
 
@@ -24,12 +23,14 @@ export class SoundJump implements ISoundCore {
         this.sound.setBuffer(buffer);
         this.sound.setVolume(0.5);
       },
-      (xhr) => { // onProgress callback
+      (xhr) => {
+        // onProgress callback
         // console.log((xhr.loaded / xhr.total * 100) + '% loaded');
       },
-      (err) => { // onError callback
+      (err) => {
+        // onError callback
         console.log('An error happened');
-      }
+      },
     );
   }
 
@@ -44,5 +45,4 @@ export class SoundJump implements ISoundCore {
   stop() {
     this.sound.stop();
   }
-
 }

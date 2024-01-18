@@ -1,11 +1,13 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Euler, Vector3 } from 'three';
-
 import { EmotionBehaviorCode } from '@inworld/web-core';
 import {
-    Innequin, InnequinBodyEmotionToBehavior, InnequinConfiguration, SkinType
+  Innequin,
+  InnequinBodyEmotionToBehavior,
+  InnequinConfiguration,
+  SkinType,
 } from '@inworld/web-threejs';
 import { useFrame } from '@react-three/fiber';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Euler, Vector3 } from 'three';
 
 import { STATE_INIT, useInworld } from '../contexts/InworldProvider';
 import { useUI } from '../contexts/UIProvider';
@@ -29,10 +31,10 @@ interface ModelInnequinProps {
 function ModelInnequin(props: ModelInnequinProps) {
   const configRef = useRef<InnequinConfiguration>();
   const innequinRef = useRef<Innequin>(null!);
-  const skinNameInitialRef = useRef<string>(props.skinName || "WOOD1");
+  const skinNameInitialRef = useRef<string>(props.skinName || 'WOOD1');
 
   const [defaultEmotion, setDefaultEmotion] = useState<EmotionBehaviorCode>(
-    null!
+    null!,
   );
   const [emotion, setEmotion] = useState<EmotionBehaviorCode>(null!);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -48,7 +50,7 @@ function ModelInnequin(props: ModelInnequinProps) {
           InnequinBodyEmotionToBehavior[
             props.emotionCurrent.toUpperCase() as keyof typeof InnequinBodyEmotionToBehavior
           ] as keyof typeof EmotionBehaviorCode
-        ]
+        ],
       );
     }
   }, [props.emotionCurrent]);
@@ -113,7 +115,7 @@ function ModelInnequin(props: ModelInnequinProps) {
         setIsLoaded(true);
       }
     },
-    [innequinRef.current]
+    [innequinRef.current],
   );
 
   const onOut = useCallback(
@@ -121,7 +123,7 @@ function ModelInnequin(props: ModelInnequinProps) {
       e.stopPropagation();
       if (setCursor && cursor === Cursors.Pointer) setCursor(Cursors.Auto);
     },
-    [cursor]
+    [cursor],
   );
 
   const onOver = useCallback(
@@ -129,7 +131,7 @@ function ModelInnequin(props: ModelInnequinProps) {
       e.stopPropagation();
       if (setCursor) setCursor(Cursors.Pointer);
     },
-    [cursor]
+    [cursor],
   );
 
   const onProgressInnequin = useCallback((progress: number) => {
@@ -155,7 +157,7 @@ function ModelInnequin(props: ModelInnequinProps) {
             onPointerOver={onOver}
           >
             <primitive
-              name={props.name || "Innequin"}
+              name={props.name || 'Innequin'}
               object={innequinRef.current.getModel()}
               castShadow
               receiveShadow

@@ -1,10 +1,13 @@
+import { JSONFileLoader } from '@inworld/web-threejs/build/src/loaders/JSONFileLoader';
 import { button, useControls } from 'leva';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Euler, Vector3 } from 'three';
 
-import { JSONFileLoader } from '@inworld/web-threejs/build/src/loaders/JSONFileLoader';
-
-import { STATE_ACTIVE, STATE_OPEN, useInworld } from '../contexts/InworldProvider';
+import {
+  STATE_ACTIVE,
+  STATE_OPEN,
+  useInworld,
+} from '../contexts/InworldProvider';
 import ModelInnequin from '../models/ModelInnequin';
 import RoomBase from './RoomBase';
 
@@ -15,26 +18,26 @@ export type RoomGoalsProps = {
 
 function RoomGoals(props: RoomGoalsProps) {
   const CHARACTER_ID =
-    "workspaces/inworld-playground/characters/goals_bot_-_innequin";
-  const DATA_URI = "./assets/v1.0/data/cities.json";
-  const NAME_INNEQUIN = "InnequinGoals";
-  const SKIN_INNEQUIN = "CAMO";
-  const TRIGGER_DEMO_PARAMETERS = "demo_parameters";
+    'workspaces/inworld-playground/characters/goals_bot_-_innequin';
+  const DATA_URI = './assets/v1.0/data/cities.json';
+  const NAME_INNEQUIN = 'InnequinGoals';
+  const SKIN_INNEQUIN = 'CAMO';
+  const TRIGGER_DEMO_PARAMETERS = 'demo_parameters';
   const TRIGGER_EXPLAIN_DYNAMIC_DATA_RETRIEVAL =
-    "explain_dynamic_data_retrieval";
-  const TRIGGER_EXPLAIN_ENABLE_DISABLE = "explain_enable_disable";
-  const TRIGGER_EXPLAIN_INTENTS = "explain_intents";
-  const TRIGGER_EXPLAIN_PARAMETERS = "explain_parameters";
-  const TRIGGER_EXPLAIN_MUTATIONS = "explain_mutations";
-  const TRIGGER_EXPLAIN_VERBATIM = "explain_verbatim";
-  const TRIGGER_GET_POPULATION = "get_population";
-  const TRIGGER_PROVIDE_POPULATION = "provide_population";
-  const TRIGGER_SET_CHARACTER_NAME = "set_character_name";
-  const TRIGGER_WELCOME = "greet_player";
+    'explain_dynamic_data_retrieval';
+  const TRIGGER_EXPLAIN_ENABLE_DISABLE = 'explain_enable_disable';
+  const TRIGGER_EXPLAIN_INTENTS = 'explain_intents';
+  const TRIGGER_EXPLAIN_PARAMETERS = 'explain_parameters';
+  const TRIGGER_EXPLAIN_MUTATIONS = 'explain_mutations';
+  const TRIGGER_EXPLAIN_VERBATIM = 'explain_verbatim';
+  const TRIGGER_GET_POPULATION = 'get_population';
+  const TRIGGER_PROVIDE_POPULATION = 'provide_population';
+  const TRIGGER_SET_CHARACTER_NAME = 'set_character_name';
+  const TRIGGER_WELCOME = 'greet_player';
 
   const dataRef = useRef<JSONFileLoader>();
 
-  const [currentGoal, setCurrentGoal] = useState("");
+  const [currentGoal, setCurrentGoal] = useState('');
   const [goalsOptions, setGoalsOptions] = useState({});
   const [mutationOptions, setMutationOptions] = useState({});
   const [triggersOptions, setTriggersOptions] = useState({});
@@ -44,54 +47,54 @@ function RoomGoals(props: RoomGoalsProps) {
   const onClick = useCallback((name: string) => {}, []);
 
   const goalsCtl = useControls(
-    "Goals and Actions",
+    'Goals and Actions',
     goalsOptions,
     {
       collapsed: false,
     },
-    [goalsOptions]
+    [goalsOptions],
   );
 
   const mutationCtl = useControls(
-    "Mutation",
+    'Mutation',
     mutationOptions,
     {
       collapsed: false,
     },
-    [mutationOptions]
+    [mutationOptions],
   );
 
   const triggerCtl = useControls(
-    "Triggers with Parameters",
+    'Triggers with Parameters',
     triggersOptions,
     {
       collapsed: false,
     },
-    [triggersOptions]
+    [triggersOptions],
   );
 
   const roomMenu = {
-    "Intent Recognition": button(() => {
+    'Intent Recognition': button(() => {
       if (state === STATE_OPEN || state === STATE_ACTIVE) {
         setCurrentGoal(TRIGGER_EXPLAIN_INTENTS);
       }
     }),
-    "Verbatim Responses": button(() => {
+    'Verbatim Responses': button(() => {
       if (state === STATE_OPEN || state === STATE_ACTIVE) {
         setCurrentGoal(TRIGGER_EXPLAIN_VERBATIM);
       }
     }),
-    "Triggers with Parameters": button(() => {
+    'Triggers with Parameters': button(() => {
       if (state === STATE_OPEN || state === STATE_ACTIVE) {
         setCurrentGoal(TRIGGER_EXPLAIN_PARAMETERS);
       }
     }),
-    "Dynamic Data Retrieval": button(() => {
+    'Dynamic Data Retrieval': button(() => {
       if (state === STATE_OPEN || state === STATE_ACTIVE) {
         setCurrentGoal(TRIGGER_EXPLAIN_DYNAMIC_DATA_RETRIEVAL);
       }
     }),
-    "Character Mutations": button(() => {
+    'Character Mutations': button(() => {
       if (state === STATE_OPEN || state === STATE_ACTIVE) {
         setCurrentGoal(TRIGGER_EXPLAIN_MUTATIONS);
       }
@@ -105,12 +108,12 @@ function RoomGoals(props: RoomGoalsProps) {
 
   const mutationMenu = {
     Name: {
-      options: ["Bob", "Gene", "Ringo", "James"],
-      value: "",
+      options: ['Bob', 'Gene', 'Ringo', 'James'],
+      value: '',
       onChange: (characterName: string) => {
         if (!characterName) return;
         sendTrigger(TRIGGER_SET_CHARACTER_NAME, [
-          { name: "character_name", value: characterName },
+          { name: 'character_name', value: characterName },
         ]);
       },
     },
@@ -118,12 +121,12 @@ function RoomGoals(props: RoomGoalsProps) {
 
   const triggersMenu = {
     Animal: {
-      options: ["Dogs", "Cats", "Horses", "Birds"],
-      value: "",
+      options: ['Dogs', 'Cats', 'Horses', 'Birds'],
+      value: '',
       onChange: (animalName: string) => {
         if (!animalName) return;
         sendTrigger(TRIGGER_DEMO_PARAMETERS, [
-          { name: "animal", value: animalName },
+          { name: 'animal', value: animalName },
         ]);
       },
     },
@@ -172,12 +175,12 @@ function RoomGoals(props: RoomGoalsProps) {
     ) {
       const cityName = triggerEvent.parameters[0].value;
       const cityPopulation = dataRef.current?.data[cityName].population;
-      console.log("Get Population", cityName, cityPopulation);
+      console.log('Get Population', cityName, cityPopulation);
       setTimeout(() => {
         sendTrigger(TRIGGER_PROVIDE_POPULATION, [
-          { name: "city", value: cityName },
+          { name: 'city', value: cityName },
           {
-            name: "population",
+            name: 'population',
             value: cityPopulation,
           },
         ]);

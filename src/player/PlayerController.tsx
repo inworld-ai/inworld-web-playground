@@ -1,13 +1,16 @@
+import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import { Clock } from 'three';
-
-import { useFrame } from '@react-three/fiber';
 
 import { CameraCore } from '../camera/CameraCore';
 import { FirstPersonCamera } from '../camera/FirstPersonCamera';
 import { STATE_INIT, useInworld } from '../contexts/InworldProvider';
 import { useRays } from '../contexts/RaysProvider';
-import { STATE_PAUSED, STATE_RUNNING, useSystem } from '../contexts/SystemProvider';
+import {
+  STATE_PAUSED,
+  STATE_RUNNING,
+  useSystem,
+} from '../contexts/SystemProvider';
 import { InputController } from '../input/InputController';
 import { SoundController } from '../sound/SoundController';
 import { SOUND_FOOTSTEPS } from '../sound/SoundIDs';
@@ -34,7 +37,7 @@ function PlayerController(props: PlayerControllerProps) {
     if (props.isLoaded && !loaded) {
       // console.log("PlayerController Init");
       setFPSCamera(
-        new FirstPersonCamera(props.cameraCore, props.inputController)
+        new FirstPersonCamera(props.cameraCore, props.inputController),
       );
       if (setCamera) setCamera(props.cameraCore.camera);
       setSoundController(new SoundController({ camera: props.cameraCore }));
@@ -55,7 +58,7 @@ function PlayerController(props: PlayerControllerProps) {
   useFrame((fstate, delta) => {
     props.inputController.update();
     // Check if the user pressed the escape key. If so pause the game.
-    if (props.inputController.keys["Escape"] && !escClick) {
+    if (props.inputController.keys['Escape'] && !escClick) {
       if (setStateSystem && stateSystem === STATE_RUNNING) {
         setStateSystem(STATE_PAUSED);
       } else if (setStateSystem && stateSystem === STATE_PAUSED) {
@@ -64,18 +67,18 @@ function PlayerController(props: PlayerControllerProps) {
       setESCClick(true);
     }
 
-    if (!props.inputController.keys["Escape"] && escClick) {
+    if (!props.inputController.keys['Escape'] && escClick) {
       setESCClick(false);
     }
 
     if (stateSystem === STATE_RUNNING && inworldState === STATE_INIT) {
       // Check if the character is running. If so play sound effect.
       const forwardVelocity =
-        (props.inputController.keys["w"] ? 1 : 0) +
-        (props.inputController.keys["s"] ? -1 : 0);
+        (props.inputController.keys['w'] ? 1 : 0) +
+        (props.inputController.keys['s'] ? -1 : 0);
       const strafeVelocity =
-        (props.inputController.keys["a"] ? 1 : 0) +
-        (props.inputController.keys["d"] ? -1 : 0);
+        (props.inputController.keys['a'] ? 1 : 0) +
+        (props.inputController.keys['d'] ? -1 : 0);
       if ((soundController && forwardVelocity !== 0) || strafeVelocity !== 0) {
         soundController?.play(SOUND_FOOTSTEPS);
       } else {

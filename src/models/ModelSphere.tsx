@@ -42,7 +42,7 @@ function ModelSphere(props: ModelSphereProps) {
       e.stopPropagation();
       if (setCursor && cursor === Cursors.Pointer) setCursor(Cursors.Auto);
     },
-    [cursor]
+    [cursor],
   );
 
   const onOver = useCallback(
@@ -50,7 +50,7 @@ function ModelSphere(props: ModelSphereProps) {
       e.stopPropagation();
       if (setCursor) setCursor(Cursors.Pointer);
     },
-    [cursor]
+    [cursor],
   );
 
   return (
@@ -64,9 +64,9 @@ function ModelSphere(props: ModelSphereProps) {
             onPointerOut={onOut}
             onPointerOver={onOver}
           >
-            <mesh name={props.name || "Innequin"} castShadow receiveShadow>
+            <mesh name={props.name || 'Innequin'} castShadow receiveShadow>
               <sphereGeometry args={[0.5, 20, 20]} />
-              <meshStandardMaterial color={"blue"} />
+              <meshStandardMaterial color={'blue'} />
             </mesh>
           </group>
         </>

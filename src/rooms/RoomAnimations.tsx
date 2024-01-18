@@ -1,9 +1,8 @@
+import { EmotionBehaviorCode } from '@inworld/web-core';
+import { InnequinConfiguration, RPMConfiguration } from '@inworld/web-threejs';
 import { button, useControls } from 'leva';
 import { useCallback, useEffect, useState } from 'react';
 import { Euler, Vector3 } from 'three';
-
-import { EmotionBehaviorCode } from '@inworld/web-core';
-import { InnequinConfiguration, RPMConfiguration } from '@inworld/web-threejs';
 
 import { STATE_OPEN, useInworld } from '../contexts/InworldProvider';
 import { useUI } from '../contexts/UIProvider';
@@ -19,17 +18,17 @@ export type RoomAnimationsProps = {
 
 function RoomAnimations(props: RoomAnimationsProps) {
   const CHARACTER_ID =
-    "workspaces/inworld-playground/characters/animation_bot_-_innequin";
-  const NAME_INNEQUIN = "InnequinAnimations";
-  const NAME_RPM = "RPMAnimations";
-  const SKIN_INNEQUIN = "WOOD2";
-  const TRIGGER_WELCOME = "greet_player";
+    'workspaces/inworld-playground/characters/animation_bot_-_innequin';
+  const NAME_INNEQUIN = 'InnequinAnimations';
+  const NAME_RPM = 'RPMAnimations';
+  const SKIN_INNEQUIN = 'WOOD2';
+  const TRIGGER_WELCOME = 'greet_player';
 
   const [activeCharacter, setActiveCharacter] = useState<string>();
   const [animationOptions, setAnimationOptions] = useState({});
   const [animationCurrent, setAnimationCurrent] = useState<string>();
   const [emotionCurrent, setEmotionCurrent] = useState<string>(
-    camelize(EmotionBehaviorCode.NEUTRAL)
+    camelize(EmotionBehaviorCode.NEUTRAL),
   );
   const [emotionOptions, setEmotionOptions] = useState({});
   const [innequinConfig, setInnequinConfig] = useState<InnequinConfiguration>();
@@ -39,17 +38,17 @@ function RoomAnimations(props: RoomAnimationsProps) {
   const { setLabel1 } = useUI();
 
   const emotionsCtl = useControls(
-    "Emotions",
+    'Emotions',
     emotionOptions,
     { collapsed: false },
-    [emotionOptions]
+    [emotionOptions],
   );
 
   const animationsCtl = useControls(
-    "Animations",
+    'Animations',
     animationOptions,
     { collapsed: false },
-    [animationOptions]
+    [animationOptions],
   );
 
   useEffect(() => {
@@ -62,8 +61,8 @@ function RoomAnimations(props: RoomAnimationsProps) {
   }, [emotionCurrent]);
 
   useEffect(() => {
-    if (!name || name === "") {
-      setActiveCharacter("");
+    if (!name || name === '') {
+      setActiveCharacter('');
       setAnimationOptions({});
       setEmotionOptions({});
     }
@@ -71,8 +70,8 @@ function RoomAnimations(props: RoomAnimationsProps) {
 
   useEffect(() => {
     if (setLabel1) {
-      let label = "Emotion: " + emotionCurrent;
-      if (animationCurrent) label += "\n" + "Animation: " + animationCurrent;
+      let label = 'Emotion: ' + emotionCurrent;
+      if (animationCurrent) label += '\n' + 'Animation: ' + animationCurrent;
       setLabel1(label);
     }
   }, [animationCurrent, emotionCurrent]);
@@ -95,8 +94,8 @@ function RoomAnimations(props: RoomAnimationsProps) {
         break;
       default:
         throw new Error(
-          "RoomAnimations: onUpdateMenus character name not found: " +
-            activeCharacter
+          'RoomAnimations: onUpdateMenus character name not found: ' +
+            activeCharacter,
         );
     }
     if (animations) {
@@ -117,7 +116,8 @@ function RoomAnimations(props: RoomAnimationsProps) {
       setEmotionOptions(emotionOptionsData);
       const emotionAnimations = keys.filter(
         (key) =>
-          animations[key].emotion.toLowerCase() === emotionCurrent.toLowerCase()
+          animations[key].emotion.toLowerCase() ===
+          emotionCurrent.toLowerCase(),
       );
       const emotionAnimationData = {};
       emotionAnimations.forEach((animation) => {
@@ -152,11 +152,11 @@ function RoomAnimations(props: RoomAnimationsProps) {
           break;
         default:
           throw new Error(
-            "RoomAnimations: onClick character name not found: " + name
+            'RoomAnimations: onClick character name not found: ' + name,
           );
       }
     },
-    [activeCharacter]
+    [activeCharacter],
   );
 
   return (

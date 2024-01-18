@@ -1,9 +1,12 @@
+import { EmotionBehaviorCode } from '@inworld/web-core';
+import {
+  RPM,
+  RPMBodyEmotionToBehavior,
+  RPMConfiguration,
+} from '@inworld/web-threejs';
+import { useFrame } from '@react-three/fiber';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Euler, Vector3 } from 'three';
-
-import { EmotionBehaviorCode } from '@inworld/web-core';
-import { RPM, RPMBodyEmotionToBehavior, RPMConfiguration } from '@inworld/web-threejs';
-import { useFrame } from '@react-three/fiber';
 
 import { STATE_INIT, useInworld } from '../contexts/InworldProvider';
 import { useUI } from '../contexts/UIProvider';
@@ -28,7 +31,7 @@ function ModelRPM(props: ModelRPMProps) {
   const rpmRef = useRef<RPM>(null!);
 
   const [defaultEmotion, setDefaultEmotion] = useState<EmotionBehaviorCode>(
-    null!
+    null!,
   );
   const [emotion, setEmotion] = useState<EmotionBehaviorCode>(null!);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -43,7 +46,7 @@ function ModelRPM(props: ModelRPMProps) {
           RPMBodyEmotionToBehavior[
             props.emotionCurrent.toUpperCase() as keyof typeof RPMBodyEmotionToBehavior
           ] as keyof typeof EmotionBehaviorCode
-        ]
+        ],
       );
     }
   }, [props.emotionCurrent]);
@@ -105,7 +108,7 @@ function ModelRPM(props: ModelRPMProps) {
         setIsLoaded(true);
       }
     },
-    [rpmRef.current]
+    [rpmRef.current],
   );
 
   const onOut = useCallback((e: any) => {
@@ -141,7 +144,7 @@ function ModelRPM(props: ModelRPMProps) {
             onPointerOver={onOver}
           >
             <primitive
-              name={props.name || "RPM"}
+              name={props.name || 'RPM'}
               object={rpmRef.current.getModel()}
               castShadow
               receiveShadow
