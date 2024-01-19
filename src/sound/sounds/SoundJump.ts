@@ -1,5 +1,6 @@
 import { Audio, AudioListener, AudioLoader } from 'three';
 
+import { log } from '../../utils/log';
 import { ISoundCore } from './ISoundCore';
 
 const SOUND_FILE_URI = '/assets/v1.0/sounds/jumping/jumping.wav';
@@ -25,11 +26,11 @@ export class SoundJump implements ISoundCore {
       },
       (xhr) => {
         // onProgress callback
-        // console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        log((xhr.loaded / xhr.total) * 100 + '% loaded');
       },
       (err) => {
         // onError callback
-        console.log('An error happened');
+        log('An error happened', err);
       },
     );
   }

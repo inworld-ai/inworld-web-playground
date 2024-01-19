@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
+import { log } from '../utils/log';
 import { STATE_ACTIVE, STATE_OPEN } from './InworldProvider';
 import { useUI } from './UIProvider';
 
@@ -41,8 +42,8 @@ const RoomsContext = React.createContext<RoomsContextValues>({
 
 const useRooms = () => React.useContext(RoomsContext);
 
-function RoomsProvider({ children, ...props }: any) {
-  // console.log("RoomsProvider Init");
+function RoomsProvider({ children }: any) {
+  log('RoomsProvider Init');
 
   const [loading, setLoading] = useState(false);
   const [loadingPercent, setLoadingPercent] = useState(0);
@@ -53,7 +54,7 @@ function RoomsProvider({ children, ...props }: any) {
   const { setLabel1 } = useUI();
 
   useEffect(() => {
-    // console.log("Room: ", room);
+    log('Room: ', room);
     if (setLabel1) setLabel1('');
   }, [room]);
 

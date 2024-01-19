@@ -1,4 +1,3 @@
-import { EmotionBehaviorCode } from '@inworld/web-core';
 import { button, useControls } from 'leva';
 import { useCallback, useEffect, useState } from 'react';
 import { Euler, Vector3 } from 'three';
@@ -8,7 +7,6 @@ import {
   STATE_OPEN,
   useInworld,
 } from '../contexts/InworldProvider';
-import { useUI } from '../contexts/UIProvider';
 import ModelInnequin from '../models/ModelInnequin';
 import ModelRPM from '../models/ModelRPM';
 import { camelize } from '../utils/strings';
@@ -35,33 +33,17 @@ function RoomEmotions(props: RoomEmotionsProps) {
   const TRIGGER_WELCOME = 'greet_player';
 
   const [activeCharacter, setActiveCharacter] = useState<string>();
-  const [emotionCurrent, setEmotionCurrent] = useState<string>(
-    camelize(EmotionBehaviorCode.NEUTRAL),
-  );
   const [emotionOptions, setEmotionOptions] = useState({});
 
   const { sendTrigger, state } = useInworld();
-  const { setLabel1 } = useUI();
-
-  const emotionsCtl = useControls(
-    'Emotions',
+  useControls('Emotions', emotionOptions, { collapsed: false }, [
     emotionOptions,
-    { collapsed: false },
-    [emotionOptions],
-  );
+  ]);
 
   useEffect(() => {
     if (!activeCharacter) return;
     onUpdateMenus();
   }, [activeCharacter]);
-
-  useEffect(() => {
-    onUpdateMenus();
-    if (setLabel1) {
-      const label = 'Emotion: ' + emotionCurrent;
-      setLabel1(label);
-    }
-  }, [emotionCurrent]);
 
   useEffect(() => {
     if (state !== STATE_OPEN && state !== STATE_ACTIVE) {
@@ -84,7 +66,7 @@ function RoomEmotions(props: RoomEmotionsProps) {
   );
 
   useEffect(() => {
-    if (state === STATE_OPEN) {
+    if (state === STATE_OPEN && sendTrigger) {
       sendTrigger(TRIGGER_WELCOME);
     }
   }, [state]);
@@ -111,11 +93,13 @@ function RoomEmotions(props: RoomEmotionsProps) {
     (emotion: string) => {
       console.log('onClickEmotion:', emotion, state);
       if (state !== STATE_OPEN && state !== STATE_ACTIVE) return;
-      sendTrigger(
-        EMOTIONS_SUPPORTED[
-          emotion.toUpperCase() as keyof typeof EMOTIONS_SUPPORTED
-        ].toLowerCase(),
-      );
+      if (sendTrigger) {
+        sendTrigger(
+          EMOTIONS_SUPPORTED[
+            emotion.toUpperCase() as keyof typeof EMOTIONS_SUPPORTED
+          ].toLowerCase(),
+        );
+      }
     },
     [state],
   );

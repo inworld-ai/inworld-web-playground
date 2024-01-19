@@ -3,9 +3,8 @@ import {
   Innequin,
   InnequinBodyEmotionToBehavior,
   InnequinConfiguration,
-  SkinType,
 } from '@inworld/web-threejs';
-import { useFrame } from '@react-three/fiber';
+import { ThreeEvent, useFrame } from '@react-three/fiber';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Euler, Vector3 } from 'three';
 
@@ -13,6 +12,7 @@ import { STATE_INIT, useInworld } from '../contexts/InworldProvider';
 import { useUI } from '../contexts/UIProvider';
 import { Cursors } from '../types/cursors';
 import { Config } from '../utils/config';
+import { log } from '../utils/log';
 
 interface ModelInnequinProps {
   isLoaded: boolean;
@@ -30,15 +30,11 @@ interface ModelInnequinProps {
 
 function ModelInnequin(props: ModelInnequinProps) {
   const configRef = useRef<InnequinConfiguration>();
-  const innequinRef = useRef<Innequin>(null!);
+  const innequinRef = useRef<Innequin>();
   const skinNameInitialRef = useRef<string>(props.skinName || 'WOOD1');
 
-  const [defaultEmotion, setDefaultEmotion] = useState<EmotionBehaviorCode>(
-    null!,
-  );
-  const [emotion, setEmotion] = useState<EmotionBehaviorCode>(null!);
+  const [emotion, setEmotion] = useState<EmotionBehaviorCode>();
   const [isLoaded, setIsLoaded] = useState(false);
-  const [skins, setSkins] = useState<{ [key: string]: SkinType }>(null!);
 
   const { emotionEvent, name, open, phonemes, state } = useInworld();
   const { cursor, setCursor } = useUI();
@@ -73,7 +69,12 @@ function ModelInnequin(props: ModelInnequinProps) {
   }, [props.isLoaded]);
 
   useEffect(() => {
-    if (isLoaded && emotionEvent && name === props.name) {
+    if (
+      isLoaded &&
+      emotionEvent &&
+      name === props.name &&
+      innequinRef.current
+    ) {
       setEmotion(emotionEvent.behavior.code);
       innequinRef.current.setEmotion(emotionEvent.behavior.code);
       if (props.onChangeEmotion)
@@ -82,22 +83,23 @@ function ModelInnequin(props: ModelInnequinProps) {
   }, [name, isLoaded, emotionEvent]);
 
   useEffect(() => {
-    if (isLoaded && phonemes && name === props.name) {
+    if (isLoaded && phonemes && name === props.name && innequinRef.current) {
       innequinRef.current.setPhonemes(phonemes);
     }
   }, [name, isLoaded, phonemes]);
 
-  const onClick = useCallback((e: any) => {
+  const onClick = useCallback((e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
+    if (!open) return;
     if (state !== STATE_INIT) return;
-    // console.log("ModelInnequin: onClick");
+    log('ModelInnequin: onClick');
     const options: any = { name: props.name! };
     if (props.characterId) options.characterId = props.characterId;
     open(options);
     if (props.onClick && props.name) {
       props.onClick(props.name);
     }
-    if (props.onChangeEmotion) props.onChangeEmotion(emotion);
+    if (props.onChangeEmotion && emotion) props.onChangeEmotion(emotion);
   }, []);
 
   const onLoadInnequin = useCallback(
@@ -107,8 +109,6 @@ function ModelInnequin(props: ModelInnequinProps) {
         props.setConfig(config);
       }
       if (innequinRef.current && innequinRef.current.getModel()) {
-        setSkins(config.innequin.skins);
-        setDefaultEmotion(config.innequin.defaults.EMOTION);
         setEmotion(config.innequin.defaults.EMOTION);
         if (props.onChangeEmotion)
           props.onChangeEmotion(config.innequin.defaults.EMOTION);
@@ -119,7 +119,7 @@ function ModelInnequin(props: ModelInnequinProps) {
   );
 
   const onOut = useCallback(
-    (e: any) => {
+    (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
       if (setCursor && cursor === Cursors.Pointer) setCursor(Cursors.Auto);
     },
@@ -127,7 +127,7 @@ function ModelInnequin(props: ModelInnequinProps) {
   );
 
   const onOver = useCallback(
-    (e: any) => {
+    (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
       if (setCursor) setCursor(Cursors.Pointer);
     },
@@ -135,8 +135,7 @@ function ModelInnequin(props: ModelInnequinProps) {
   );
 
   const onProgressInnequin = useCallback((progress: number) => {
-    // console.log("ModelInnequin onProgressInnequin", progress);
-    //   if (setLoadingPercent) setLoadingPercent(progress);
+    log('ModelInnequin onProgressInnequin', progress);
   }, []);
 
   useFrame((state, delta) => {
@@ -147,7 +146,7 @@ function ModelInnequin(props: ModelInnequinProps) {
 
   return (
     <>
-      {isLoaded && (
+      {isLoaded && innequinRef.current && (
         <>
           <group
             position={props.position || new Vector3(0, 0, 0)}
@@ -162,13 +161,6 @@ function ModelInnequin(props: ModelInnequinProps) {
               castShadow
               receiveShadow
             />
-            {/* <ClickableCube
-              length={0.5}
-              width={1.7}
-              height={0.5}
-              position={new Vector3(0, 0.85, 0)}
-              onClick={onClick}
-            /> */}
           </group>
         </>
       )}

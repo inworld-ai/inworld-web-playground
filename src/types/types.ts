@@ -55,13 +55,6 @@ export type ThreejsConfiguration = {
   WORLD_SETTINGS: ConfigurationWorld;
 };
 
-// Defines the name of the type of Clickable object
-export const Clickable = {
-  Cube: 'ClickableCube',
-  Cylinder: 'ClickableCube',
-  Sphere: 'ClickableSphere',
-};
-
 export interface EmotionsMap {
   [key: string]: EmotionEvent;
 }

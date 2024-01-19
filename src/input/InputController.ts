@@ -1,3 +1,5 @@
+import { log } from '../utils/log';
+
 interface CurrentProps {
   leftButton: boolean;
   rightButton: boolean;
@@ -70,14 +72,14 @@ export class InputController {
   }
 
   onContextMenu(e: MouseEvent) {
-    // console.log('onContextMenu');
+    log('onContextMenu');
     e.preventDefault();
   }
 
   onMouseDown(e: MouseEvent) {
     switch (e.button) {
       case 0: {
-        // console.log("onMouseDown")
+        log('onMouseDown');
         this.current.pointX = (e.clientX / window.innerWidth) * 2 - 1;
         this.current.pointY = -(e.clientY / window.innerHeight) * 2 + 1;
         this.current.leftButton = true;
@@ -119,7 +121,7 @@ export class InputController {
   }
 
   onKeyDown(e: KeyboardEvent) {
-    // console.log('onKeyDown', e.key);
+    log('onKeyDown', e.key);
     this.keys[e.key] = true;
   }
 

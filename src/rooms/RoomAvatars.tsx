@@ -24,7 +24,7 @@ function RoomAvatars(props: RoomAvatarsProps) {
   const { sendTrigger, state } = useInworld();
 
   useEffect(() => {
-    if (state === STATE_OPEN) {
+    if (state === STATE_OPEN && sendTrigger) {
       sendTrigger(TRIGGER_WELCOME);
     }
   }, [state]);

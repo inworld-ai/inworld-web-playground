@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Euler, Vector3 } from 'three';
 
 import { STATE_OPEN, useInworld } from '../contexts/InworldProvider';
@@ -18,13 +18,11 @@ function RoomLobby(props: RoomLobbyProps) {
 
   const { sendTrigger, state } = useInworld();
 
-  const onClick = useCallback((name: string) => {}, []);
-
   useEffect(() => {
-    if (state === STATE_OPEN) {
+    if (state === STATE_OPEN && sendTrigger) {
       sendTrigger(TRIGGER_WELCOME);
     }
-  }, [state]);
+  }, [state, sendTrigger]);
 
   return (
     <>
@@ -39,7 +37,6 @@ function RoomLobby(props: RoomLobbyProps) {
             characterId={CHARACTER_ID}
             isLoaded={props.isLoaded}
             position={new Vector3(0, 0, -5)}
-            onClick={onClick}
           />
         </group>
       </RoomBase>

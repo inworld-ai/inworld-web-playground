@@ -28,12 +28,13 @@ function ModelSphere(props: ModelSphereProps) {
 
   const onClick = useCallback((e: any) => {
     e.stopPropagation();
-    if (state !== STATE_INIT) return;
-    const options: any = { name: props.name! };
-    if (props.characterId) options.characterId = props.characterId;
-    open(options);
-    if (props.onClick && props.name) {
-      props.onClick(props.name);
+    if (state === STATE_INIT && open) {
+      const options: any = { name: props.name! };
+      if (props.characterId) options.characterId = props.characterId;
+      open(options);
+      if (props.onClick && props.name) {
+        props.onClick(props.name);
+      }
     }
   }, []);
 

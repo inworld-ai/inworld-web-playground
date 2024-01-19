@@ -5,7 +5,6 @@ import { Canvas } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 
 import { CameraCore } from '../camera/CameraCore';
-import { useInworld } from '../contexts/InworldProvider';
 import {
   ROOM_ANIMATIONS,
   ROOM_AVATARS,
@@ -25,24 +24,24 @@ import RoomAvatars from '../rooms/RoomAvatars';
 import RoomEmotions from '../rooms/RoomEmotions';
 import RoomGoals from '../rooms/RoomGoals';
 import RoomLobby from '../rooms/RoomLobby';
+import { log } from '../utils/log';
 
 function Scene() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [inputController, setInputController] = useState<InputController>();
   const [cameraCore, setCameraCore] = useState<CameraCore>();
 
-  const { close, state } = useInworld();
   const { room } = useRooms();
   const { cursor } = useUI();
 
   useEffect(() => {
-    // console.log("Scene init");
+    log('Scene init');
     setIsLoaded(true);
   });
 
   useEffect(() => {
     if (isLoaded) {
-      // console.log("Scene Loading");
+      log('Scene Loading');
       setInputController(new InputController());
       setCameraCore(new CameraCore());
     }
@@ -59,7 +58,6 @@ function Scene() {
       >
         <Background />
         <Lighting />
-        {/* <Shadows /> */}
         <Ground />
         <Stats />
         {room === ROOM_LOBBY && <RoomLobby name="LOBBY" isLoaded={isLoaded} />}
@@ -73,8 +71,6 @@ function Scene() {
           <RoomEmotions name="EMOTIONS" isLoaded={isLoaded} />
         )}
         {room === ROOM_GOALS && <RoomGoals name="GOALS" isLoaded={isLoaded} />}
-
-        {/* <ModelWorld inputController={inputController} isLoaded={isLoaded} /> */}
         <PlayerController
           cameraCore={cameraCore}
           inputController={inputController}

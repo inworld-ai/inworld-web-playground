@@ -6,6 +6,8 @@ import {
   useState,
 } from 'react';
 
+import { log } from '../utils/log';
+
 interface CurrentProps {
   leftButton: boolean;
   rightButton: boolean;
@@ -21,9 +23,8 @@ interface InputContextValues {
   current: CurrentProps;
   previous: CurrentProps | null;
   keys: IKeyType;
-  previousKeys: IKeyType;
   hasMoved: boolean;
-  updateInput: Function | null;
+  updateInput: { (): void } | null;
 }
 
 type IKeyType = { [key: string]: any };
@@ -41,14 +42,13 @@ const InputContext = createContext<InputContextValues>({
   },
   previous: null,
   keys: {},
-  previousKeys: {},
   hasMoved: false,
   updateInput: null,
 });
 
 const useInput = () => useContext(InputContext);
 
-function InputProvider({ children, ...props }: any) {
+function InputProvider({ children }: any) {
   const [current, setCurrent] = useState({
     leftButton: false,
     rightButton: false,
@@ -62,7 +62,6 @@ function InputProvider({ children, ...props }: any) {
   });
   const [previous, setPrevious] = useState<CurrentProps | null>(null);
   const [keys, setKeys] = useState({});
-  const [previousKeys, setPreviousKeys] = useState({});
   const [hasMoved, setHasMoved] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -99,7 +98,7 @@ function InputProvider({ children, ...props }: any) {
   }, [loaded]);
 
   const onContextMenu = useCallback((e: MouseEvent) => {
-    // console.log("onContextMenu");
+    log('onContextMenu');
     e.preventDefault();
   }, []);
 
@@ -109,7 +108,7 @@ function InputProvider({ children, ...props }: any) {
 
       switch (e.button) {
         case 0: {
-          // console.log("onMouseDown Left");
+          log('onMouseDown Left');
           state.pointX = (e.clientX / window.innerWidth) * 2 - 1;
           state.pointY = -(e.clientY / window.innerHeight) * 2 + 1;
           state.leftButton = true;
@@ -117,7 +116,7 @@ function InputProvider({ children, ...props }: any) {
           break;
         }
         case 2: {
-          // console.log("onMouseDown Right");
+          log('onMouseDown Right');
           state.rightButton = true;
           setCurrent(state);
           break;
@@ -199,7 +198,7 @@ function InputProvider({ children, ...props }: any) {
 
   return (
     <InputContext.Provider
-      value={{ current, previous, keys, previousKeys, hasMoved, updateInput }}
+      value={{ current, previous, keys, hasMoved, updateInput }}
     >
       {children}
     </InputContext.Provider>

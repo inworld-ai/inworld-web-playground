@@ -18,8 +18,8 @@ import {
 
 import { InworldService } from '../inworld/InworldService';
 import { Cursors } from '../types/cursors';
-import { EmotionsMap } from '../types/types';
 import { Config } from '../utils/config';
+import { log } from '../utils/log';
 import { useUI } from './UIProvider';
 
 export const STATE_ACTIVE = 'state_active';
@@ -27,12 +27,10 @@ export const STATE_ERROR = 'state_error';
 export const STATE_INIT = 'state_init';
 export const STATE_OPENING = 'state_opening';
 export const STATE_OPEN = 'state_open';
-// export const STATE_READY: string = "state_ready";
 
 interface InworldContextValues {
-  close: () => void;
+  close: { (): void } | null;
   character: Character | undefined;
-  // characterId: string | undefined;
   characters: Character[];
   chatHistory: HistoryItem[];
   chatting: boolean;
@@ -40,18 +38,15 @@ interface InworldContextValues {
   emotionEvent: EmotionEvent | undefined;
   isRecording: boolean;
   name: string | undefined;
-  open: (props: OpenConnectionType) => void;
+  open: { (props: OpenConnectionType): void } | null;
   phonemes: AdditionalPhonemeInfo[];
   prevChatHistory: HistoryItem[];
-  prevTranscripts: string[];
-  sendText: (text: string) => void;
-  sendTrigger: (
-    text: string,
-    parameters?: TriggerParameter[] | undefined,
-  ) => void;
-  // setCharacterId: Dispatch<SetStateAction<string>> | null;
-  startRecording: () => void;
-  stopRecording: () => void;
+  sendText: { (text: string): void } | null;
+  sendTrigger: {
+    (text: string, parameters?: TriggerParameter[] | undefined): void;
+  } | null;
+  startRecording: { (): void } | null;
+  stopRecording: { (): void } | null;
   state: string;
   triggerEvent: TriggerEvent | undefined;
 }
@@ -63,9 +58,8 @@ type OpenConnectionType = {
 };
 
 const InworldContext = createContext<InworldContextValues>({
-  close: () => {},
+  close: null,
   character: undefined,
-  // characterId: "",
   characters: [],
   chatHistory: [],
   chatting: false,
@@ -73,41 +67,34 @@ const InworldContext = createContext<InworldContextValues>({
   emotionEvent: undefined,
   isRecording: false,
   name: '',
-  open: () => {},
+  open: null,
   phonemes: [],
   prevChatHistory: [],
-  prevTranscripts: [],
-  sendText: () => {},
-  sendTrigger: () => {},
-  // setCharacterId: null,
-  startRecording: () => {},
-  stopRecording: () => {},
+  sendText: null,
+  sendTrigger: null,
+  startRecording: null,
+  stopRecording: null,
   state: STATE_INIT,
   triggerEvent: undefined,
 });
 
 const useInworld = () => useContext(InworldContext);
 
-function InworldProvider({ children, ...props }: any) {
-  // console.log('InworldProvider Init');
-
+function InworldProvider({ children }: any) {
+  log('InworldProvider Init');
   const [connection, setConnection] = useState<
     InworldConnectionService | undefined
-  >(undefined!);
-  const [character, setCharacter] = useState<Character | undefined>(undefined!);
-  // const [characterId, setCharacterId] = useState<string>();
+  >();
+  const [character, setCharacter] = useState<Character | undefined>();
   const [characters, setCharacters] = useState<Character[]>([]);
   const [chatHistory, setChatHistory] = useState<HistoryItem[]>([]);
   const [chatting, setChatting] = useState(false);
-  // TODO What is this for?
-  const [emotions, setEmotions] = useState<EmotionsMap>({});
   const [emotionEvent, setEmotionEvent] = useState<EmotionEvent>();
   const [hasPlayedWorkaroundSound, setHasPlayedWorkaroundSound] =
     useState(false);
   const [name, setName] = useState<string>();
   const [phonemes, setPhonemes] = useState<AdditionalPhonemeInfo[]>([]);
   const [prevChatHistory, setPrevChatHistory] = useState<HistoryItem[]>([]);
-  const [prevTranscripts, setPrevTranscripts] = useState<string[]>([]);
   const [isRecording, setIsRecording] = useState(false);
   const [state, setState] = useState<string>(STATE_INIT);
   const [triggerEvent, setTriggerEvent] = useState<TriggerEvent>();
@@ -115,7 +102,7 @@ function InworldProvider({ children, ...props }: any) {
   const { setCursor } = useUI();
 
   useEffect(() => {
-    // console.log("InworldProvider: state", state);
+    log('InworldProvider: state', state);
     if (setCursor) {
       if (state === STATE_OPENING) {
         setCursor(Cursors.Wait);
@@ -156,25 +143,11 @@ function InworldProvider({ children, ...props }: any) {
 
   const open = useCallback(
     async (props: OpenConnectionType) => {
-      // console.log("InworldProvider: open");
+      log('InworldProvider: open');
       setState(STATE_OPENING);
       setName(props.name);
-      //   TODO Add duration and previous state
-      //   const currentTranscript = connection?.getTranscript() || '';
-      //   setPrevTranscripts([
-      //     ...prevTranscripts,
-      //     ...(currentTranscript ? [currentTranscript] : []),
-      //   ]);
-      //   setPrevChatHistory([...prevChatHistory, ...chatHistory]);
       setChatHistory([]);
       setChatting(true);
-
-      //   TODO Add duration and previous state
-      //   const duration = toInt(form.audio.stopDuration ?? 0);
-      //   const ticks = toInt(form.audio.stopTicks ?? 0);
-      //   const previousDialog = form.continuation?.enabled
-      //     ? JSONToPreviousDialog(form.continuation.previousDialog!)
-      //     : [];
 
       const service = new InworldService({
         onHistoryChange,
@@ -184,26 +157,17 @@ function InworldProvider({ children, ...props }: any) {
           emotions: true,
           narratedActions: true,
         },
-        //    TODO Add duration and previous state
-        // ...(previousDialog.length && { continuation: { previousDialog } }),
-        // ...(previousState && { continuation: { previousState } }),
-        // ...(duration &&
-        //   ticks && {
-        //     audioPlayback: {
-        //       stop: { duration, ticks },
-        //     },
-        //   }),
         sceneName: Config.INWORLD.sceneId,
         playerName: 'Friend',
         onPhoneme: (phonemes: AdditionalPhonemeInfo[]) => {
           setPhonemes(phonemes);
         },
         onReady: () => {
-          console.log('Active!');
+          log('Active!');
           setState(STATE_ACTIVE);
         },
         onDisconnect: () => {
-          console.log('Disconnect!');
+          log('Disconnect!');
           setState(STATE_OPEN);
         },
         onMessage: (inworldPacket: InworldPacket) => {
@@ -213,10 +177,6 @@ function InworldProvider({ children, ...props }: any) {
             inworldPacket.packetId?.interactionId
           ) {
             setEmotionEvent(inworldPacket.emotions);
-            setEmotions((currentState) => ({
-              ...currentState,
-              [inworldPacket.packetId.interactionId]: inworldPacket.emotions,
-            }));
           } else if (
             inworldPacket.isTrigger() &&
             inworldPacket.packetId?.interactionId
@@ -225,10 +185,10 @@ function InworldProvider({ children, ...props }: any) {
           }
         },
         onError: (err: Error) => {
-          console.log('InworldProvider: onError', err);
+          log('InworldProvider: onError', err);
         },
       });
-      console.log('InworldProvider - Opening Connection');
+      log('InworldProvider - Opening Connection');
       const characters = await service.connection.getCharacters();
       const character = characters.find(
         (c: Character) =>
@@ -236,7 +196,7 @@ function InworldProvider({ children, ...props }: any) {
           (props.characterId ? props.characterId : Config.INWORLD.characterId),
       );
 
-      console.log('InworldProvider - Getting Scene Characters');
+      log('InworldProvider - Getting Scene Characters');
       if (character) {
         service.connection.setCurrentCharacter(character);
       }
@@ -245,15 +205,9 @@ function InworldProvider({ children, ...props }: any) {
       setCharacter(character);
       setCharacters(characters);
       setState(STATE_OPEN);
-      console.log('InworldProvider - Connected');
+      log('InworldProvider - Connected');
     },
-    [
-      chatHistory,
-      connection,
-      onHistoryChange,
-      prevChatHistory,
-      prevTranscripts,
-    ],
+    [chatHistory, connection, onHistoryChange, prevChatHistory],
   );
 
   const playWorkaroundSound = useCallback(() => {
@@ -316,7 +270,6 @@ function InworldProvider({ children, ...props }: any) {
       value={{
         chatting,
         character,
-        // characterId,
         characters,
         chatHistory,
         close,
@@ -327,10 +280,8 @@ function InworldProvider({ children, ...props }: any) {
         open,
         phonemes,
         prevChatHistory,
-        prevTranscripts,
         sendText,
         sendTrigger,
-        // setCharacterId,
         startRecording,
         stopRecording,
         state,

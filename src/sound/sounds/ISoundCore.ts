@@ -1,5 +1,5 @@
 export interface ISoundCore {
-  pause: Function;
-  play: Function;
-  stop: Function;
+  pause: { (): void };
+  play: { (): void };
+  stop: { (): void };
 }

@@ -25,7 +25,6 @@ function RoomGoals(props: RoomGoalsProps) {
   const TRIGGER_DEMO_PARAMETERS = 'demo_parameters';
   const TRIGGER_EXPLAIN_DYNAMIC_DATA_RETRIEVAL =
     'explain_dynamic_data_retrieval';
-  const TRIGGER_EXPLAIN_ENABLE_DISABLE = 'explain_enable_disable';
   const TRIGGER_EXPLAIN_INTENTS = 'explain_intents';
   const TRIGGER_EXPLAIN_PARAMETERS = 'explain_parameters';
   const TRIGGER_EXPLAIN_MUTATIONS = 'explain_mutations';
@@ -44,9 +43,7 @@ function RoomGoals(props: RoomGoalsProps) {
 
   const { sendTrigger, state, triggerEvent } = useInworld();
 
-  const onClick = useCallback((name: string) => {}, []);
-
-  const goalsCtl = useControls(
+  useControls(
     'Goals and Actions',
     goalsOptions,
     {
@@ -55,7 +52,7 @@ function RoomGoals(props: RoomGoalsProps) {
     [goalsOptions],
   );
 
-  const mutationCtl = useControls(
+  useControls(
     'Mutation',
     mutationOptions,
     {
@@ -64,7 +61,7 @@ function RoomGoals(props: RoomGoalsProps) {
     [mutationOptions],
   );
 
-  const triggerCtl = useControls(
+  useControls(
     'Triggers with Parameters',
     triggersOptions,
     {
@@ -112,9 +109,11 @@ function RoomGoals(props: RoomGoalsProps) {
       value: '',
       onChange: (characterName: string) => {
         if (!characterName) return;
-        sendTrigger(TRIGGER_SET_CHARACTER_NAME, [
-          { name: 'character_name', value: characterName },
-        ]);
+        if (sendTrigger) {
+          sendTrigger(TRIGGER_SET_CHARACTER_NAME, [
+            { name: 'character_name', value: characterName },
+          ]);
+        }
       },
     },
   };
@@ -124,10 +123,11 @@ function RoomGoals(props: RoomGoalsProps) {
       options: ['Dogs', 'Cats', 'Horses', 'Birds'],
       value: '',
       onChange: (animalName: string) => {
-        if (!animalName) return;
-        sendTrigger(TRIGGER_DEMO_PARAMETERS, [
-          { name: 'animal', value: animalName },
-        ]);
+        if (animalName && sendTrigger) {
+          sendTrigger(TRIGGER_DEMO_PARAMETERS, [
+            { name: 'animal', value: animalName },
+          ]);
+        }
       },
     },
   };
@@ -140,7 +140,7 @@ function RoomGoals(props: RoomGoalsProps) {
   }, [dataRef.current]);
 
   useEffect(() => {
-    if (state === STATE_OPEN) {
+    if (state === STATE_OPEN && sendTrigger) {
       sendTrigger(TRIGGER_WELCOME);
     }
     if (state === STATE_ACTIVE) {
@@ -153,17 +153,18 @@ function RoomGoals(props: RoomGoalsProps) {
   }, [state]);
 
   useEffect(() => {
-    if (!currentGoal) return;
-    sendTrigger(currentGoal);
-    if (currentGoal === TRIGGER_EXPLAIN_PARAMETERS) {
-      setTriggersOptions(triggersMenu);
-    } else {
-      setTriggersOptions({});
-    }
-    if (currentGoal === TRIGGER_EXPLAIN_MUTATIONS) {
-      setMutationOptions(mutationMenu);
-    } else {
-      setMutationOptions({});
+    if (currentGoal && sendTrigger) {
+      sendTrigger(currentGoal);
+      if (currentGoal === TRIGGER_EXPLAIN_PARAMETERS) {
+        setTriggersOptions(triggersMenu);
+      } else {
+        setTriggersOptions({});
+      }
+      if (currentGoal === TRIGGER_EXPLAIN_MUTATIONS) {
+        setMutationOptions(mutationMenu);
+      } else {
+        setMutationOptions({});
+      }
     }
   }, [currentGoal]);
 
@@ -177,13 +178,15 @@ function RoomGoals(props: RoomGoalsProps) {
       const cityPopulation = dataRef.current?.data[cityName].population;
       console.log('Get Population', cityName, cityPopulation);
       setTimeout(() => {
-        sendTrigger(TRIGGER_PROVIDE_POPULATION, [
-          { name: 'city', value: cityName },
-          {
-            name: 'population',
-            value: cityPopulation,
-          },
-        ]);
+        if (sendTrigger) {
+          sendTrigger(TRIGGER_PROVIDE_POPULATION, [
+            { name: 'city', value: cityName },
+            {
+              name: 'population',
+              value: cityPopulation,
+            },
+          ]);
+        }
       }, 2000);
     }
   }, [triggerEvent]);
@@ -207,7 +210,6 @@ function RoomGoals(props: RoomGoalsProps) {
             skinName={SKIN_INNEQUIN}
             isLoaded={props.isLoaded}
             position={new Vector3(0, 0, -5)}
-            onClick={onClick}
           />
         </group>
       </RoomBase>

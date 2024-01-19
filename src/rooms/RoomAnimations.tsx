@@ -37,19 +37,13 @@ function RoomAnimations(props: RoomAnimationsProps) {
   const { name, sendTrigger, state } = useInworld();
   const { setLabel1 } = useUI();
 
-  const emotionsCtl = useControls(
-    'Emotions',
+  useControls('Emotions', emotionOptions, { collapsed: false }, [
     emotionOptions,
-    { collapsed: false },
-    [emotionOptions],
-  );
+  ]);
 
-  const animationsCtl = useControls(
-    'Animations',
+  useControls('Animations', animationOptions, { collapsed: false }, [
     animationOptions,
-    { collapsed: false },
-    [animationOptions],
-  );
+  ]);
 
   useEffect(() => {
     if (!activeCharacter) return;
@@ -77,10 +71,10 @@ function RoomAnimations(props: RoomAnimationsProps) {
   }, [animationCurrent, emotionCurrent]);
 
   useEffect(() => {
-    if (state === STATE_OPEN) {
+    if (state === STATE_OPEN && sendTrigger) {
       sendTrigger(TRIGGER_WELCOME);
     }
-  }, [state]);
+  }, [state, sendTrigger]);
 
   const onUpdateMenus = useCallback(() => {
     let animations: any;

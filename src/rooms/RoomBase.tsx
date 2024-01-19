@@ -1,21 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useRooms } from '../contexts/RoomsProvider';
+import { log } from '../utils/log';
 
 export type RoomBaseProps = {
   name: string;
 };
 
 function RoomBase(props: any) {
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const { room, setRoom, setUILabel } = useRooms();
+  const { setUILabel } = useRooms();
 
   useEffect(() => {
-    // console.log("Room init:", props.name);
+    log('Room init:', props.name);
     if (setUILabel) setUILabel(props.name);
     return () => {
-      // console.log("Room destroy:", props.name);
+      log('Room destroy:', props.name);
     };
   }, []);
 

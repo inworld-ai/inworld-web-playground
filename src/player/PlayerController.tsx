@@ -14,6 +14,7 @@ import {
 import { InputController } from '../input/InputController';
 import { SoundController } from '../sound/SoundController';
 import { SOUND_FOOTSTEPS } from '../sound/SoundIDs';
+import { log } from '../utils/log';
 
 interface PlayerControllerProps {
   cameraCore: CameraCore;
@@ -35,7 +36,7 @@ function PlayerController(props: PlayerControllerProps) {
 
   useEffect(() => {
     if (props.isLoaded && !loaded) {
-      // console.log("PlayerController Init");
+      log('PlayerController Init');
       setFPSCamera(
         new FirstPersonCamera(props.cameraCore, props.inputController),
       );
@@ -55,7 +56,8 @@ function PlayerController(props: PlayerControllerProps) {
     }
   }, [soundController, stateSystem]);
 
-  useFrame((fstate, delta) => {
+  useFrame(() => {
+    // fstate, delta
     props.inputController.update();
     // Check if the user pressed the escape key. If so pause the game.
     if (props.inputController.keys['Escape'] && !escClick) {

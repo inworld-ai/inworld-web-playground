@@ -1,13 +1,14 @@
 import { PerspectiveCamera } from 'three';
 
 import { Config } from '../utils/config';
+import { log } from '../utils/log';
 
 // This class is the core camera class handling initial positioning and targeting.
 export class CameraCore {
   camera: PerspectiveCamera;
 
   constructor() {
-    // console.log('CameraCore Init');
+    log('CameraCore Created');
     this.camera = new PerspectiveCamera(
       Config.THREEJS.CAMERA_SETTINGS.FOV,
       window.innerWidth / window.innerHeight,
@@ -23,14 +24,10 @@ export class CameraCore {
       Config.THREEJS.CAMERA_SETTINGS.POS_Y,
       Config.THREEJS.CAMERA_SETTINGS.POS_Z,
     );
-    window.addEventListener(
-      'resize',
-      (e: UIEvent) => this.onWindowResize(e),
-      false,
-    );
+    window.addEventListener('resize', () => this.onWindowResize(), false);
   }
 
-  onWindowResize(e: UIEvent) {
+  onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
   }

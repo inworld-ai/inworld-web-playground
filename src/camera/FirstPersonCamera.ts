@@ -3,6 +3,7 @@ import { clamp } from 'three/src/math/MathUtils';
 
 import { InputController } from '../input/InputController';
 import { Config } from '../utils/config';
+import { log } from '../utils/log';
 import { CameraCore } from './CameraCore';
 
 // This class handles the simulating movement of the camera from a first person perspective.
@@ -21,7 +22,7 @@ export class FirstPersonCamera {
   jumpVelocity: number;
 
   constructor(cameraCore: CameraCore, inputController: InputController) {
-    // console.log('FirstPersonCamera Init');
+    log('FirstPersonCamera Created');
     this.cameraCore = cameraCore;
     this.inputController = inputController;
     this.rotation = new Quaternion();
@@ -34,20 +35,17 @@ export class FirstPersonCamera {
     this.headBobTimer = 0;
     this.jumpActive = false;
     this.jumpVelocity = 0;
-    this.init();
   }
 
-  init() {}
-
   update(deltaS: number) {
-    this.updateRotation(deltaS);
+    this.updateRotation();
     this.updateTranslation(deltaS);
     this.updateHeadBob(deltaS);
     this.updateJump(deltaS);
-    this.updateCamera(deltaS);
+    this.updateCamera();
   }
 
-  updateCamera(deltaS: number) {
+  updateCamera() {
     this.cameraCore.camera.quaternion.copy(this.rotation);
     this.cameraCore.camera.position.copy(this.translation);
     this.cameraCore.camera.position.y =
@@ -61,6 +59,7 @@ export class FirstPersonCamera {
     }
   }
 
+  // Update camera position based on walking
   updateHeadBob(deltaS: number) {
     if (this.headBobActive) {
       const wavelength = Math.PI;
@@ -74,6 +73,7 @@ export class FirstPersonCamera {
     }
   }
 
+  // Update camera position based on jumping
   updateJump(deltaS: number) {
     if (this.jumpActive) {
       this.jumpVelocity -= Config.THREEJS.PLAYER_SETTINGS.GRAVITY * deltaS;
@@ -85,7 +85,7 @@ export class FirstPersonCamera {
   }
 
   // Update camera rotation based on mouse
-  updateRotation(deltaS: number) {
+  updateRotation() {
     const xh = this.inputController.current.mouseXDelta / window.innerWidth;
     const yh = this.inputController.current.mouseYDelta / window.innerHeight;
 

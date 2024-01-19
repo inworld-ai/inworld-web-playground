@@ -16,16 +16,16 @@ function ChatScreen() {
   const [text, onChangeText] = useState('');
 
   const onPressSend = useCallback(() => {
-    if (text !== '') {
+    if (text !== '' && sendText) {
       sendText(text);
       onChangeText('');
     }
   }, [text]);
 
   const onPressRec = useCallback(() => {
-    if (!isRecording) {
+    if (!isRecording && startRecording) {
       startRecording();
-    } else {
+    } else if (stopRecording) {
       stopRecording();
     }
   }, [isRecording]);
@@ -41,7 +41,7 @@ function ChatScreen() {
 
   return (
     <>
-      {(state === STATE_OPEN || state === STATE_ACTIVE) && (
+      {(state === STATE_OPEN || state === STATE_ACTIVE) && close && (
         <Container className="containerChat">
           <Stack className="stackChat" direction="column" spacing={2}>
             <Stack className="stackChatInput" direction="row" spacing={2}>

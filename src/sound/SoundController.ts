@@ -1,6 +1,7 @@
 import { AudioListener } from 'three';
 
 import { CameraCore } from '../camera/CameraCore';
+import { log } from '../utils/log';
 import { SOUND_FOOTSTEPS, SOUND_JUMP } from './SoundIDs';
 import { ISoundCore } from './sounds/ISoundCore';
 import { SoundFootStep } from './sounds/SoundFootStep';
@@ -39,8 +40,7 @@ export class SoundController {
   }
 
   init() {
-    // console.log('SoundController init');
-    // this.soundTuner[SOUND_AMBIENT] = { state: SoundState.ON, sound: new SoundAmbient(this.audioListener) };
+    log('SoundController init');
     this.soundTuner[SOUND_FOOTSTEPS] = {
       state: SoundState.OFF,
       sound: new SoundFootStep(this.audioListener),

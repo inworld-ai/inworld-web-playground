@@ -4,7 +4,7 @@ import {
   RPMBodyEmotionToBehavior,
   RPMConfiguration,
 } from '@inworld/web-threejs';
-import { useFrame } from '@react-three/fiber';
+import { ThreeEvent, useFrame } from '@react-three/fiber';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Euler, Vector3 } from 'three';
 
@@ -12,6 +12,7 @@ import { STATE_INIT, useInworld } from '../contexts/InworldProvider';
 import { useUI } from '../contexts/UIProvider';
 import { Cursors } from '../types/cursors';
 import { Config } from '../utils/config';
+import { log } from '../utils/log';
 
 interface ModelRPMProps {
   isLoaded: boolean;
@@ -28,12 +29,9 @@ interface ModelRPMProps {
 
 function ModelRPM(props: ModelRPMProps) {
   const configRef = useRef<RPMConfiguration>();
-  const rpmRef = useRef<RPM>(null!);
+  const rpmRef = useRef<RPM>();
 
-  const [defaultEmotion, setDefaultEmotion] = useState<EmotionBehaviorCode>(
-    null!,
-  );
-  const [emotion, setEmotion] = useState<EmotionBehaviorCode>(null!);
+  const [emotion, setEmotion] = useState<EmotionBehaviorCode>();
   const [isLoaded, setIsLoaded] = useState(false);
 
   const { emotionEvent, name, open, phonemes, state } = useInworld();
@@ -68,7 +66,7 @@ function ModelRPM(props: ModelRPMProps) {
   }, [props.isLoaded]);
 
   useEffect(() => {
-    if (isLoaded && emotionEvent && name === props.name) {
+    if (isLoaded && emotionEvent && name === props.name && rpmRef.current) {
       setEmotion(emotionEvent.behavior.code);
       rpmRef.current.setEmotion(emotionEvent.behavior.code);
       if (props.onChangeEmotion)
@@ -77,22 +75,25 @@ function ModelRPM(props: ModelRPMProps) {
   }, [isLoaded, emotionEvent]);
 
   useEffect(() => {
-    if (isLoaded && phonemes && name === props.name) {
+    if (isLoaded && phonemes && name === props.name && rpmRef.current) {
       rpmRef.current.setPhonemes(phonemes);
     }
   }, [isLoaded, phonemes]);
 
-  const onClick = useCallback((e: any) => {
-    e.stopPropagation();
-    if (state !== STATE_INIT) return;
-    const options: any = { name: props.name! };
-    if (props.characterId) options.characterId = props.characterId;
-    open(options);
-    if (props.onClick && props.name) {
-      props.onClick(props.name);
-    }
-    if (props.onChangeEmotion) props.onChangeEmotion(emotion);
-  }, []);
+  const onClick = useCallback(
+    (e: ThreeEvent<PointerEvent>) => {
+      e.stopPropagation();
+      if (state !== STATE_INIT) return;
+      const options: any = { name: props.name! };
+      if (props.characterId) options.characterId = props.characterId;
+      if (open) open(options);
+      if (props.onClick && props.name) {
+        props.onClick(props.name);
+      }
+      if (props.onChangeEmotion && emotion) props.onChangeEmotion(emotion);
+    },
+    [emotion, state],
+  );
 
   const onLoadRPM = useCallback(
     (config: RPMConfiguration) => {
@@ -101,7 +102,6 @@ function ModelRPM(props: ModelRPMProps) {
         props.setConfig(config);
       }
       if (rpmRef.current && rpmRef.current.getModel()) {
-        setDefaultEmotion(config.rpm.defaults.EMOTION);
         setEmotion(config.rpm.defaults.EMOTION);
         if (props.onChangeEmotion)
           props.onChangeEmotion(config.rpm.defaults.EMOTION);
@@ -111,19 +111,18 @@ function ModelRPM(props: ModelRPMProps) {
     [rpmRef.current],
   );
 
-  const onOut = useCallback((e: any) => {
+  const onOut = useCallback((e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
     if (setCursor) setCursor(Cursors.Auto);
   }, []);
 
-  const onOver = useCallback((e: any) => {
+  const onOver = useCallback((e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
     if (setCursor) setCursor(Cursors.Pointer);
   }, []);
 
   const onProgressRPM = useCallback((progress: number) => {
-    // console.log("ModelRPM onProgressRPM", progress);
-    //   if (setLoadingPercent) setLoadingPercent(progress);
+    log('ModelRPM onProgressRPM', progress);
   }, []);
 
   useFrame((state, delta) => {
@@ -134,7 +133,7 @@ function ModelRPM(props: ModelRPMProps) {
 
   return (
     <>
-      {isLoaded && (
+      {isLoaded && rpmRef.current && (
         <>
           <group
             position={props.position || new Vector3(0, 0, 0)}
@@ -149,13 +148,6 @@ function ModelRPM(props: ModelRPMProps) {
               castShadow
               receiveShadow
             />
-            {/* <ClickableCube
-              length={0.5}
-              width={1.7}
-              height={0.5}
-              position={new Vector3(0, 0.85, 0)}
-              onClick={onClick}
-            /> */}
           </group>
         </>
       )}
