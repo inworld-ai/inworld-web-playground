@@ -54,14 +54,6 @@ function MainHud() {
             direction="column"
           >
             <Typography className="textRoomNameLabel">
-              {/* {label1.split("\n").map((str) => (
-                <>
-                  {str}
-                  <br />
-                </>
-              ))} */}
-              <br />
-              <br />
               Room: {uiLabel}
               <br />
               Character: {name}

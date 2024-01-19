@@ -9,6 +9,7 @@ import {
 } from '../contexts/InworldProvider';
 import ModelInnequin from '../models/ModelInnequin';
 import ModelRPM from '../models/ModelRPM';
+import { log } from '../utils/log';
 import { camelize } from '../utils/strings';
 import RoomBase from './RoomBase';
 
@@ -59,7 +60,7 @@ function RoomEmotions(props: RoomEmotionsProps) {
   const onChangeEmotion = useCallback(
     (emotion: string) => {
       if (!activeCharacter) {
-        console.log('onChangeEmotion:', emotion);
+        log('onChangeEmotion:', emotion);
       }
     },
     [activeCharacter, state],
@@ -91,7 +92,7 @@ function RoomEmotions(props: RoomEmotionsProps) {
 
   const onClickEmotion = useCallback(
     (emotion: string) => {
-      console.log('onClickEmotion:', emotion, state);
+      log('onClickEmotion:', emotion, state);
       if (state !== STATE_OPEN && state !== STATE_ACTIVE) return;
       if (sendTrigger) {
         sendTrigger(

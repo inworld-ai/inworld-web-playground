@@ -67,7 +67,7 @@ function InputProvider({ children }: any) {
 
   useEffect(() => {
     if (loaded) return;
-    // console.log("InputController Init");
+    log('InputController Init');
     document.addEventListener(
       'mousedown',
       (e: MouseEvent) => onMouseDown(e),

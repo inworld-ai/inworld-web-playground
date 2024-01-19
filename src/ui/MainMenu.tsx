@@ -13,6 +13,7 @@ import {
   useRooms,
 } from '../contexts/RoomsProvider';
 import { STATE_RUNNING, useSystem } from '../contexts/SystemProvider';
+import { log } from '../utils/log';
 
 function MainMenu() {
   const STATE_MAIN = 'state_main';
@@ -24,7 +25,7 @@ function MainMenu() {
   const { room, setRoom } = useRooms();
 
   useEffect(() => {
-    // console.log("MainMenu init", state);
+    log('MainMenu init', state);
   }, [stateSystem]);
 
   const onClickPlay = useCallback(() => {

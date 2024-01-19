@@ -171,7 +171,7 @@ function InworldProvider({ children }: any) {
           setState(STATE_OPEN);
         },
         onMessage: (inworldPacket: InworldPacket) => {
-          console.log(inworldPacket);
+          log(inworldPacket);
           if (
             inworldPacket.isEmotion() &&
             inworldPacket.packetId?.interactionId

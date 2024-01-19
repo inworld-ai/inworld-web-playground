@@ -9,6 +9,7 @@ import {
   useInworld,
 } from '../contexts/InworldProvider';
 import ModelInnequin from '../models/ModelInnequin';
+import { log } from '../utils/log';
 import RoomBase from './RoomBase';
 
 export type RoomGoalsProps = {
@@ -176,7 +177,7 @@ function RoomGoals(props: RoomGoalsProps) {
     ) {
       const cityName = triggerEvent.parameters[0].value;
       const cityPopulation = dataRef.current?.data[cityName].population;
-      console.log('Get Population', cityName, cityPopulation);
+      log('Get Population', cityName, cityPopulation);
       setTimeout(() => {
         if (sendTrigger) {
           sendTrigger(TRIGGER_PROVIDE_POPULATION, [

@@ -8,6 +8,7 @@ import { STATE_OPEN, useInworld } from '../contexts/InworldProvider';
 import { useUI } from '../contexts/UIProvider';
 import ModelInnequin from '../models/ModelInnequin';
 import ModelRPM from '../models/ModelRPM';
+import { log } from '../utils/log';
 import { camelize } from '../utils/strings';
 import RoomBase from './RoomBase';
 
@@ -93,7 +94,7 @@ function RoomAnimations(props: RoomAnimationsProps) {
         );
     }
     if (animations) {
-      // console.log("onUpdateMenus:", emotionCurrent);
+      log('onUpdateMenus:', emotionCurrent);
       const keys = Object.keys(animations);
       const emotions = keys
         .map((key) => animations[key].emotion)
@@ -129,14 +130,14 @@ function RoomAnimations(props: RoomAnimationsProps) {
   }, []);
 
   const onChangeEmotion = useCallback((emotion: string) => {
-    // console.log("onChangeEmotion:", emotion);
+    log('onChangeEmotion:', emotion);
     if (!emotion) return;
     setEmotionCurrent(emotion);
   }, []);
 
   const onClick = useCallback(
     (name: string) => {
-      // console.log("RoomAnimations: onClick", name);
+      log('RoomAnimations: onClick', name);
       switch (name) {
         case NAME_INNEQUIN:
         case NAME_RPM:
