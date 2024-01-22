@@ -40,6 +40,11 @@ async function run() {
       ASSETS_VERSION,
     );
     let pass = false;
+
+    const assetsFolderExists = fs.existsSync(ASSETS_FILE_PATH);
+    if (!assetsFolderExists) {
+      fs.mkdirSync(ASSETS_FILE_PATH, { recursive: true });
+    }
     const versionFileExists = fs.existsSync(ASSETS_VERSION_FILE_PATH);
     if (versionFileExists) {
       const fileData = JSON.parse(

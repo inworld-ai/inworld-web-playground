@@ -121,6 +121,7 @@ function ModelInnequin(props: ModelInnequinProps) {
   const onOut = useCallback(
     (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
+      log('ModelInnequin: onOut');
       if (setCursor && cursor === Cursors.Pointer) setCursor(Cursors.Auto);
     },
     [cursor],
@@ -129,6 +130,7 @@ function ModelInnequin(props: ModelInnequinProps) {
   const onOver = useCallback(
     (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
+      log('ModelInnequin: onOver');
       if (setCursor) setCursor(Cursors.Pointer);
     },
     [cursor],
@@ -138,7 +140,7 @@ function ModelInnequin(props: ModelInnequinProps) {
     log('ModelInnequin onProgressInnequin', progress);
   }, []);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (innequinRef.current) {
       innequinRef.current.updateFrame(delta);
     }
@@ -149,6 +151,7 @@ function ModelInnequin(props: ModelInnequinProps) {
       {isLoaded && innequinRef.current && (
         <>
           <group
+            name={props.name + 'Group' || 'InnequinGroup'}
             position={props.position || new Vector3(0, 0, 0)}
             rotation={props.rotation || new Euler(0, 0, 0)}
             onPointerDown={onClick}
