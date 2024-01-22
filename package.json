@@ -6,7 +6,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@inworld/web-core": "2.0.1",
+    "@inworld/web-core": "2.2.0",
+    "@inworld/web-threejs": "1.0.0",
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.11",
     "@react-three/drei": "^9.88.0",
