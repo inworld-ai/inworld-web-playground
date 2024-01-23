@@ -18,6 +18,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.2",
     "react-scripts": "5.0.1",
+    "serve": "^14.2.1",
     "three": "^0.157.0",
     "three-stdlib": "^2.27.2"
   },

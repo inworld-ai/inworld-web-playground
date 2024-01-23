@@ -59,7 +59,7 @@ function MainHud() {
               Character: {name}
             </Typography>
             <Typography className="textFooterLabel">
-              Inworld Web Playground- ver 1.0.2{' '}
+              Inworld Web Playground - ver 1.0.2{' '}
             </Typography>
           </Stack>
           <a className="linkInworld" href="https://www.inworld.ai">
