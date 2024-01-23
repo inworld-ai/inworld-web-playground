@@ -42,7 +42,7 @@
     "typescript": "^5.3.2"
   },
   "scripts": {
-    "start": "set PORT=3050 && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "install:assets": "node ./src/asset-library-installer.js",
     "lint:check": "eslint --cache  \"./src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore --config .eslintrc.json",
