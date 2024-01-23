@@ -1,5 +1,4 @@
-/* eslint-disable */
-import { RepeatWrapping, SRGBColorSpace, Texture, TextureLoader } from 'three';
+import { SRGBColorSpace, Texture, TextureLoader } from 'three';
 
 export class TextureFileLoader {
   callback?: Function;

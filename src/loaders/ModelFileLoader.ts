@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Mesh, Object3D, Object3DEventMap } from 'three';
 import { GLTF, GLTFLoader } from 'three-stdlib';
 
@@ -22,18 +21,11 @@ export class ModelFileLoader {
 
   public load(callback: Function) {
     this.callback = callback;
-    this.loader.load(
-      this.path,
-      this.onLoad,
-      undefined,
-      this.onError,
-    );
+    this.loader.load(this.path, this.onLoad, undefined, this.onError);
   }
 
   private onError(error: ErrorEvent) {
-    throw new Error(
-      'Error loading file ' + this.path + ' ' + error,
-    );
+    throw new Error('Error loading file ' + this.path + ' ' + error);
   }
 
   private onLoad(model: GLTF) {
@@ -43,7 +35,7 @@ export class ModelFileLoader {
         node.castShadow = true;
         node.receiveShadow = true;
       }
-    })
+    });
     this.model.scene.children[0].castShadow = true;
     this.model.scene.children[0].receiveShadow = true;
     this.isLoaded = true;

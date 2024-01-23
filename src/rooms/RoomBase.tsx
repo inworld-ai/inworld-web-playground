@@ -4,10 +4,11 @@ import { useRooms } from '../contexts/RoomsProvider';
 import { log } from '../utils/log';
 
 export type RoomBaseProps = {
+  children: Element | JSX.Element;
   name: string;
 };
 
-function RoomBase(props: any) {
+function RoomBase(props: RoomBaseProps) {
   const { setUILabel } = useRooms();
 
   useEffect(() => {

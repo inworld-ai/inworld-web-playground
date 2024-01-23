@@ -28,7 +28,7 @@ interface InputContextValues {
   updateInput: { (): void } | null;
 }
 
-type IKeyType = { [key: string]: any };
+type IKeyType = { [key: string]: boolean };
 
 const InputContext = createContext<InputContextValues>({
   current: {

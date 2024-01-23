@@ -1,6 +1,6 @@
 {
   "name": "inworld-web-gallery",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -43,7 +43,7 @@
   "scripts": {
     "start": "set PORT=3050 && react-scripts start",
     "build": "react-scripts build",
-    "postinstall": "node ./src/asset-library-installer.js",
+    "install:assets": "node ./src/asset-library-installer.js",
     "lint:check": "eslint --cache  \"./src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore --config .eslintrc.json",
     "lint:fix": "yarn run lint:check --fix",
     "prettier:check": "yarn prettier --check \"./src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore --config .prettierrc.json",

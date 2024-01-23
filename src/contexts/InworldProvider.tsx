@@ -9,8 +9,8 @@ import {
   TriggerParameter,
 } from '@inworld/web-core';
 import {
-  PropsWithChildren,
   createContext,
+  PropsWithChildren,
   useCallback,
   useContext,
   useEffect,

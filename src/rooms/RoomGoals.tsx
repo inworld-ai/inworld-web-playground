@@ -192,7 +192,7 @@ function RoomGoals(props: RoomGoalsProps) {
     }
   }, [triggerEvent]);
 
-  const onLoadData = useCallback((data: any) => {
+  const onLoadData = useCallback((data: object) => {
     // Fill here for handling loading of the data JSON file.
     data;
   }, []);

@@ -1,4 +1,5 @@
 import { button, useControls } from 'leva';
+import { ButtonInput } from 'leva/dist/declarations/src/types';
 import { useCallback, useEffect, useState } from 'react';
 import { Euler, Vector3 } from 'three';
 
@@ -107,9 +108,9 @@ function RoomEmotions(props: RoomEmotionsProps) {
 
   const onUpdateMenus = useCallback(() => {
     if (state !== STATE_OPEN && state !== STATE_ACTIVE) return;
-    const emotionOptionsData = {};
+    const emotionOptionsData: { [key: string]: ButtonInput } = {};
     Object.keys(EMOTIONS_SUPPORTED).forEach((emotion) => {
-      (emotionOptionsData as any)[camelize(emotion)] = button(() => {
+      emotionOptionsData[camelize(emotion)] = button(() => {
         onClickEmotion(emotion);
       });
     });

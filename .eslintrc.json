@@ -2,20 +2,20 @@
   "env": {
     "es2021": true
   },
-  "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint",
-    "simple-import-sort"
-  ],
   "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:markdown/recommended",
     "plugin:prettier/recommended",
     "prettier/prettier",
     "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "simple-import-sort"
   ],
   "rules": {
     "@typescript-eslint/no-unused-vars": [
@@ -30,7 +30,19 @@
     "simple-import-sort/exports": "error",
     "no-throw-literal": "off"
   },
+  "overrides": [
+    {
+      "files": [
+        "examples/**/*.ts",
+        "examples/**/*.tsx"
+      ],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ],
   "ignorePatterns": [
+    "proto",
     "build"
   ]
 }
