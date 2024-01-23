@@ -118,6 +118,7 @@ function InworldProvider({ children }: PropsWithChildren) {
   }, []);
 
   const close = useCallback(async () => {
+    log('InworldProvider: close');
     // Disable flags
     setChatting(false);
 
@@ -221,6 +222,7 @@ function InworldProvider({ children }: PropsWithChildren) {
 
   const sendText = useCallback(
     (text: string) => {
+      console.log('InworldProvider sendText A', text, connection);
       if (text && connection) {
         !hasPlayedWorkaroundSound && playWorkaroundSound();
         connection.sendText(text);
@@ -248,7 +250,9 @@ function InworldProvider({ children }: PropsWithChildren) {
 
   const startRecording = useCallback(async () => {
     try {
+      console.log('InworldProvider startRecording A', isRecording, connection);
       if (connection && !isRecording) {
+        console.log('InworldProvider startRecording B', isRecording);
         setIsRecording(true);
         connection.sendAudioSessionStart();
         await connection.recorder.start();
@@ -259,6 +263,7 @@ function InworldProvider({ children }: PropsWithChildren) {
   }, [connection, isRecording]);
 
   const stopRecording = useCallback(() => {
+    console.log('InworldProvider stopRecording A', isRecording);
     if (connection && isRecording) {
       connection.recorder.stop();
       connection.sendAudioSessionEnd();

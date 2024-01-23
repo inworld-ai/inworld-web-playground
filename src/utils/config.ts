@@ -28,7 +28,7 @@ export const Config: Configuration = {
     characterId: process.env.REACT_APP_INWORLD_CHARACTER_ID || '',
     sceneId: process.env.REACT_APP_INWORLD_SCENE_ID || '',
     tokenURL:
-      process.env.REACT_APP_INWORLD_GENERATE_TOKEN_URL ||
+      process.env.REACT_APP_INWORLD_GENERATE_TOKEN_URI ||
       'http://localhost:4000',
   },
   INNEQUIN: {

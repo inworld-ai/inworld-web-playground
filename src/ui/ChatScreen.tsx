@@ -20,7 +20,7 @@ function ChatScreen() {
       sendText(text);
       onChangeText('');
     }
-  }, [text]);
+  }, [text, sendText]);
 
   const onPressRec = useCallback(() => {
     if (!isRecording && startRecording) {
@@ -28,7 +28,7 @@ function ChatScreen() {
     } else if (stopRecording) {
       stopRecording();
     }
-  }, [isRecording]);
+  }, [isRecording, startRecording, stopRecording]);
 
   const onKeyPress = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
