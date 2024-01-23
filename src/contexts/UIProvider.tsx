@@ -1,4 +1,9 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, {
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  useState,
+} from 'react';
 
 import { Cursors } from '../types/cursors';
 
@@ -27,7 +32,7 @@ const UIContext = React.createContext<UIContextValues>({
 
 const useUI = () => React.useContext(UIContext);
 
-function UIProvider({ children }: any) {
+function UIProvider({ children }: PropsWithChildren) {
   const [cursor, setCursor] = useState<string>(Cursors.Auto);
   const [label1, setLabel1] = useState('');
   const [menuCollapsed, setMenuCollapsed] = useState(true);

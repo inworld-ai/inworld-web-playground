@@ -1,4 +1,9 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, {
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  useState,
+} from 'react';
 
 import { log } from '../utils/log';
 
@@ -27,7 +32,7 @@ const SystemContext = React.createContext<SystemContextValues>({
 
 const useSystem = () => React.useContext(SystemContext);
 
-function SystemProvider({ children }: any) {
+function SystemProvider({ children }: PropsWithChildren) {
   log('SystemProvider Init');
 
   const [loading, setLoading] = useState(false);

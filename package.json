@@ -13,7 +13,6 @@
     "@react-three/drei": "^9.88.0",
     "@react-three/fiber": "^8.14.3",
     "@react-three/postprocessing": "^2.15.10",
-    "decompress": "^4.2.1",
     "leva": "^0.9.35",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -28,6 +27,7 @@
     }
   },
   "devDependencies": {
+    "decompress": "^4.2.1",
     "@types/react": "^18.2.23",
     "@types/react-dom": "^18.2.8",
     "@types/three": "^0.157.0",

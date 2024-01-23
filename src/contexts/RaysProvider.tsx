@@ -1,5 +1,6 @@
 import React, {
   Dispatch,
+  PropsWithChildren,
   Ref,
   SetStateAction,
   useCallback,
@@ -36,7 +37,7 @@ const RaysContext = React.createContext<RaysContextValues>({
 
 const useRays = () => React.useContext(RaysContext);
 
-function RaysProvider({ children }: any) {
+function RaysProvider({ children }: PropsWithChildren) {
   const [camera, setCamera] = useState(new PerspectiveCamera());
   const rayRef = useRef(new Raycaster());
 

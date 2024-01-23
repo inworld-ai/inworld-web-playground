@@ -1,5 +1,6 @@
 import {
   createContext,
+  PropsWithChildren,
   useCallback,
   useContext,
   useEffect,
@@ -48,7 +49,7 @@ const InputContext = createContext<InputContextValues>({
 
 const useInput = () => useContext(InputContext);
 
-function InputProvider({ children }: any) {
+function InputProvider({ children }: PropsWithChildren) {
   const [current, setCurrent] = useState({
     leftButton: false,
     rightButton: false,

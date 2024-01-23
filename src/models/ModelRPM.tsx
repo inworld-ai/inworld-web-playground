@@ -8,7 +8,11 @@ import { ThreeEvent, useFrame } from '@react-three/fiber';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Euler, Vector3 } from 'three';
 
-import { STATE_INIT, useInworld } from '../contexts/InworldProvider';
+import {
+  OpenConnectionType,
+  STATE_INIT,
+  useInworld,
+} from '../contexts/InworldProvider';
 import { useUI } from '../contexts/UIProvider';
 import { Cursors } from '../types/cursors';
 import { Config } from '../utils/config';
@@ -28,6 +32,8 @@ interface ModelRPMProps {
 }
 
 function ModelRPM(props: ModelRPMProps) {
+  const DEFAULT_NAME = 'RPM';
+
   const configRef = useRef<RPMConfiguration>();
   const rpmRef = useRef<RPM>();
 
@@ -84,7 +90,7 @@ function ModelRPM(props: ModelRPMProps) {
     (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
       if (state !== STATE_INIT) return;
-      const options: any = { name: props.name! };
+      const options: OpenConnectionType = { name: props.name || DEFAULT_NAME };
       if (props.characterId) options.characterId = props.characterId;
       if (open) open(options);
       if (props.onClick && props.name) {
@@ -136,6 +142,7 @@ function ModelRPM(props: ModelRPMProps) {
       {isLoaded && rpmRef.current && (
         <>
           <group
+            name={props.name + 'Group' || DEFAULT_NAME + 'Group'}
             position={props.position || new Vector3(0, 0, 0)}
             rotation={props.rotation || new Euler(0, 0, 0)}
             onPointerDown={onClick}
@@ -143,7 +150,7 @@ function ModelRPM(props: ModelRPMProps) {
             onPointerOver={onOver}
           >
             <primitive
-              name={props.name || 'RPM'}
+              name={props.name || DEFAULT_NAME}
               object={rpmRef.current.getModel()}
               castShadow
               receiveShadow

@@ -9,6 +9,7 @@ import {
   TriggerParameter,
 } from '@inworld/web-core';
 import {
+  PropsWithChildren,
   createContext,
   useCallback,
   useContext,
@@ -80,7 +81,7 @@ const InworldContext = createContext<InworldContextValues>({
 
 const useInworld = () => useContext(InworldContext);
 
-function InworldProvider({ children }: any) {
+function InworldProvider({ children }: PropsWithChildren) {
   log('InworldProvider Init');
   const [connection, setConnection] = useState<
     InworldConnectionService | undefined
@@ -294,3 +295,4 @@ function InworldProvider({ children }: any) {
 }
 
 export { InworldProvider, useInworld };
+export type { OpenConnectionType };

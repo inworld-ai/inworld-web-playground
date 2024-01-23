@@ -8,7 +8,11 @@ import { ThreeEvent, useFrame } from '@react-three/fiber';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Euler, Vector3 } from 'three';
 
-import { STATE_INIT, useInworld } from '../contexts/InworldProvider';
+import {
+  OpenConnectionType,
+  STATE_INIT,
+  useInworld,
+} from '../contexts/InworldProvider';
 import { useUI } from '../contexts/UIProvider';
 import { Cursors } from '../types/cursors';
 import { Config } from '../utils/config';
@@ -29,6 +33,8 @@ interface ModelInnequinProps {
 }
 
 function ModelInnequin(props: ModelInnequinProps) {
+  const DEFAULT_NAME = 'Innequin';
+
   const configRef = useRef<InnequinConfiguration>();
   const innequinRef = useRef<Innequin>();
   const skinNameInitialRef = useRef<string>(props.skinName || 'WOOD1');
@@ -93,7 +99,7 @@ function ModelInnequin(props: ModelInnequinProps) {
     if (!open) return;
     if (state !== STATE_INIT) return;
     log('ModelInnequin: onClick');
-    const options: any = { name: props.name! };
+    const options: OpenConnectionType = { name: props.name || DEFAULT_NAME };
     if (props.characterId) options.characterId = props.characterId;
     open(options);
     if (props.onClick && props.name) {
@@ -151,7 +157,7 @@ function ModelInnequin(props: ModelInnequinProps) {
       {isLoaded && innequinRef.current && (
         <>
           <group
-            name={props.name + 'Group' || 'InnequinGroup'}
+            name={props.name + 'Group' || DEFAULT_NAME + 'Group'}
             position={props.position || new Vector3(0, 0, 0)}
             rotation={props.rotation || new Euler(0, 0, 0)}
             onPointerDown={onClick}
@@ -159,7 +165,7 @@ function ModelInnequin(props: ModelInnequinProps) {
             onPointerOver={onOver}
           >
             <primitive
-              name={props.name || 'Innequin'}
+              name={props.name || DEFAULT_NAME}
               object={innequinRef.current.getModel()}
               castShadow
               receiveShadow

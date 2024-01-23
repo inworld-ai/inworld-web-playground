@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 
 import { log } from '../utils/log';
 import { STATE_ACTIVE, STATE_OPEN } from './InworldProvider';
@@ -42,7 +48,7 @@ const RoomsContext = React.createContext<RoomsContextValues>({
 
 const useRooms = () => React.useContext(RoomsContext);
 
-function RoomsProvider({ children }: any) {
+function RoomsProvider({ children }: PropsWithChildren) {
   log('RoomsProvider Init');
 
   const [loading, setLoading] = useState(false);

@@ -11,7 +11,7 @@ interface CurrentProps {
   pointY: number;
 }
 
-type IKeyType = { [key: string]: any };
+type IKeyType = { [key: string]: boolean };
 
 export class InputController {
   current: CurrentProps;

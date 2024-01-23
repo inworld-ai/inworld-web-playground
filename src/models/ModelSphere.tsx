@@ -1,7 +1,12 @@
+import { ThreeEvent } from '@react-three/fiber';
 import { useCallback, useEffect, useState } from 'react';
 import { Euler, Vector3 } from 'three';
 
-import { STATE_INIT, useInworld } from '../contexts/InworldProvider';
+import {
+  OpenConnectionType,
+  STATE_INIT,
+  useInworld,
+} from '../contexts/InworldProvider';
 import { useUI } from '../contexts/UIProvider';
 import { Cursors } from '../types/cursors';
 
@@ -15,6 +20,8 @@ interface ModelSphereProps {
 }
 
 function ModelSphere(props: ModelSphereProps) {
+  const DEFAULT_NAME = 'Sphere';
+
   const [isLoaded, setIsLoaded] = useState(false);
 
   const { open, state } = useInworld();
@@ -26,10 +33,10 @@ function ModelSphere(props: ModelSphereProps) {
     }
   }, []);
 
-  const onClick = useCallback((e: any) => {
+  const onClick = useCallback((e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
     if (state === STATE_INIT && open) {
-      const options: any = { name: props.name! };
+      const options: OpenConnectionType = { name: props.name || DEFAULT_NAME };
       if (props.characterId) options.characterId = props.characterId;
       open(options);
       if (props.onClick && props.name) {
@@ -39,7 +46,7 @@ function ModelSphere(props: ModelSphereProps) {
   }, []);
 
   const onOut = useCallback(
-    (e: any) => {
+    (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
       if (setCursor && cursor === Cursors.Pointer) setCursor(Cursors.Auto);
     },
@@ -47,7 +54,7 @@ function ModelSphere(props: ModelSphereProps) {
   );
 
   const onOver = useCallback(
-    (e: any) => {
+    (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
       if (setCursor) setCursor(Cursors.Pointer);
     },
@@ -59,13 +66,14 @@ function ModelSphere(props: ModelSphereProps) {
       {isLoaded && (
         <>
           <group
+            name={props.name + 'Group' || DEFAULT_NAME + 'Group'}
             position={props.position || new Vector3(0, 0, 0)}
             rotation={props.rotation || new Euler(0, 0, 0)}
             onPointerDown={onClick}
             onPointerOut={onOut}
             onPointerOver={onOver}
           >
-            <mesh name={props.name || 'Innequin'} castShadow receiveShadow>
+            <mesh name={props.name || DEFAULT_NAME} castShadow receiveShadow>
               <sphereGeometry args={[0.5, 20, 20]} />
               <meshStandardMaterial color={'blue'} />
             </mesh>

@@ -1,6 +1,12 @@
 import { EmotionBehaviorCode } from '@inworld/web-core';
-import { InnequinConfiguration, RPMConfiguration } from '@inworld/web-threejs';
+import {
+  InnequinAnimationType,
+  InnequinConfiguration,
+  RPMAnimationType,
+  RPMConfiguration,
+} from '@inworld/web-threejs';
 import { button, useControls } from 'leva';
+import { ButtonInput } from 'leva/dist/declarations/src/types';
 import { useCallback, useEffect, useState } from 'react';
 import { Euler, Vector3 } from 'three';
 
@@ -78,14 +84,20 @@ function RoomAnimations(props: RoomAnimationsProps) {
   }, [state, sendTrigger]);
 
   const onUpdateMenus = useCallback(() => {
-    let animations: any;
+    let animations: {
+      [key: string]: RPMAnimationType | InnequinAnimationType;
+    } = {};
     if (!activeCharacter) return;
     switch (activeCharacter) {
       case NAME_INNEQUIN:
-        animations = innequinConfig?.innequin.animations;
+        if (innequinConfig?.innequin.animations) {
+          animations = innequinConfig?.innequin.animations;
+        }
         break;
       case NAME_RPM:
-        animations = rpmConfig?.rpm.animations;
+        if (rpmConfig?.rpm.animations) {
+          animations = rpmConfig?.rpm.animations;
+        }
         break;
       default:
         throw new Error(
@@ -93,35 +105,33 @@ function RoomAnimations(props: RoomAnimationsProps) {
             activeCharacter,
         );
     }
-    if (animations) {
-      log('onUpdateMenus:', emotionCurrent);
-      const keys = Object.keys(animations);
-      const emotions = keys
-        .map((key) => animations[key].emotion)
-        .filter((value, index, self) => {
-          return self.indexOf(value) === index;
-        })
-        .map((emotion) => camelize(emotion));
-      const emotionOptionsData = {};
-      emotions.forEach((emotion) => {
-        (emotionOptionsData as any)[emotion] = button(() => {
-          onChangeEmotion(emotion);
-        });
+    if (animations === undefined) return;
+    log('onUpdateMenus:', emotionCurrent);
+    const keys = Object.keys(animations);
+    const emotions = keys
+      .map((key) => animations[key].emotion)
+      .filter((value, index, self) => {
+        return self.indexOf(value) === index;
+      })
+      .map((emotion) => camelize(emotion));
+    const emotionOptionsData: { [key: string]: ButtonInput } = {};
+    emotions.forEach((emotion) => {
+      emotionOptionsData[emotion] = button(() => {
+        onChangeEmotion(emotion);
       });
-      setEmotionOptions(emotionOptionsData);
-      const emotionAnimations = keys.filter(
-        (key) =>
-          animations[key].emotion.toLowerCase() ===
-          emotionCurrent.toLowerCase(),
-      );
-      const emotionAnimationData = {};
-      emotionAnimations.forEach((animation) => {
-        (emotionAnimationData as any)[animation] = button(() => {
-          onChangeAnimation(animation);
-        });
+    });
+    setEmotionOptions(emotionOptionsData);
+    const emotionAnimations = keys.filter(
+      (key) =>
+        animations[key].emotion.toLowerCase() === emotionCurrent.toLowerCase(),
+    );
+    const emotionAnimationData: { [key: string]: ButtonInput } = {};
+    emotionAnimations.forEach((animation) => {
+      emotionAnimationData[animation] = button(() => {
+        onChangeAnimation(animation);
       });
-      setAnimationOptions(emotionAnimationData);
-    }
+    });
+    setAnimationOptions(emotionAnimationData);
   }, [activeCharacter, emotionCurrent, innequinConfig, rpmConfig]);
 
   const onChangeAnimation = useCallback((animation: string) => {
