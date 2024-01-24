@@ -2,7 +2,7 @@ import './Scene.css';
 
 import { Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { CameraCore } from '../camera/CameraCore';
 import {
@@ -17,6 +17,7 @@ import { useUI } from '../contexts/UIProvider';
 import Background from '../environment/Background';
 import Ground from '../environment/Ground';
 import Lighting from '../environment/Lighting';
+import ClickableController from '../input/ClickableController';
 import { InputController } from '../input/InputController';
 import PlayerController from '../player/PlayerController';
 import RoomAnimations from '../rooms/RoomAnimations';
@@ -31,31 +32,41 @@ function Scene() {
   const [inputController, setInputController] = useState<InputController>();
   const [cameraCore, setCameraCore] = useState<CameraCore>();
 
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   const { room } = useRooms();
   const { cursor } = useUI();
 
   useEffect(() => {
-    log('Scene init');
-    setIsLoaded(true);
-  });
-
-  useEffect(() => {
-    if (isLoaded) {
-      log('Scene Loading');
+    if (!inputController && !cameraCore) {
+      log('Scene init');
       setInputController(new InputController());
       setCameraCore(new CameraCore());
     }
-  }, [isLoaded]);
+  }, [inputController, cameraCore]);
+
+  useEffect(() => {
+    if (!isLoaded && cameraCore && inputController && canvasRef.current) {
+      setIsLoaded(true);
+    }
+  }, [isLoaded, cameraCore, inputController, canvasRef.current]);
 
   return (
     cameraCore &&
     inputController && (
       <Canvas
+        ref={canvasRef}
         className="mainCanvas"
         style={{ cursor: `${cursor}` }}
         camera={cameraCore.camera}
         shadows
       >
+        <ClickableController
+          cameraCore={cameraCore}
+          canvasRef={canvasRef}
+          inputController={inputController}
+          isLoaded={isLoaded}
+        />
         <Background />
         <Lighting />
         <Ground />

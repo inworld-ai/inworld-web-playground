@@ -2,6 +2,7 @@ import './App.css';
 
 import Container from '@mui/material/Container';
 
+import { ClickableProvider } from '../contexts/ClickableProvider';
 import { InworldProvider } from '../contexts/InworldProvider';
 import { RaysProvider } from '../contexts/RaysProvider';
 import { RoomsProvider } from '../contexts/RoomsProvider';
@@ -17,16 +18,18 @@ export default function App() {
     <SystemProvider>
       <UIProvider>
         <RaysProvider>
-          <RoomsProvider>
-            <InworldProvider>
-              <Container className="containerMain">
-                <Scene />
-                <MainHud />
-                <ChatScreen />
-                <MainMenu />
-              </Container>
-            </InworldProvider>
-          </RoomsProvider>
+          <ClickableProvider>
+            <RoomsProvider>
+              <InworldProvider>
+                <Container className="containerMain">
+                  <Scene />
+                  <MainHud />
+                  <ChatScreen />
+                  <MainMenu />
+                </Container>
+              </InworldProvider>
+            </RoomsProvider>
+          </ClickableProvider>
         </RaysProvider>
       </UIProvider>
     </SystemProvider>

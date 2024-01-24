@@ -35,16 +35,16 @@ function PlayerController(props: PlayerControllerProps) {
   const { setCamera } = useRays();
 
   useEffect(() => {
-    if (props.isLoaded && !loaded) {
+    if (props.isLoaded && !loaded && setCamera) {
       log('PlayerController Init');
       setFPSCamera(
         new FirstPersonCamera(props.cameraCore, props.inputController),
       );
-      if (setCamera) setCamera(props.cameraCore.camera);
+      setCamera(props.cameraCore.camera);
       setSoundController(new SoundController({ camera: props.cameraCore }));
       setLoaded(true);
     }
-  }, [props.isLoaded, loaded]);
+  }, [props.isLoaded, loaded, setCamera]);
 
   useEffect(() => {
     if (soundController) {
@@ -57,7 +57,6 @@ function PlayerController(props: PlayerControllerProps) {
   }, [soundController, stateSystem]);
 
   useFrame(() => {
-    // fstate, delta
     props.inputController.update();
     // Check if the user pressed the escape key. If so pause the game.
     if (props.inputController.keys['Escape'] && !escClick) {
@@ -73,6 +72,7 @@ function PlayerController(props: PlayerControllerProps) {
       setESCClick(false);
     }
 
+    // Check if the game is running.
     if (stateSystem === STATE_RUNNING && inworldState === STATE_INIT) {
       // Check if the character is running. If so play sound effect.
       const forwardVelocity =
@@ -81,12 +81,12 @@ function PlayerController(props: PlayerControllerProps) {
       const strafeVelocity =
         (props.inputController.keys['a'] ? 1 : 0) +
         (props.inputController.keys['d'] ? -1 : 0);
-      if ((soundController && forwardVelocity !== 0) || strafeVelocity !== 0) {
+      if (soundController && (forwardVelocity !== 0 || strafeVelocity !== 0)) {
         soundController?.play(SOUND_FOOTSTEPS);
       } else {
         soundController?.pause(SOUND_FOOTSTEPS);
       }
-      // Check if the game is running. If so then update the fps camera.
+      // Update the fps camera.
       if (fpsCamera) {
         fpsCamera.update(clockRef.current.getDelta());
       }

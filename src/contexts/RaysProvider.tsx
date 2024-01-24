@@ -21,11 +21,11 @@ interface RaysContextValues {
     (
       objects: Object3D<Object3DEventMap>[],
       point: Vector2,
-      recursive: boolean,
-    ): void;
+      recursive?: boolean,
+    ): any;
   } | null;
   rayRef: Ref<Raycaster> | null;
-  setCamera: Dispatch<SetStateAction<PerspectiveCamera>> | null;
+  setCamera: Dispatch<SetStateAction<PerspectiveCamera | null>> | null;
 }
 
 const RaysContext = React.createContext<RaysContextValues>({
@@ -38,7 +38,7 @@ const RaysContext = React.createContext<RaysContextValues>({
 const useRays = () => React.useContext(RaysContext);
 
 function RaysProvider({ children }: PropsWithChildren) {
-  const [camera, setCamera] = useState(new PerspectiveCamera());
+  const [camera, setCamera] = useState<PerspectiveCamera | null>(null);
   const rayRef = useRef(new Raycaster());
 
   const intersectObjects = useCallback(

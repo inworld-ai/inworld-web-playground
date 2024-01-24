@@ -152,6 +152,10 @@ function ModelInnequin(props: ModelInnequinProps) {
     }
   });
 
+  onClick;
+  onOver;
+  onOut;
+
   return (
     <>
       {isLoaded && innequinRef.current && (
@@ -160,9 +164,9 @@ function ModelInnequin(props: ModelInnequinProps) {
             name={props.name + 'Group' || DEFAULT_NAME + 'Group'}
             position={props.position || new Vector3(0, 0, 0)}
             rotation={props.rotation || new Euler(0, 0, 0)}
-            onPointerDown={onClick}
-            onPointerOut={onOut}
-            onPointerOver={onOver}
+            // onPointerDown={onClick}
+            // onPointerOut={onOut}
+            // onPointerOver={onOver}
           >
             <primitive
               name={props.name || DEFAULT_NAME}
