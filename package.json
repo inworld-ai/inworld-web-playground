@@ -10,17 +10,18 @@
     "@inworld/web-threejs": "1.0.0",
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.11",
-    "@react-three/drei": "^9.88.0",
-    "@react-three/fiber": "^8.14.3",
-    "@react-three/postprocessing": "^2.15.10",
+    "@react-three/drei": "^9.96.1",
+    "@react-three/fiber": "^8.15.15",
+    "@types/uuid": "^9.0.7",
     "leva": "^0.9.35",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.2",
     "react-scripts": "5.0.1",
     "serve": "^14.2.1",
-    "three": "^0.157.0",
-    "three-stdlib": "^2.27.2"
+    "three": "^0.160.1",
+    "three-stdlib": "^2.29.4",
+    "uuid": "^9.0.1"
   },
   "overrides": {
     "react-scripts": {
@@ -31,7 +32,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/react": "^18.2.23",
     "@types/react-dom": "^18.2.8",
-    "@types/three": "^0.157.0",
+    "@types/three": "^0.160.0",
     "decompress": "^4.2.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.0.0",

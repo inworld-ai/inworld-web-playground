@@ -10,14 +10,16 @@ type IClickablesType = { [key: string]: Function | null };
 
 interface ClickableContextValues {
   clickables: IClickablesType;
-  addClickable: Function | null;
-  checkClickable: Function | null;
+  addClickable: { (uuid: string, callback: Function): void } | null;
+  checkClickable: { (uuid: string): void } | null;
+  removeClickable: { (uuid: string): void } | null;
 }
 
 const ClickableContext = createContext<ClickableContextValues>({
   clickables: {},
   addClickable: null,
   checkClickable: null,
+  removeClickable: null,
 });
 
 const useClickable = () => useContext(ClickableContext);
@@ -28,10 +30,9 @@ function ClickableProvider({ children }: PropsWithChildren) {
   const addClickable = useCallback(
     (uuid: string, callback: Function) => {
       if (!clickables[uuid]) {
-        console.log('addClickable', uuid);
-        const state = { ...clickables };
-        state[uuid] = callback;
-        setClickables(state);
+        const collection = { ...clickables };
+        collection[uuid] = callback;
+        setClickables(collection);
       }
     },
     [clickables],
@@ -39,14 +40,27 @@ function ClickableProvider({ children }: PropsWithChildren) {
 
   const checkClickable = useCallback(
     (uuid: string) => {
-      if (clickables[uuid]) clickables[uuid]!();
+      if (clickables[uuid]) {
+        clickables[uuid]!();
+      }
+    },
+    [clickables],
+  );
+
+  const removeClickable = useCallback(
+    (uuid: string) => {
+      if (clickables[uuid]) {
+        const collection = { ...clickables };
+        delete collection[uuid];
+        setClickables(collection);
+      }
     },
     [clickables],
   );
 
   return (
     <ClickableContext.Provider
-      value={{ clickables, addClickable, checkClickable }}
+      value={{ clickables, addClickable, checkClickable, removeClickable }}
     >
       {children}
     </ClickableContext.Provider>

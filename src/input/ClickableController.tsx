@@ -1,9 +1,11 @@
 import { RootState, useThree } from '@react-three/fiber';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Vector2 } from 'three';
 
 import { CameraCore } from '../camera/CameraCore';
+import { useClickable } from '../contexts/ClickableProvider';
 import { useRays } from '../contexts/RaysProvider';
+import { ClickableParts } from '../types/clickable';
 import { InputController } from './InputController';
 
 export type ClickableControllerProps = {
@@ -18,33 +20,12 @@ function ClickableController(props: ClickableControllerProps) {
 
   const scene = useThree((state: RootState) => state.scene);
 
-  // const { checkClickable } = useClickable();
+  const { checkClickable } = useClickable();
   const { intersectObjects, camera } = useRays();
 
   useEffect(() => {
-    if (!isLoaded && props.isLoaded && camera) {
-      props.canvasRef.current?.addEventListener(
-        'mousedown',
-        (e: MouseEvent) => {
-          if (e.button !== 0) return;
-
-          const pointX = (e.clientX / window.innerWidth) * 2 - 1;
-          const pointY = -(e.clientY / window.innerHeight) * 2 + 1;
-
-          if (intersectObjects) {
-            const secs = intersectObjects(
-              scene.children,
-              new Vector2(pointX, pointY),
-            );
-            for (let i = 0; i < secs.length; i++) {
-              console.log('Click', i, secs[i].object.name);
-              // if (Object.values(Clickable).includes(secs[i].object.name)) {
-              //   if (checkClickable) checkClickable(secs[i].object.uuid);
-              // }
-            }
-          }
-        },
-      );
+    if (false && props.isLoaded && camera) {
+      props.canvasRef.current?.addEventListener('mousedown', onClick);
       props.canvasRef.current?.addEventListener('mouseup', () => {
         // console.log('mouseup');
       });
@@ -54,21 +35,64 @@ function ClickableController(props: ClickableControllerProps) {
       setIsLoaded(true);
     }
   }, [
+    checkClickable,
     intersectObjects,
     camera,
     isLoaded,
     props.isLoaded,
     props.cameraCore,
-    props.inputController,
     props.canvasRef.current,
     props.inputController.current,
   ]);
 
   useEffect(() => {
-    if (intersectObjects) {
-      console.log('ClickableController intersectObjects update');
+    if (false) {
+      props.canvasRef.current?.removeEventListener('mousedown', onClick);
+      props.canvasRef.current?.addEventListener('mousedown', onClick);
+      props.canvasRef.current?.addEventListener('mouseup', () => {
+        // console.log('mouseup');
+      });
+      props.canvasRef.current?.addEventListener('mousemove', () => {
+        // console.log('mousemove');
+      });
     }
-  }, [intersectObjects]);
+  }, [
+    checkClickable,
+    intersectObjects,
+    camera,
+    isLoaded,
+    props.isLoaded,
+    props.canvasRef.current,
+  ]);
+
+  const onClick = useCallback(
+    (event: MouseEvent) => {
+      if (event.button !== 0) return;
+      console.log('ClickableController: onClick');
+
+      const pointX = (event.clientX / window.innerWidth) * 2 - 1;
+      const pointY = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      if (intersectObjects && checkClickable) {
+        const secs = intersectObjects(
+          scene.children,
+          new Vector2(pointX, pointY),
+        );
+        if (secs.length > 0) {
+          const parts: string[] = (secs[0].object.name as string).split('_');
+          console.log(
+            'Click',
+            parts[ClickableParts.Name],
+            parts[ClickableParts.UUID],
+          );
+          checkClickable(parts[ClickableParts.UUID]);
+        }
+      }
+    },
+    [intersectObjects, checkClickable],
+  );
+
+  onClick;
 
   return <></>;
 }

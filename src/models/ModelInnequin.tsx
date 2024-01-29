@@ -13,10 +13,9 @@ import {
   STATE_INIT,
   useInworld,
 } from '../contexts/InworldProvider';
-import { useUI } from '../contexts/UIProvider';
-import { Cursors } from '../types/cursors';
 import { Config } from '../utils/config';
 import { log } from '../utils/log';
+import ClickableCube from './clickables/ClickableCube';
 
 interface ModelInnequinProps {
   isLoaded: boolean;
@@ -43,7 +42,6 @@ function ModelInnequin(props: ModelInnequinProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const { emotionEvent, name, open, phonemes, state } = useInworld();
-  const { cursor, setCursor } = useUI();
 
   useEffect(() => {
     if (props.emotionCurrent && innequinRef.current && name === props.name) {
@@ -94,7 +92,7 @@ function ModelInnequin(props: ModelInnequinProps) {
     }
   }, [name, isLoaded, phonemes]);
 
-  const onClick = useCallback((e: ThreeEvent<PointerEvent>) => {
+  const onClick = useCallback((e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     if (!open) return;
     if (state !== STATE_INIT) return;
@@ -124,23 +122,23 @@ function ModelInnequin(props: ModelInnequinProps) {
     [innequinRef.current],
   );
 
-  const onOut = useCallback(
-    (e: ThreeEvent<PointerEvent>) => {
-      e.stopPropagation();
-      log('ModelInnequin: onOut');
-      if (setCursor && cursor === Cursors.Pointer) setCursor(Cursors.Auto);
-    },
-    [cursor],
-  );
+  // const onOut = useCallback(
+  //   (e: ThreeEvent<PointerEvent>) => {
+  //     e.stopPropagation();
+  //     log('ModelInnequin: onOut');
+  //     if (setCursor && cursor === Cursors.Pointer) setCursor(Cursors.Auto);
+  //   },
+  //   [cursor],
+  // );
 
-  const onOver = useCallback(
-    (e: ThreeEvent<PointerEvent>) => {
-      e.stopPropagation();
-      log('ModelInnequin: onOver');
-      if (setCursor) setCursor(Cursors.Pointer);
-    },
-    [cursor],
-  );
+  // const onOver = useCallback(
+  //   (e: ThreeEvent<PointerEvent>) => {
+  //     e.stopPropagation();
+  //     log('ModelInnequin: onOver');
+  //     if (setCursor) setCursor(Cursors.Pointer);
+  //   },
+  //   [cursor],
+  // );
 
   const onProgressInnequin = useCallback((progress: number) => {
     log('ModelInnequin onProgressInnequin', progress);
@@ -152,10 +150,6 @@ function ModelInnequin(props: ModelInnequinProps) {
     }
   });
 
-  onClick;
-  onOver;
-  onOut;
-
   return (
     <>
       {isLoaded && innequinRef.current && (
@@ -164,15 +158,19 @@ function ModelInnequin(props: ModelInnequinProps) {
             name={props.name + 'Group' || DEFAULT_NAME + 'Group'}
             position={props.position || new Vector3(0, 0, 0)}
             rotation={props.rotation || new Euler(0, 0, 0)}
-            // onPointerDown={onClick}
-            // onPointerOut={onOut}
-            // onPointerOver={onOver}
           >
             <primitive
               name={props.name || DEFAULT_NAME}
               object={innequinRef.current.getModel()}
               castShadow
               receiveShadow
+            />
+            <ClickableCube
+              length={0.5}
+              width={1.7}
+              height={0.5}
+              position={new Vector3(0, 0.85, 0)}
+              onClick={onClick}
             />
           </group>
         </>

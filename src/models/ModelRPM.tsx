@@ -13,10 +13,9 @@ import {
   STATE_INIT,
   useInworld,
 } from '../contexts/InworldProvider';
-import { useUI } from '../contexts/UIProvider';
-import { Cursors } from '../types/cursors';
 import { Config } from '../utils/config';
 import { log } from '../utils/log';
+import ClickableCube from './clickables/ClickableCube';
 
 interface ModelRPMProps {
   isLoaded: boolean;
@@ -41,7 +40,6 @@ function ModelRPM(props: ModelRPMProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const { emotionEvent, name, open, phonemes, state } = useInworld();
-  const { setCursor } = useUI();
 
   useEffect(() => {
     if (props.emotionCurrent && rpmRef.current && name === props.name) {
@@ -87,9 +85,10 @@ function ModelRPM(props: ModelRPMProps) {
   }, [isLoaded, phonemes]);
 
   const onClick = useCallback(
-    (e: ThreeEvent<PointerEvent>) => {
+    (e: ThreeEvent<MouseEvent>) => {
       e.stopPropagation();
       if (state !== STATE_INIT) return;
+      log('ModelRPM: onClick');
       const options: OpenConnectionType = { name: props.name || DEFAULT_NAME };
       if (props.characterId) options.characterId = props.characterId;
       if (open) open(options);
@@ -117,21 +116,11 @@ function ModelRPM(props: ModelRPMProps) {
     [rpmRef.current],
   );
 
-  const onOut = useCallback((e: ThreeEvent<PointerEvent>) => {
-    e.stopPropagation();
-    if (setCursor) setCursor(Cursors.Auto);
-  }, []);
-
-  const onOver = useCallback((e: ThreeEvent<PointerEvent>) => {
-    e.stopPropagation();
-    if (setCursor) setCursor(Cursors.Pointer);
-  }, []);
-
   const onProgressRPM = useCallback((progress: number) => {
     log('ModelRPM onProgressRPM', progress);
   }, []);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (rpmRef.current) {
       rpmRef.current.updateFrame(delta);
     }
@@ -145,15 +134,19 @@ function ModelRPM(props: ModelRPMProps) {
             name={props.name + 'Group' || DEFAULT_NAME + 'Group'}
             position={props.position || new Vector3(0, 0, 0)}
             rotation={props.rotation || new Euler(0, 0, 0)}
-            onPointerDown={onClick}
-            onPointerOut={onOut}
-            onPointerOver={onOver}
           >
             <primitive
               name={props.name || DEFAULT_NAME}
               object={rpmRef.current.getModel()}
               castShadow
               receiveShadow
+            />
+            <ClickableCube
+              length={0.5}
+              width={1.7}
+              height={0.5}
+              position={new Vector3(0, 0.85, 0)}
+              onClick={onClick}
             />
           </group>
         </>

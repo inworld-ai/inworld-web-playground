@@ -9,16 +9,16 @@ import { Clickable } from '../../types/clickable';
 import { Cursors } from '../../types/cursors';
 import { log } from '../../utils/log';
 
-interface ClickableCubeProps {
-  length: number;
-  width: number;
-  height: number;
+interface ClickableSphereProps {
+  radius: number;
+  widthSegments: number;
+  heightSegments: number;
   position: Vector3;
   onClick?: { (event: ThreeEvent<MouseEvent>): void } | undefined;
 }
 
-function ClickableCube(props: ClickableCubeProps) {
-  const refCube = useRef<Mesh>();
+function ClickableSphere(props: ClickableSphereProps) {
+  const refSphere = useRef<Mesh>();
   const refUUID = useRef<string>(uuidv4());
 
   const { addClickable, removeClickable } = useClickable();
@@ -33,7 +33,7 @@ function ClickableCube(props: ClickableCubeProps) {
 
   const onClick = useCallback(
     (event: ThreeEvent<PointerEvent>) => {
-      console.log('ClickableCube: onClick');
+      console.log('ClickableSphere: onClick');
       if (props.onClick) {
         props.onClick(event);
       }
@@ -44,7 +44,7 @@ function ClickableCube(props: ClickableCubeProps) {
   const onOut = useCallback(
     (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
-      log('CliackableCube: onOut');
+      log('ClickableSphere: onOut');
       if (setCursor && cursor === Cursors.Pointer) setCursor(Cursors.Auto);
     },
     [cursor],
@@ -53,7 +53,7 @@ function ClickableCube(props: ClickableCubeProps) {
   const onOver = useCallback(
     (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
-      log('CliackableCube: onOver');
+      log('ClickableSphere: onOver');
       if (setCursor) setCursor(Cursors.Pointer);
     },
     [cursor],
@@ -61,15 +61,15 @@ function ClickableCube(props: ClickableCubeProps) {
 
   return (
     <mesh
-      name={Clickable.Cube + '_' + refUUID.current}
+      name={Clickable.Sphere + '_' + refUUID.current}
       position={props.position}
-      ref={refCube as React.RefObject<Mesh<BufferGeometry>>}
+      ref={refSphere as React.RefObject<Mesh<BufferGeometry>>}
       onPointerDown={onClick}
       onPointerOver={onOver}
       onPointerOut={onOut}
     >
       <boxGeometry
-        args={[props.length, props.width, props.height]}
+        args={[props.radius, props.widthSegments, props.heightSegments]}
         attach="geometry"
       />
       <meshPhongMaterial
@@ -83,4 +83,4 @@ function ClickableCube(props: ClickableCubeProps) {
   );
 }
 
-export default ClickableCube;
+export default ClickableSphere;
