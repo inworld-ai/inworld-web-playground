@@ -2,9 +2,23 @@ import './MainMenu.css';
 
 import { useCallback, useEffect, useState } from 'react';
 
-import { Button, Paper, Stack } from '@mui/material';
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Paper,
+  Radio,
+  RadioGroup,
+  Stack,
+} from '@mui/material';
 import Container from '@mui/material/Container';
 
+import {
+  STATE_ACTIVE,
+  STATE_OPEN,
+  useInworld,
+} from '../contexts/InworldProvider';
 import {
   ROOM_ANIMATIONS,
   ROOM_AVATARS,
@@ -13,16 +27,24 @@ import {
   ROOM_LOBBY,
   useRooms,
 } from '../contexts/RoomsProvider';
-import { STATE_RUNNING, useSystem } from '../contexts/SystemProvider';
+import {
+  MicrophoneModes,
+  STATE_RUNNING,
+  useSystem,
+} from '../contexts/SystemProvider';
 import { log } from '../utils/log';
 
 function MainMenu() {
   const STATE_MAIN = 'state_main';
   const STATE_MICROPHONE = 'state_microphone';
 
+  const MICROPHONE_NORMAL = 'normal';
+  const MICROPHONE_PTT = 'ptt';
+
   const [state, setState] = useState<string>(STATE_MAIN);
 
-  const { stateSystem, setStateSystem } = useSystem();
+  const { state: systemState } = useInworld();
+  const { stateSystem, setMicrophoneMode, setStateSystem } = useSystem();
   const { room, setRoom } = useRooms();
 
   useEffect(() => {
@@ -42,6 +64,17 @@ function MainMenu() {
       }
     },
     [room, setRoom],
+  );
+
+  const onChangeMic = useCallback(
+    (event: any) => {
+      console.log('onChangeMic', event.target.value);
+      if (!setMicrophoneMode) return;
+      const mode = event.target.value;
+      if (mode === MICROPHONE_NORMAL) setMicrophoneMode(MicrophoneModes.NORMAL);
+      if (mode === MICROPHONE_PTT) setMicrophoneMode(MicrophoneModes.PTT);
+    },
+    [setMicrophoneMode],
   );
 
   const onClickState = useCallback((state: string) => {
@@ -77,6 +110,35 @@ function MainMenu() {
           <Paper className="paperMicrophoneMenu">
             <Stack>
               <p>Microphone Modes</p>
+              <FormControl>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="normal"
+                  name="radio-buttons-group"
+                  onChange={onChangeMic}
+                >
+                  <FormControlLabel
+                    value={MICROPHONE_NORMAL}
+                    control={<Radio />}
+                    label="Normal"
+                    disabled={
+                      systemState === STATE_ACTIVE || systemState === STATE_OPEN
+                        ? true
+                        : false
+                    }
+                  />
+                  <FormControlLabel
+                    value={MICROPHONE_PTT}
+                    control={<Radio />}
+                    label="Push to Talk"
+                    disabled={
+                      systemState === STATE_ACTIVE || systemState === STATE_OPEN
+                        ? true
+                        : false
+                    }
+                  />
+                </RadioGroup>
+              </FormControl>
               <Button onClick={() => onClickState(STATE_MAIN)}>
                 Main Menu
               </Button>
