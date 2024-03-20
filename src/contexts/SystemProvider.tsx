@@ -10,10 +10,17 @@ import { log } from '../utils/log';
 interface SystemContextValues {
   loading: boolean;
   loadingPercent: number;
+  microphoneMode: MicrophoneModes;
   stateSystem: string;
   setLoading: Dispatch<SetStateAction<boolean>> | null;
   setLoadingPercent: Dispatch<SetStateAction<number>> | null;
+  setMicrophoneMode: Dispatch<SetStateAction<MicrophoneModes>> | null;
   setStateSystem: Dispatch<SetStateAction<string>> | null;
+}
+
+export enum MicrophoneModes {
+  NORMAL,
+  PTT,
 }
 
 const STATE_ERROR = 'state_error';
@@ -24,9 +31,11 @@ const STATE_RUNNING = 'state_running';
 const SystemContext = React.createContext<SystemContextValues>({
   loading: false,
   loadingPercent: 0,
+  microphoneMode: MicrophoneModes.NORMAL,
   stateSystem: STATE_INIT,
   setLoading: null,
   setLoadingPercent: null,
+  setMicrophoneMode: null,
   setStateSystem: null,
 });
 
@@ -37,6 +46,9 @@ function SystemProvider({ children }: PropsWithChildren) {
 
   const [loading, setLoading] = useState(false);
   const [loadingPercent, setLoadingPercent] = useState(0);
+  const [microphoneMode, setMicrophoneMode] = useState<MicrophoneModes>(
+    MicrophoneModes.NORMAL,
+  );
   const [stateSystem, setStateSystem] = useState(STATE_INIT);
 
   return (
@@ -44,9 +56,11 @@ function SystemProvider({ children }: PropsWithChildren) {
       value={{
         loading,
         loadingPercent,
+        microphoneMode,
         stateSystem,
         setLoading,
         setLoadingPercent,
+        setMicrophoneMode,
         setStateSystem,
       }}
     >

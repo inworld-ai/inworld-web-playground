@@ -1,4 +1,13 @@
 import {
+  createContext,
+  PropsWithChildren,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+
+import {
   AdditionalPhonemeInfo,
   Character,
   EmotionEvent,
@@ -8,14 +17,6 @@ import {
   TriggerEvent,
   TriggerParameter,
 } from '@inworld/web-core';
-import {
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
 
 import { InworldService } from '../inworld/InworldService';
 import { Cursors } from '../types/cursors';
@@ -173,7 +174,7 @@ function InworldProvider({ children }: PropsWithChildren) {
           setState(STATE_OPEN);
         },
         onMessage: (inworldPacket: InworldPacket) => {
-          log(inworldPacket);
+          console.log(inworldPacket);
           if (
             inworldPacket.isEmotion() &&
             inworldPacket.packetId?.interactionId

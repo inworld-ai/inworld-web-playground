@@ -122,24 +122,6 @@ function ModelInnequin(props: ModelInnequinProps) {
     [innequinRef.current],
   );
 
-  // const onOut = useCallback(
-  //   (e: ThreeEvent<PointerEvent>) => {
-  //     e.stopPropagation();
-  //     log('ModelInnequin: onOut');
-  //     if (setCursor && cursor === Cursors.Pointer) setCursor(Cursors.Auto);
-  //   },
-  //   [cursor],
-  // );
-
-  // const onOver = useCallback(
-  //   (e: ThreeEvent<PointerEvent>) => {
-  //     e.stopPropagation();
-  //     log('ModelInnequin: onOver');
-  //     if (setCursor) setCursor(Cursors.Pointer);
-  //   },
-  //   [cursor],
-  // );
-
   const onProgressInnequin = useCallback((progress: number) => {
     log('ModelInnequin onProgressInnequin', progress);
   }, []);

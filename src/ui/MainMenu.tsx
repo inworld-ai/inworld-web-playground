@@ -1,8 +1,9 @@
 import './MainMenu.css';
 
+import { useCallback, useEffect, useState } from 'react';
+
 import { Button, Paper, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
-import { useCallback, useEffect, useState } from 'react';
 
 import {
   ROOM_ANIMATIONS,
@@ -67,7 +68,7 @@ function MainMenu() {
               <Button onClick={() => onClickRoom(ROOM_GOALS)}>Goals</Button>
               <p>Settings</p>
               <Button onClick={() => onClickState(STATE_MICROPHONE)}>
-                Microphone
+                Microphone Modes
               </Button>
             </Stack>
           </Paper>
@@ -75,7 +76,7 @@ function MainMenu() {
         {state === STATE_MICROPHONE && (
           <Paper className="paperMicrophoneMenu">
             <Stack>
-              <p>Microphone Menu</p>
+              <p>Microphone Modes</p>
               <Button onClick={() => onClickState(STATE_MAIN)}>
                 Main Menu
               </Button>

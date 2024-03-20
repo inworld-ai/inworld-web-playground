@@ -1,6 +1,7 @@
-import { Sky } from '@react-three/drei';
 import { useControls } from 'leva';
 import { Vector3 } from 'three';
+
+import { Sky } from '@react-three/drei';
 
 export type BackgroundProps = {
   visible: boolean;

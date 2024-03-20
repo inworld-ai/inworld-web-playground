@@ -63,7 +63,6 @@ function Lighting() {
           lightCtl.directionalPosition.y,
           lightCtl.directionalPosition.z,
         ]}
-        castShadow={lightCtl.directionalCastShadow}
       />
     </>
   );

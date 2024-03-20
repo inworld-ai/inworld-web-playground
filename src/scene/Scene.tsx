@@ -1,8 +1,9 @@
 import './Scene.css';
 
+import { useEffect, useRef, useState } from 'react';
+
 import { Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { useEffect, useRef, useState } from 'react';
 
 import { CameraCore } from '../camera/CameraCore';
 import {
