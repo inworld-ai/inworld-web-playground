@@ -1,7 +1,8 @@
 import './MainHud.css';
 
-import { Container, Stack, Typography } from '@mui/material';
 import { button, useControls } from 'leva';
+
+import { Container, Stack, Typography } from '@mui/material';
 
 import { useInworld } from '../contexts/InworldProvider';
 import {
@@ -59,7 +60,7 @@ function MainHud() {
               Character: {name}
             </Typography>
             <Typography className="textFooterLabel">
-              Inworld Web Playground - ver 1.0.2{' '}
+              Inworld Web Playground - ver 1.1.0{' '}
             </Typography>
           </Stack>
           <a className="linkInworld" href="https://www.inworld.ai">
