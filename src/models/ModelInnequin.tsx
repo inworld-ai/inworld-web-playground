@@ -1,12 +1,14 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Euler, Vector3 } from 'three';
+
 import { EmotionBehaviorCode } from '@inworld/web-core';
 import {
   Innequin,
   InnequinBodyEmotionToBehavior,
   InnequinConfiguration,
 } from '@inworld/web-threejs';
+import { GENDER_TYPES } from '@inworld/web-threejs/build/src/types/types';
 import { ThreeEvent, useFrame } from '@react-three/fiber';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Euler, Vector3 } from 'three';
 
 import {
   OpenConnectionType,
@@ -21,6 +23,7 @@ interface ModelInnequinProps {
   isLoaded: boolean;
   animationCurrent?: string | undefined;
   emotionCurrent?: string | undefined;
+  gender?: GENDER_TYPES | undefined;
   name?: string;
   characterId?: string;
   position?: Vector3;
@@ -64,7 +67,9 @@ function ModelInnequin(props: ModelInnequinProps) {
   useEffect(() => {
     if (props.isLoaded) {
       innequinRef.current = new Innequin({
-        ...Config.INNEQUIN,
+        ...(props.gender && props.gender === GENDER_TYPES.FEMALE
+          ? Config.INNEQUIN_FEMALE
+          : Config.INNEQUIN_MALE),
         skinName: skinNameInitialRef.current,
         onLoad: onLoadInnequin,
         onProgress: onProgressInnequin,

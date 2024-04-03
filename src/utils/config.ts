@@ -31,9 +31,14 @@ export const Config: Configuration = {
       import.meta.env.VITE_INWORLD_GENERATE_TOKEN_URI ||
       'http://localhost:4000',
   },
-  INNEQUIN: {
+  INNEQUIN_MALE: {
     baseURI: import.meta.env.VITE_INNEQUIN_BASE_URI || '',
-    configURI: import.meta.env.VITE_INNEQUIN_CONFIG_URI || '',
+    configURI: import.meta.env.VITE_INNEQUIN_MALE_CONFIG_URI || '',
+    dracoURI: import.meta.env.VITE_DRACO_COMPRESSION_URI || '',
+  },
+  INNEQUIN_FEMALE: {
+    baseURI: import.meta.env.VITE_INNEQUIN_BASE_URI || '',
+    configURI: import.meta.env.VITE_INNEQUIN_FEMALE_CONFIG_URI || '',
     dracoURI: import.meta.env.VITE_DRACO_COMPRESSION_URI || '',
   },
   RPM: {

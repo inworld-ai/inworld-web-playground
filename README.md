@@ -28,7 +28,7 @@ The Inworld Web Playground is a React based project to demonstrate the different
 1. Open your terminal and navigate to the root directory of this project.
 1. Run `yarn install` to install the program dependencies.
 1. Run `yarn run install:assets` to install the 3D assets. If you wish to manually download them you can find them [here](https://storage.googleapis.com/innequin-assets/playground/inworld-web-playground-assets-v1.0.zip).
-1. From the root directory of this project copy the `.env-sample` file to `.env`. Open the new `.env` file and paste the Scene ID previously obtained into the `REACT_APP_INWORLD_SCENE_ID` environment variable as well as a default Character ID into the `REACT_APP_INWORLD_CHARACTER_ID` environment variable. Both of these ID's can be found on Inworld Studio for the workspace imported. For the default character ID we recommend using the `Innequin` base character.
+1. From the root directory of this project copy the `.env-sample` file to `.env`. Open the new `.env` file and paste the Scene ID previously obtained into the `VITE_INWORLD_SCENE_ID` environment variable as well as a default Character ID into the `VITE_INWORLD_CHARACTER_ID` environment variable. Both of these ID's can be found on Inworld Studio for the workspace imported. For the default character ID we recommend using the `Innequin` base character.
 1. (Optional) For running in production install
 
 <br/>

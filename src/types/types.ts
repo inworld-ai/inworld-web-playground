@@ -2,7 +2,8 @@ import { EmotionEvent } from '@inworld/web-core';
 
 export type Configuration = {
   THREEJS: ThreejsConfiguration;
-  INNEQUIN: InnequinAssetsConfiguration;
+  INNEQUIN_MALE: InnequinAssetsConfiguration;
+  INNEQUIN_FEMALE: InnequinAssetsConfiguration;
   RPM: RPMAssetsConfiguration;
   INWORLD: InworldConfiguration;
 };
