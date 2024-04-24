@@ -11,6 +11,7 @@ import {
   ROOM_EMOTIONS,
   ROOM_GOALS,
   ROOM_LOBBY,
+  ROOM_NARRATED,
   useRooms,
 } from '../contexts/RoomsProvider';
 
@@ -36,6 +37,9 @@ function MainHud() {
       }),
       Goals: button(() => {
         if (setRoom) setRoom(ROOM_GOALS);
+      }),
+      'Narrated Actions': button(() => {
+        if (setRoom) setRoom(ROOM_NARRATED);
       }),
     },
     { collapsed: false },

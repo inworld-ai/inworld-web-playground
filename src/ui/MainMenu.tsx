@@ -25,6 +25,7 @@ import {
   ROOM_EMOTIONS,
   ROOM_GOALS,
   ROOM_LOBBY,
+  ROOM_NARRATED,
   useRooms,
 } from '../contexts/RoomsProvider';
 import {
@@ -99,6 +100,7 @@ function MainMenu() {
                 Emotions
               </Button>
               <Button onClick={() => onClickRoom(ROOM_GOALS)}>Goals</Button>
+              <Button onClick={() => onClickRoom(ROOM_NARRATED)}>Narrated Actions</Button>
               <p>Settings</p>
               <Button onClick={() => onClickState(STATE_MICROPHONE)}>
                 Microphone Modes

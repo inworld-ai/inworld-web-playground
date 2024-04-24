@@ -28,6 +28,7 @@ const ROOM_ANIMATIONS = 'room_animation';
 const ROOM_AVATARS = 'room_avatars';
 const ROOM_EMOTIONS = 'room_emotions';
 const ROOM_GOALS = 'room_goals';
+const ROOM_NARRATED = 'room_narrated';
 
 const STATE_INIT = 'state_init';
 const STATE_LOADING = 'state_loading';
@@ -96,6 +97,7 @@ export {
   ROOM_EMOTIONS,
   ROOM_GOALS,
   ROOM_LOBBY,
+  ROOM_NARRATED,
   RoomsProvider,
   STATE_INIT,
   STATE_LOADING,

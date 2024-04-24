@@ -12,6 +12,7 @@ import {
   ROOM_EMOTIONS,
   ROOM_GOALS,
   ROOM_LOBBY,
+  ROOM_NARRATED,
   useRooms,
 } from '../contexts/RoomsProvider';
 import { useUI } from '../contexts/UIProvider';
@@ -26,6 +27,7 @@ import RoomAvatars from '../rooms/RoomAvatars';
 import RoomEmotions from '../rooms/RoomEmotions';
 import RoomGoals from '../rooms/RoomGoals';
 import RoomLobby from '../rooms/RoomLobby';
+import RoomNarrated from '../rooms/RoomNarrated';
 import { log } from '../utils/log';
 
 function Scene() {
@@ -83,6 +85,7 @@ function Scene() {
           <RoomEmotions name="EMOTIONS" isLoaded={isLoaded} />
         )}
         {room === ROOM_GOALS && <RoomGoals name="GOALS" isLoaded={isLoaded} />}
+        {room === ROOM_NARRATED && <RoomNarrated name="NARRATED" isLoaded={isLoaded} />}
         <PlayerController
           cameraCore={cameraCore}
           inputController={inputController}
