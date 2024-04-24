@@ -8,14 +8,16 @@ import {
   STATE_ACTIVE,
   STATE_OPEN,
   useInworld,
-} from '../contexts/InworldProvider';
-import { MicrophoneModes, useSystem } from '../contexts/SystemProvider';
+} from '../../contexts/InworldProvider';
+import { MicrophoneModes, useSystem } from '../../contexts/SystemProvider';
+import ChatHistory from './ChatHistory';
 
 function ChatScreen() {
   const { close, state, isRecording, sendText, startRecording, stopRecording } =
     useInworld();
   const { microphoneMode } = useSystem();
 
+  const [showHistory, setShowHistory] = useState(false);
   const [text, onChangeText] = useState('');
 
   const onPressSend = useCallback(() => {
@@ -46,6 +48,7 @@ function ChatScreen() {
     <>
       {(state === STATE_OPEN || state === STATE_ACTIVE) && close && (
         <Container className="containerChat">
+          {showHistory && <ChatHistory />}
           <Stack className="stackChat" direction="column" spacing={2}>
             <Stack className="stackChatInput" direction="row" spacing={2}>
               <TextField
@@ -76,15 +79,21 @@ function ChatScreen() {
                 onMouseUp={() => {
                   if (microphoneMode === MicrophoneModes.PTT) onPressRec();
                 }}
-                style={{ width: '125px' }}
               >
                 {microphoneMode === MicrophoneModes.NORMAL &&
                   isRecording &&
-                  'Stop Rec'}
+                  'Stop'}
                 {microphoneMode === MicrophoneModes.NORMAL &&
                   !isRecording &&
-                  'Start Rec'}
+                  'Rec'}
                 {microphoneMode === MicrophoneModes.PTT && 'Push to Talk'}
+              </Button>
+              <Button
+                className="chatButton"
+                variant="outlined"
+                onClick={() => setShowHistory(!showHistory)}
+              >
+                History
               </Button>
               <Button
                 className="chatButton"

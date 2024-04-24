@@ -101,7 +101,6 @@ function ModelInnequin(props: ModelInnequinProps) {
     e.stopPropagation();
     if (!open) return;
     if (state !== STATE_INIT) return;
-    log('ModelInnequin: onClick');
     const options: OpenConnectionType = { name: props.name || DEFAULT_NAME };
     if (props.characterId) options.characterId = props.characterId;
     open(options);

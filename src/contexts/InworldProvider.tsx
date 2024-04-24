@@ -191,7 +191,10 @@ function InworldProvider({ children }: PropsWithChildren) {
           log('InworldProvider: onError', err);
         },
       });
-      log('InworldProvider - Opening Connection');
+      console.log(
+        'InworldProvider - Opening Connection',
+        props.characterId ? props.characterId : Config.INWORLD.characterId,
+      );
       const characters = await service.connection.getCharacters();
       const character = characters.find(
         (c: Character) =>

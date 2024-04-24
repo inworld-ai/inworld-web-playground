@@ -9,7 +9,7 @@ import { RoomsProvider } from '../contexts/RoomsProvider';
 import { SystemProvider } from '../contexts/SystemProvider';
 import { UIProvider } from '../contexts/UIProvider';
 import Scene from '../scene/Scene';
-import ChatScreen from '../ui/ChatScreen';
+import ChatScreen from '../ui/chat/ChatScreen';
 import MainHud from '../ui/MainHud';
 import MainMenu from '../ui/MainMenu';
 
