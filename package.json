@@ -16,7 +16,6 @@
   "dependencies": {
     "@inworld/web-core": "^2.4.1",
     "@inworld/web-threejs": "^1.4.0",
-    "@react-three/postprocessing": "^2.16.2",
     "add": "^2.0.6",
     "serve": "^14.2.3",
     "three": "^0.164.1",
