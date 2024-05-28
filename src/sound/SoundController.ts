@@ -36,11 +36,6 @@ export class SoundController {
     props.camera.camera.add(this.audioListener);
     this.soundTuner = {};
     this.state = SoundControllerState.DISABLED;
-    this.init();
-  }
-
-  init() {
-    log('SoundController init');
     this.soundTuner[SOUND_FOOTSTEPS] = {
       state: SoundState.OFF,
       sound: new SoundFootStep(this.audioListener),

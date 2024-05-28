@@ -1,0 +1,15 @@
+export enum CursorTypes {
+  Alias = 'alias',
+  AllScroll = 'all-scroll',
+  Auto = 'auto',
+  Crosshair = 'crosshair',
+  Grab = 'grab',
+  Grabbing = 'grabbing',
+  Help = 'help',
+  Move = 'move',
+  None = 'none',
+  Pointer = 'pointer',
+  Progress = 'progress',
+  Text = 'text',
+  Wait = 'wait',
+}

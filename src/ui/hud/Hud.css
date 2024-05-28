@@ -1,0 +1,57 @@
+#hud {
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 100vh;
+  position: absolute;
+}
+
+#hudLabelLL {
+  left: 30px;
+  bottom: 15px;
+  text-align: left;
+  position: absolute;
+}
+
+#hudLabelLR {
+  right: 30px;
+  bottom: 15px;
+  text-align: right;
+  position: absolute;
+}
+
+#hudUL {
+  left: 30px;
+  right: 30px;
+  top: 30px;
+  text-align: left;
+  position: absolute;
+}
+
+#hudLabelUR {
+  right: 30px;
+  top: 30px;
+  text-align: right;
+  position: absolute;
+}
+
+.hudLabelLower {
+  font-size: 0.6vw;
+  color: #757575;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+}
+
+.hudLabelUpper {
+  font-size: 1vw;
+  color: white;
+  line-height: 1.2;
+  margin: 10px 0;
+  letter-spacing: -.01em;
+}
+
+#hudProgressBar {
+  background-color: white;
+  height: 3px;
+}

@@ -1,12 +1,6 @@
 import {
-  AdditionalPhonemeInfo,
-  AudioPlaybackConfig,
-  Capabilities,
-  HistoryItem,
-  InworldClient,
-  InworldConnectionService,
-  InworldPacket,
-  SessionContinuationProps,
+  AdditionalPhonemeInfo, AudioPlaybackConfig, Capabilities, HistoryItem, InworldClient,
+  InworldConnectionService, InworldPacket, SessionContinuationProps
 } from '@inworld/web-core';
 
 import { Config } from '../utils/config';
@@ -52,7 +46,7 @@ export class InworldService {
   }
 
   private async generateSessionToken() {
-    const response = await fetch(Config.INWORLD.tokenURL);
+    const response = await fetch(Config.Inworld.TokenURL);
 
     return response.json();
   }

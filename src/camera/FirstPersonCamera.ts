@@ -6,6 +6,11 @@ import { Config } from '../utils/config';
 import { log } from '../utils/log';
 import { CameraCore } from './CameraCore';
 
+export interface FirstPersonCameraProps {
+  cameraCore: CameraCore;
+  inputController: InputController;
+}
+
 // This class handles the simulating movement of the camera from a first person perspective.
 export class FirstPersonCamera {
   cameraCore: CameraCore;
@@ -21,10 +26,10 @@ export class FirstPersonCamera {
   jumpActive: boolean;
   jumpVelocity: number;
 
-  constructor(cameraCore: CameraCore, inputController: InputController) {
+  constructor(props: FirstPersonCameraProps) {
     log('FirstPersonCamera Created');
-    this.cameraCore = cameraCore;
-    this.inputController = inputController;
+    this.cameraCore = props.cameraCore;
+    this.inputController = props.inputController;
     this.rotation = new Quaternion();
     this.translation = new Vector3(0, 1, 1);
     this.phi = 0;
@@ -49,7 +54,7 @@ export class FirstPersonCamera {
     this.cameraCore.camera.quaternion.copy(this.rotation);
     this.cameraCore.camera.position.copy(this.translation);
     this.cameraCore.camera.position.y =
-      Config.THREEJS.PLAYER_SETTINGS.PLAYER_EYE_LEVEL;
+      Config.Threejs.PlayerSettings.PLAYER_EYE_LEVEL;
     if (this.headBobActive) {
       this.cameraCore.camera.position.y +=
         Math.sin(this.headBobTimer * 20) * 0.1;
@@ -76,7 +81,7 @@ export class FirstPersonCamera {
   // Update camera position based on jumping
   updateJump(deltaS: number) {
     if (this.jumpActive) {
-      this.jumpVelocity -= Config.THREEJS.PLAYER_SETTINGS.GRAVITY * deltaS;
+      this.jumpVelocity -= Config.Threejs.PlayerSettings.GRAVITY * deltaS;
     }
     if (this.jumpVelocity <= 0) {
       this.jumpVelocity = 0;
@@ -137,7 +142,7 @@ export class FirstPersonCamera {
 
     if (this.inputController.keys[' ']) {
       if (!this.jumpActive) {
-        this.jumpVelocity = Config.THREEJS.PLAYER_SETTINGS.JUMP_POWER;
+        this.jumpVelocity = Config.Threejs.PlayerSettings.JUMP_POWER;
         this.jumpActive = true;
       }
     }

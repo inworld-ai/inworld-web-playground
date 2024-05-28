@@ -224,7 +224,7 @@ If you have any questions about this Agreement, please contact us at
         partner or licensor with whom Inworld offered certain parts of
         the SDK (such as Third-Party Materials) to you has terminated
         its relationship with Inworld or ceased to offer or license
-        certain parts of the SDK to you; (d) Inworld decides to no
+        certain parts of the SDK to you; (d) Inworld decides to no
         longer provide the SDK or certain parts of the SDK to users in
         the country in which you are resident or from which you use the
         service, or the provision of the SDK or certain SDK services to

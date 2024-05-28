@@ -72,14 +72,15 @@ export class InputController {
   }
 
   onContextMenu(e: MouseEvent) {
-    log('onContextMenu');
+    // Prevent the menu from showing when you right click.
+    // log('onContextMenu');
     e.preventDefault();
   }
 
   onMouseDown(e: MouseEvent) {
     switch (e.button) {
       case 0: {
-        log('onMouseDown');
+        // log('onMouseDown');
         this.current.pointX = (e.clientX / window.innerWidth) * 2 - 1;
         this.current.pointY = -(e.clientY / window.innerHeight) * 2 + 1;
         this.current.leftButton = true;
@@ -121,7 +122,7 @@ export class InputController {
   }
 
   onKeyDown(e: KeyboardEvent) {
-    log('onKeyDown', e.key);
+    // log('onKeyDown', e.key);
     this.keys[e.key] = true;
   }
 

@@ -9,25 +9,30 @@ export class CameraCore {
 
   constructor() {
     log('CameraCore Created');
+
     this.camera = new PerspectiveCamera(
-      Config.THREEJS.CAMERA_SETTINGS.FOV,
+      Config.Threejs.CameraSettings.FOV,
       window.innerWidth / window.innerHeight,
-      Config.THREEJS.CAMERA_SETTINGS.NEAR,
-      Config.THREEJS.CAMERA_SETTINGS.FAR,
+      Config.Threejs.CameraSettings.NEAR,
+      Config.Threejs.CameraSettings.FAR,
     );
-    this.init();
-  }
 
-  init() {
     this.camera.position.set(
-      Config.THREEJS.CAMERA_SETTINGS.POS_X,
-      Config.THREEJS.CAMERA_SETTINGS.POS_Y,
-      Config.THREEJS.CAMERA_SETTINGS.POS_Z,
+      Config.Threejs.CameraSettings.POS_X,
+      Config.Threejs.CameraSettings.POS_Y,
+      Config.Threejs.CameraSettings.POS_Z,
     );
-    window.addEventListener('resize', () => this.onWindowResize(), false);
+
+    this.onResizeWindow = this.onResizeWindow.bind(this);
+
+    window.addEventListener('resize', this.onResizeWindow);
   }
 
-  onWindowResize() {
+  remove() {
+
+  }
+
+  onResizeWindow() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
   }

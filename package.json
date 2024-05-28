@@ -1,68 +1,31 @@
 {
-  "name": "inworld-web-gallery",
-  "version": "1.1.0",
-  "description": "",
-  "main": "index.js",
+  "name": "inworld-web-playground",
+  "private": true,
+  "version": "1.5.0",
+  "author": {
+    "name": "Theai, Inc.",
+    "url": "https://www.inworld.ai"
+  },
+  "main": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "vite --port 3000 --open",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@inworld/web-core": "2.2.0",
+    "@inworld/web-core": "^2.4.1",
     "@inworld/web-threejs": "^1.4.0",
-    "@mui/icons-material": "^5.14.11",
-    "@mui/material": "^5.14.11",
-    "@react-three/drei": "^9.96.1",
-    "@react-three/fiber": "^8.15.15",
-    "@types/uuid": "^9.0.7",
-    "leva": "^0.9.35",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.46.2",
-    "serve": "^14.2.1",
-    "three": "^0.160.1",
-    "three-stdlib": "^2.29.4",
-    "uuid": "^9.0.1"
+    "@react-three/postprocessing": "^2.16.2",
+    "add": "^2.0.6",
+    "three": "^0.164.1",
+    "three-stdlib": "^2.29.11",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
-    "@babel/plugin-transform-private-property-in-object": "^7.21.11",
-    "@types/react": "^18.2.23",
-    "@types/react-dom": "^18.2.8",
-    "@types/three": "^0.160.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "decompress": "^4.2.1",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-import-resolver-typescript": "3.6.1",
-    "eslint-plugin-markdown": "^3.0.1",
-    "eslint-plugin-prettier": "^5.0.0",
-    "eslint-plugin-simple-import-sort": "^7.0.0",
-    "prettier": "^3.1.1",
-    "typescript": "^5.3.2",
-    "vite": "^5.0.12",
-    "vite-plugin-svgr": "^4.2.0",
-    "vite-tsconfig-paths": "^4.3.1"
-  },
-  "scripts": {
-    "start": "vite",
-    "build": "tsc && vite build",
-    "serve": "vite preview",
-    "install:assets": "node ./src/asset-library-installer.js",
-    "lint:check": "eslint --cache  \"./src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore --config .eslintrc.json",
-    "lint:fix": "yarn run lint:check --fix",
-    "prettier:check": "yarn prettier --check \"./src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore --config .prettierrc.json",
-    "prettier:format": "yarn prettier --write \"./src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore --config .prettierrc.json"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "author": "",
-  "license": "ISC"
+    "@types/three": "^0.164.0",
+    "vite-tsconfig-paths": "^4.3.2"
+  }
 }

@@ -1,10 +1,9 @@
 import { Audio, AudioListener, AudioLoader } from 'three';
 
+import { model } from '../../model/Model';
+import { Config } from '../../utils/config';
 import { log } from '../../utils/log';
 import { ISoundCore } from './ISoundCore';
-
-const SOUND_FILE_URI =
-  '/assets/v1.0/sounds/FootstepSFX/Concrete_Shoes_Running.wav';
 
 export class SoundFootStep implements ISoundCore {
   sound: Audio;
@@ -19,8 +18,10 @@ export class SoundFootStep implements ISoundCore {
   init() {
     const audioLoader = new AudioLoader();
 
+    log(Config.AssetBaseURI + model.soundsData["SoundFootStep"])
+
     audioLoader.load(
-      SOUND_FILE_URI,
+      Config.AssetBaseURI + model.soundsData["SoundFootStep"],
       (buffer) => {
         this.sound.setBuffer(buffer);
         this.sound.setLoop(true);
@@ -28,7 +29,7 @@ export class SoundFootStep implements ISoundCore {
       },
       (xhr) => {
         // onProgress callback
-        log((xhr.loaded / xhr.total) * 100 + '% loaded');
+        // log('SoundFootStep', Math.round(xhr.loaded / xhr.total * 100) + '% loaded');
       },
       (err) => {
         // onError callback
