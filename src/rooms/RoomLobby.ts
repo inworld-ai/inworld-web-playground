@@ -61,7 +61,7 @@ export default class RoomLobby extends EventDispatcher {
         name: NAME_INNEQUIN,
         characterId: CHARACTER_ID,
         isLoaded: true,
-        position: new Vector3(0, 0, -5),
+        position: new Vector3(0, -1, -5),
         setConfig: this.onLoad,
       }
     );
