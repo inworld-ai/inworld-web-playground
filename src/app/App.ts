@@ -2,11 +2,13 @@ import './App.css';
 
 import { model } from '../model/Model';
 import { EVENT_COMPLETE, EVENT_PROGRESS, resources } from '../resources/Resources';
+import { EVENT_LOADED } from '../rooms/RoomPreload';
 import SceneMain from '../scenes/SceneMain';
 import ScenePreload from '../scenes/ScenePreload';
 import { STATE_RUNNING, system } from '../system/System';
 import Hud from '../ui/hud/Hud';
 import { uiController } from '../ui/UIController';
+import { log } from '../utils/log';
 
 export interface AppProps {
   root: HTMLDivElement;
@@ -21,9 +23,10 @@ export default class App {
 
   constructor(props: AppProps) {
     this.root = props.root;
+    this.onLoaded = this.onLoaded.bind(this);
     this.onPreloaded = this.onPreloaded.bind(this);
     this.onProgress = this.onProgress.bind(this);
-    this.onLoaded = this.onLoaded.bind(this);
+    this.onScenePreload = this.onScenePreload.bind(this);
     model.preload(this.onPreloaded);
   }
 
@@ -39,13 +42,18 @@ export default class App {
   onPreloaded() {
     console.log("App onPreloaded");
     this.scenePreload = new ScenePreload({ parent: this.root });
-    this.scenePreload.show();
-    this.hud = new Hud({});
-    model.load(this.onLoaded);
+    this.scenePreload.addListener(EVENT_LOADED, this.onScenePreload);
   }
 
   onProgress() {
     // console.log("App onProgress");
+  }
+
+  onScenePreload() {
+    log("onScenePreload");
+    this.scenePreload?.show();
+    this.hud = new Hud({});
+    model.load(this.onLoaded);
   }
 
 }

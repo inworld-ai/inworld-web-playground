@@ -1,8 +1,7 @@
 import { Group, Object3DEventMap, Vector3 } from 'three';
 import { GLTF } from 'three-stdlib';
 
-import { GLTFModelLoader } from '@inworld/web-threejs/build/src/loaders/GLTFModelLoader';
-
+import { GLTFModelLoader } from '../../loaders/GLTFModelLoader';
 import { Textbox } from '../../ui/text/Textbox';
 import { Config } from '../../utils/config';
 import { log } from '../../utils/log';

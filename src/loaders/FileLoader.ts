@@ -1,3 +1,4 @@
+import { log } from '../utils/log';
 import { IFileLoader } from './IFileLoader';
 
 export interface FileLoaderProps {
@@ -17,7 +18,7 @@ export class FileLoader implements IFileLoader {
 
   async load(onLoad: Function, onError?: Function) {
     try {
-      console.log("FileLoader loading:", this.fileURI);
+      // log("FileLoader loading:", this.fileURI);
       const file = await fetch(this.fileURI);
       onLoad(this.name);
     } catch (e: unknown) {

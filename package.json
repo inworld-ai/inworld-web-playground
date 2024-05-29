@@ -12,7 +12,7 @@
     "start": "vite --port 3000 --open",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "serve": "vite preview",
+    "serve": "serve build -s -n -L -p 80",
     "install:assets": "node ./src/asset-library-installer.js",
     "lint:check": "eslint --cache  \"./src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore --config .eslintrc.json",
     "lint:fix": "yarn run lint:check --fix",
@@ -20,8 +20,7 @@
     "prettier:format": "yarn prettier --write \"./src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore --config .prettierrc.json"
   },
   "dependencies": {
-    "@inworld/web-core": "^2.4.1",
-    "@inworld/web-threejs": "^1.5.0",
+    "@inworld/web-core": "^2.5.0",
     "add": "^2.0.6",
     "serve": "^14.2.3",
     "three": "^0.164.1",

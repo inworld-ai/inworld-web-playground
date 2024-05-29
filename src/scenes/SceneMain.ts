@@ -63,6 +63,7 @@ export default class SceneMain {
     let delta: number = this.clock.getDelta();
     this.playerController.onFrame(delta);
     this.renderer.render(this.scene, this.camera.camera);
+    this.roomLobby.onFrame(delta);
   }
 
   onLoadedRoom() {

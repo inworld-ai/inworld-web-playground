@@ -49,13 +49,13 @@ class PlayerController {
     // Check if the game is running and no character chat is happening.
     if (true) {
       // if (system.systemState === STATE_RUNNING && inworld.state === STATE_INIT) {
-      // Check if the character is running. If so play sound effect.
       const forwardVelocity =
         (this.inputController.keys['w'] ? 1 : 0) +
         (this.inputController.keys['s'] ? -1 : 0);
       const strafeVelocity =
         (this.inputController.keys['a'] ? 1 : 0) +
         (this.inputController.keys['d'] ? -1 : 0);
+      // Check if the character is running. If so play sound effect.
       // if (this.soundController && (forwardVelocity !== 0 || strafeVelocity !== 0)) {
       //   this.soundController?.play(SOUND_FOOTSTEPS);
       // } else {

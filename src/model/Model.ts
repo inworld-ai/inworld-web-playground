@@ -103,13 +103,13 @@ class Model {
 
   // Loads the list of characters.
   onLoadCharacters(charactersData: CharactersDataType) {
-    log("Model - onLoadCharacters");
+    // log("Model - onLoadCharacters");
     this.charactersData = charactersData;
   }
 
   // Loads the files associated with a character.\
   onLoadCharacterConfig(config: InnequinConfiguration | RPMConfiguration) {
-    log("Model - onLoadCharacterConfig");
+    // log("Model - onLoadCharacterConfig");
     this.characterConfigs.push(config);
   }
 
@@ -122,7 +122,7 @@ class Model {
 
   // Loads the sound file data for the sound controller.
   onLoadSounds(soundsData: SoundsDataType) {
-    log("Model - onLoadSounds");
+    // log("Model - onLoadSounds");
     this.soundsData = soundsData;
   }
 

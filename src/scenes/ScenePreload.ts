@@ -3,6 +3,7 @@ import './ScenePreload.css';
 import { Clock, Scene, WebGLRenderer } from 'three';
 
 import { CameraCore } from '../camera/CameraCore';
+import EventDispatcher from '../events/EventDispatcher';
 import { InputController } from '../input/InputController';
 import PlayerController from '../player/PlayerController';
 import RoomPreload, { EVENT_LOADED } from '../rooms/RoomPreload';
@@ -12,7 +13,7 @@ export interface ScenePreloadProps {
   parent: HTMLDivElement;
 }
 
-export default class ScenePreload {
+export default class ScenePreload extends EventDispatcher {
 
   camera: CameraCore;
   clock: Clock;
@@ -26,6 +27,9 @@ export default class ScenePreload {
 
   constructor(props: ScenePreloadProps) {
     log('ScenePreload constructor');
+
+    super();
+
     this.parent = props.parent;
     this.rafID = 0;
     this.clock = new Clock();
@@ -70,6 +74,7 @@ export default class ScenePreload {
     log('ScenePreload onLoadedRoom');
     this.scene.fog = this.roomPreload.getFog();
     this.scene.add(this.roomPreload.getObject());
+    this.dispatch(EVENT_LOADED);
   }
 
   onResizeWindow() {

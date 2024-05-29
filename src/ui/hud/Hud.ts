@@ -17,6 +17,7 @@ export default class Hud {
   progressBar: HTMLDivElement;
 
   constructor(props: HudProps) {
+
     this.parent = document.getElementById('hud') as HTMLDivElement;
 
     this.labelProjectName = document.createElement('p');
@@ -61,7 +62,6 @@ export default class Hud {
   }
 
   onLabel1(text: string) {
-    log("onLabel1", text);
     this.labelProjectTitle.innerHTML = text;
   }
 

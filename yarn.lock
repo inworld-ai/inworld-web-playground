@@ -173,16 +173,7 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/retry/-/retry-0.3.0.tgz#6d86b8cb322660f03d3f0aa94b99bdd8e172d570"
   integrity sha512-d2CGZR2o7fS6sWB7DG/3a95bGKQyHMACZ5aW8qGkkqQpUoZV6C0X7Pc7l4ZNMZkfNBf4VWNe9E1jRsf0G146Ew==
 
-"@inworld/web-core@2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@inworld/web-core/-/web-core-2.2.2.tgz#dfffc2f5cf3531ba624522eb5084b966322ec814"
-  integrity sha512-AIzHBTHIW175VWlR5EFljurYKw9uKteDcUapNjG5aA98Pj+6TkXrqIVgRxYfN/A7rmRXyEgRIeGMjTJG2uQAOw==
-  dependencies:
-    base64-arraybuffer "^1.0.2"
-    defer-promise "^3.0.0"
-    uuid "^9.0.0"
-
-"@inworld/web-core@^2.4.1":
+"@inworld/web-core@^2.5.0":
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/@inworld/web-core/-/web-core-2.5.0.tgz#56d115ac7ccef1b39bbd7d2c46c344e3f9b2146e"
   integrity sha512-GFfn1mMduWahGPEnSMlkpDb5d/fm06g2zhgGhBZOpr3hvK+3dfxd8EI2gD5DAYaOouSlVwqIamsIomwWwcpTvw==
@@ -190,16 +181,6 @@
     base64-arraybuffer "^1.0.2"
     defer-promise "^3.0.0"
     uuid "^9.0.0"
-
-"@inworld/web-threejs@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@inworld/web-threejs/-/web-threejs-1.5.0.tgz#98c147dc75d7c8961149722271f2758305d21009"
-  integrity sha512-PenMdgN4L9wTi3piTIeWPYe2hsa8l9zgNcuKr7RtGl0bb6GwodArGYjlg1YQuRQTYhgKtYphRwvmZypB75uWYg==
-  dependencies:
-    "@inworld/web-core" "2.2.2"
-    three "^0.164.1"
-    three-stdlib "^2.29.11"
-    uuid "^9.0.1"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1790,7 +1771,7 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
-uuid@^9.0.0, uuid@^9.0.1:
+uuid@^9.0.0:
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.1.tgz#e188d4c8853cc722220392c424cd637f32293f30"
   integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==

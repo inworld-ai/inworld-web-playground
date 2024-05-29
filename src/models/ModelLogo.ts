@@ -4,8 +4,7 @@ import { SRGBColorSpace } from 'three/src/constants';
 import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial';
 import { VideoTexture } from 'three/src/textures/VideoTexture';
 
-import { GLTFModelLoader } from '@inworld/web-threejs/build/src/loaders/GLTFModelLoader';
-
+import { GLTFModelLoader } from '../loaders/GLTFModelLoader';
 import { Config } from '../utils/config';
 import { log } from '../utils/log';
 
@@ -58,7 +57,7 @@ export default class ModelLogo {
 
   getGLTF(): GLTF | undefined {
     if (this.modelFile && this.modelFile.getGLTF()) {
-      return this.modelFile.getGLTF();
+      return this.modelFile.getGLTF() as GLTF;
     }
     return;
   }
@@ -77,7 +76,7 @@ export default class ModelLogo {
   }
 
   load() {
-    log('ModelLogo - load.');
+    log('ModelLogo - Load.');
     const fileURI: string = Config.AssetBaseURI + MODEL_URI;
     this.modelFile = new GLTFModelLoader({
       path: fileURI,
