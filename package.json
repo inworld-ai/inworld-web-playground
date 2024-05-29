@@ -11,7 +11,13 @@
   "scripts": {
     "start": "vite --port 3000 --open",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "serve": "vite preview",
+    "install:assets": "node ./src/asset-library-installer.js",
+    "lint:check": "eslint --cache  \"./src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore --config .eslintrc.json",
+    "lint:fix": "yarn run lint:check --fix",
+    "prettier:check": "yarn prettier --check \"./src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore --config .prettierrc.json",
+    "prettier:format": "yarn prettier --write \"./src/**/*.{js,jsx,ts,tsx}\" --ignore-path .eslintignore --config .prettierrc.json"
   },
   "dependencies": {
     "@inworld/web-core": "^2.4.1",
