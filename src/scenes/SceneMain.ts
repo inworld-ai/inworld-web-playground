@@ -3,6 +3,7 @@ import './SceneMain.css';
 import { Clock, Scene, WebGLRenderer } from 'three';
 
 import { CameraCore } from '../camera/CameraCore';
+import ClickDetection from '../helpers/ClickDetection';
 import { InputController } from '../input/InputController';
 import PlayerController from '../player/PlayerController';
 import RoomLobby, { EVENT_LOADED } from '../rooms/RoomLobby';
@@ -15,6 +16,7 @@ export interface SceneMainProps {
 export default class SceneMain {
 
   camera: CameraCore;
+  clickDetection?: ClickDetection;
   clock: Clock;
   inputController: InputController;
   parent: HTMLDivElement;
@@ -44,6 +46,7 @@ export default class SceneMain {
 
     this.roomLobby = new RoomLobby();
     this.roomLobby.addListener(EVENT_LOADED, this.onLoadedRoom);
+
   }
 
   hide() {
@@ -69,6 +72,7 @@ export default class SceneMain {
   onLoadedRoom() {
     log('SceneMain onLoadedRoom');
     this.scene.add(this.roomLobby.getObject());
+    this.clickDetection = new ClickDetection({ cameraCore: this.camera, scene: this.scene });
   }
 
   onResizeWindow() {

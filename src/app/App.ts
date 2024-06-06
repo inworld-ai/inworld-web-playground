@@ -1,12 +1,11 @@
 import './App.css';
 
 import { model } from '../model/Model';
-import { EVENT_COMPLETE, EVENT_PROGRESS, resources } from '../resources/Resources';
 import { EVENT_LOADED } from '../rooms/RoomPreload';
 import SceneMain from '../scenes/SceneMain';
 import ScenePreload from '../scenes/ScenePreload';
 import { STATE_RUNNING, system } from '../system/System';
-import Hud from '../ui/hud/Hud';
+import Hud from '../ui/Hud';
 import { uiController } from '../ui/UIController';
 import { log } from '../utils/log';
 

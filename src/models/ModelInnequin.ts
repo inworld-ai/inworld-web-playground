@@ -16,6 +16,7 @@ import {
 } from '../inworld/Inworld';
 import { Config } from '../utils/config';
 import { log } from '../utils/log';
+import ClickableCube from './clickables/ClickableCube';
 
 export interface ModelInnequinProps {
   isLoaded: boolean;
@@ -44,6 +45,7 @@ export default class ModelInnequin extends EventDispatcher {
   callbackClick?: (name: string) => void;
   callbackSetConfig?: (config: InnequinConfiguration) => void;
   callbackSetEmotion?: (emotion: EmotionBehaviorCode) => void;
+  boundingBox: ClickableCube;
   characterId?: string;
   config?: InnequinConfiguration;
   emotion?: EmotionBehaviorCode;
@@ -83,6 +85,8 @@ export default class ModelInnequin extends EventDispatcher {
       onProgress: this.onProgressInnequin,
     });
 
+    this.boundingBox = new ClickableCube({ length: 0.5, width: 1.7, height: 0.5, position: new Vector3(0, 0.85, 0), onClick: this.onClick });
+
     inworld.addListener(EVENT_INWORLD_EMOTION, this.onEmotion);
     inworld.addListener(EVENT_PHONEMES_HISTORY, this.onPhonemes);
 
@@ -94,7 +98,7 @@ export default class ModelInnequin extends EventDispatcher {
 
   frameUpdate(delta: number) {
     if (this.innequin) {
-      // this.innequin.updateFrame(delta);
+      this.innequin.updateFrame(delta);
     }
   }
 
@@ -126,8 +130,7 @@ export default class ModelInnequin extends EventDispatcher {
     }
   }
 
-  onClick(e: MouseEvent) {
-    e.stopPropagation();
+  onClick() {
     if (!inworld.open) return;
     if (inworld.state !== STATE_INIT) return;
     const options: OpenConnectionType = { name: this.name || DEFAULT_NAME };
@@ -152,6 +155,7 @@ export default class ModelInnequin extends EventDispatcher {
     this.config = config;
     if (this.innequin && this.innequin.getModel()) {
       this.group.add(this.innequin?.getModel() as Object3D<Object3DEventMap>);
+      this.group.add(this.boundingBox.model);
       this.setEmotion(config.innequin.defaults.EMOTION);
       if (this.callbackSetEmotion)
         this.callbackSetEmotion(config.innequin.defaults.EMOTION);

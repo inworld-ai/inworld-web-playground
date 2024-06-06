@@ -1,14 +1,16 @@
 import './Hud.css';
 
-import { EVENT_PROGRESS, ProgressType, resources } from '../../resources/Resources';
-import { log } from '../../utils/log';
-import { EVENT_LABEL1, uiController } from '../UIController';
+import { EVENT_PROGRESS, ProgressType, resources } from '../resources/Resources';
+import { log } from '../utils/log';
+import ChatUI from './Chat';
+import { EVENT_LABEL1, uiController } from './UIController';
 
 export interface HudProps {
 }
 
 export default class Hud {
 
+  chatUI: ChatUI;
   hudUpperLeft: HTMLDivElement;
   labelCopywrite: HTMLParagraphElement;
   labelProjectName: HTMLParagraphElement;
@@ -49,6 +51,8 @@ export default class Hud {
 
     this.onLabel1 = this.onLabel1.bind(this);
     this.onProgress = this.onProgress.bind(this);
+
+    this.chatUI = new ChatUI({ parent: this.parent });
 
     resources.addListener(EVENT_PROGRESS, this.onProgress);
     uiController.addListener(EVENT_LABEL1, this.onLabel1)

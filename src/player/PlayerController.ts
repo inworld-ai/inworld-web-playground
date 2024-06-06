@@ -47,8 +47,8 @@ class PlayerController {
     }
 
     // Check if the game is running and no character chat is happening.
-    if (true) {
-      // if (system.systemState === STATE_RUNNING && inworld.state === STATE_INIT) {
+    // if (true) {
+    if (system.systemState === STATE_RUNNING && inworld.state === STATE_INIT) {
       const forwardVelocity =
         (this.inputController.keys['w'] ? 1 : 0) +
         (this.inputController.keys['s'] ? -1 : 0);

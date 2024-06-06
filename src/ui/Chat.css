@@ -1,0 +1,15 @@
+.chatUIInput {
+  font-size: 20px;
+  top: 90vh;
+  width: 80vw;
+  left: 10vw;
+  position: absolute;
+}
+
+.chatUICloseButton {
+  font-size: 20px;
+  top: 90vh;
+  width: 4vw;
+  right: 5vw;
+  position: absolute;
+}
