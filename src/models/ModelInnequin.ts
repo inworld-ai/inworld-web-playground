@@ -55,9 +55,8 @@ export default class ModelInnequin extends EventDispatcher {
   name?: string;
   skinNameInitial: string;
 
-  // const { emotionEvent, name, open, phonemes, state } = useInworld();
-
   constructor(props: ModelInnequinProps) {
+
     super();
 
     this.isLoaded = false;
@@ -92,14 +91,14 @@ export default class ModelInnequin extends EventDispatcher {
 
   }
 
-  get model(): Group {
-    return this.group;
-  }
-
   frameUpdate(delta: number) {
     if (this.innequin) {
       this.innequin.updateFrame(delta);
     }
+  }
+
+  get model(): Group {
+    return this.group;
   }
 
   setAnimation(animationName: string) {

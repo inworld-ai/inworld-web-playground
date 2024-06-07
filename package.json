@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@inworld/web-core": "^2.5.0",
-    "@inworld/web-threejs": "^1.5.0",
     "@types/uuid": "^9.0.8",
     "add": "^2.0.6",
     "serve": "^14.2.3",

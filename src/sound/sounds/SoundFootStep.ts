@@ -1,6 +1,6 @@
 import { Audio, AudioListener, AudioLoader } from 'three';
 
-import { model } from '../../model/Model';
+import { model } from '../../data/Model';
 import { Config } from '../../utils/config';
 import { log } from '../../utils/log';
 import { ISoundCore } from './ISoundCore';

@@ -1,6 +1,6 @@
 import './App.css';
 
-import { model } from '../model/Model';
+import { model } from '../data/Model';
 import { EVENT_LOADED } from '../rooms/RoomPreload';
 import SceneMain from '../scenes/SceneMain';
 import ScenePreload from '../scenes/ScenePreload';

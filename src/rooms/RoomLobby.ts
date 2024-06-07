@@ -3,13 +3,13 @@ import { AmbientLight } from 'three/src/lights/AmbientLight';
 import { HemisphereLight } from 'three/src/lights/HemisphereLight';
 import { Group } from 'three/src/objects/Group';
 
-import EventDispatcher from '../events/EventDispatcher';
 import ModelInnequin from '../models/ModelInnequin';
 import { RoomEnd } from '../models/roomparts/RoomEnd';
 import { RoomHall } from '../models/roomparts/RoomHall';
 import { RoomPortal } from '../models/roomparts/RoomPortal';
 import { Textbox } from '../ui/text/Textbox';
 import { log } from '../utils/log';
+import RoomBase, { RoomBaseProps } from './RoomBase';
 
 const CHARACTER_ID =
   'workspaces/inworld-playground/characters/lobby_bot_-_innequin';
@@ -20,7 +20,7 @@ const TRIGGER_WELCOME = 'greet_player';
 const ROOM_TITLE = 'Playground Showcases';
 const ROOM_DESCRIPTION = 'Walk into a portal to explore Inworld\'s features for Web.';
 
-export default class RoomLobby extends EventDispatcher {
+export default class RoomLobby extends RoomBase {
 
   groupLobby: Group;
   innequin: ModelInnequin;
@@ -41,7 +41,7 @@ export default class RoomLobby extends EventDispatcher {
   roomPortalScene: RoomPortal;
   roomPortalEnvironment: RoomPortal;
 
-  constructor() {
+  constructor(props: RoomBaseProps) {
 
     super();
 
@@ -50,8 +50,8 @@ export default class RoomLobby extends EventDispatcher {
 
     this.groupLobby = new Group();
     this.groupLobby.name = "GroupLobby";
-    this.groupLobby.position.set(0, 0, 0);
-    this.groupLobby.rotation.set(0, 0, 0);
+    this.groupLobby.position.set(props.position?.x || 0, props.position?.y || 0, props.position?.z || 0);
+    this.groupLobby.rotation.set(props.rotation?.x || 0, props.rotation?.y || 0, props.rotation?.z || 0);
 
     this.labelHeader = new Textbox({ label: ROOM_TITLE, font: "Arial", fontSize: 60, color: "white", width: 650, height: 100 });
     this.labelDescription = new Textbox({ label: ROOM_DESCRIPTION, font: "Arial", fontSize: 20, color: "white", width: 600, height: 400 });
@@ -234,6 +234,8 @@ export default class RoomLobby extends EventDispatcher {
       this.groupLobby.add(this.labelDescription.mesh);
       this.groupLobby.add(this.lightAmbient);
       this.groupLobby.add(this.lightHemisphere);
+
+      this.isLoaded = true;
       this.dispatch(EVENT_LOADED);
     }
   };

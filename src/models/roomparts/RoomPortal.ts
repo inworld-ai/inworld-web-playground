@@ -1,4 +1,4 @@
-import { Group, Object3DEventMap } from 'three';
+import { Group, Object3DEventMap, Vector3 } from 'three';
 import { GLTF } from 'three-stdlib';
 import { Object3D } from 'three/src/core/Object3D';
 
@@ -6,6 +6,7 @@ import { GLTFModelLoader } from '../../loaders/GLTFModelLoader';
 import { Textbox } from '../../ui/text/Textbox';
 import { Config } from '../../utils/config';
 import { log } from '../../utils/log';
+import ColidableCube from '../colidables/ColidableCube';
 
 export type RoomPortalProps = {
   id: string;
@@ -19,6 +20,7 @@ export const MODEL_URI = "/models/room_portal.glb";
 
 export class RoomPortal {
 
+  boundingBox: ColidableCube;
   group: Group;
   id: string;
   isLoaded: boolean;
@@ -28,15 +30,22 @@ export class RoomPortal {
   onProgress: (progress: number) => void;
 
   constructor(props: RoomPortalProps) {
+
     this.isLoaded = false;
     this.group = new Group();
     this.id = props.id;
     this.labelTitle = new Textbox({ label: props.label || '', font: "Arial", fontSize: 30, color: "white", width: 600, height: 100 });
+    this.boundingBox = new ColidableCube({ length: 3, width: 3, height: 0.5, position: new Vector3(0, -1.7, 0) });
+    this.boundingBox.show();
+
     this.onLoad = props.onLoad;
     this.onProgress = props.onProgress;
+
     this.onLoadComplete = this.onLoadComplete.bind(this);
     this.onLoadProgress = this.onLoadProgress.bind(this);
+
     this.load();
+
   }
 
   get portal(): Group {
@@ -80,6 +89,7 @@ export class RoomPortal {
       model.position.set(0, 0, 0);
       model.rotation.set(-Math.PI / 2, 0, Math.PI / 2);
       this.group.add(model);
+      this.group.add(this.boundingBox.model);
       this.labelTitle.mesh.position.set(2.3, 0, 0);
       this.group.add(this.labelTitle.mesh);
     }

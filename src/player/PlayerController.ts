@@ -4,6 +4,7 @@ import { CameraCore } from '../camera/CameraCore';
 import { FirstPersonCamera } from '../camera/FirstPersonCamera';
 import { InputController } from '../input/InputController';
 import { inworld, STATE_INIT } from '../inworld/Inworld';
+import ClickableCube from '../models/clickables/ClickableCube';
 import { SoundController } from '../sound/SoundController';
 import { SOUND_FOOTSTEPS } from '../sound/SoundIDs';
 import { EVENT_SYSTEM_STATE, STATE_PAUSED, STATE_RUNNING, system } from '../system/System';
@@ -14,6 +15,7 @@ export interface PlayerControllerProps {
 }
 
 class PlayerController {
+
   escClick: boolean;
   fpsCamera: FirstPersonCamera;
   inputController: InputController;
@@ -47,7 +49,6 @@ class PlayerController {
     }
 
     // Check if the game is running and no character chat is happening.
-    // if (true) {
     if (system.systemState === STATE_RUNNING && inworld.state === STATE_INIT) {
       const forwardVelocity =
         (this.inputController.keys['w'] ? 1 : 0) +

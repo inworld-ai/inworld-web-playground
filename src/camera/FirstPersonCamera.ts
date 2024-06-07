@@ -2,6 +2,7 @@ import { Quaternion, Vector3 } from 'three';
 import { clamp } from 'three/src/math/MathUtils';
 
 import { InputController } from '../input/InputController';
+import ColidableCube from '../models/colidables/ColidableCube';
 import { Config } from '../utils/config';
 import { log } from '../utils/log';
 import { CameraCore } from './CameraCore';
