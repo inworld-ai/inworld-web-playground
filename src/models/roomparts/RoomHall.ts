@@ -1,7 +1,7 @@
 import { Group, Object3D, Object3DEventMap } from 'three';
 import { GLTF } from 'three-stdlib';
 
-import { GLTFModelLoader } from '../../loaders/GLTFModelLoader';
+import GLTFModelPreloader from '../../loaders/GLTFModelPreloader';
 import { Config } from '../../utils/config';
 import { log } from '../../utils/log';
 
@@ -18,7 +18,7 @@ export class RoomHall {
 
   id: string;
   isLoaded: boolean;
-  modelFile: GLTFModelLoader | undefined;
+  modelFile: GLTFModelPreloader | undefined;
   onLoad: () => void;
   onProgress: (progress: number) => void;
 
@@ -54,7 +54,7 @@ export class RoomHall {
 
   load() {
     const fileURI: string = Config.AssetBaseURI + MODEL_URI;
-    this.modelFile = new GLTFModelLoader({
+    this.modelFile = new GLTFModelPreloader({
       path: fileURI,
       dracoPath: Config.Threejs.DracoCompressionURI,
     });

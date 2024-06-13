@@ -2,8 +2,8 @@ import { Group, Object3DEventMap, Vector3 } from 'three';
 import { GLTF } from 'three-stdlib';
 import { Object3D } from 'three/src/core/Object3D';
 
-import { GLTFModelLoader } from '../../loaders/GLTFModelLoader';
-import { Textbox } from '../../ui/text/Textbox';
+import GLTFModelPreloader from '../../loaders/GLTFModelPreloader';
+import { TextAlign, Textbox } from '../../ui/text/Textbox';
 import { Config } from '../../utils/config';
 import { log } from '../../utils/log';
 import ColidableCube from '../colidables/ColidableCube';
@@ -25,7 +25,7 @@ export class RoomPortal {
   id: string;
   isLoaded: boolean;
   labelTitle: Textbox;
-  modelFile: GLTFModelLoader | undefined;
+  modelFile: GLTFModelPreloader | undefined;
   onLoad: () => void;
   onProgress: (progress: number) => void;
 
@@ -34,7 +34,7 @@ export class RoomPortal {
     this.isLoaded = false;
     this.group = new Group();
     this.id = props.id;
-    this.labelTitle = new Textbox({ label: props.label || '', font: "Arial", fontSize: 30, color: "white", width: 600, height: 100 });
+    this.labelTitle = new Textbox({ label: props.label || '', font: "Arial", fontSize: 60, color: "white", width: 500, height: 60, align: TextAlign.Center });
     this.boundingBox = new ColidableCube({ length: 3, width: 3, height: 0.5, position: new Vector3(0, -1.7, 0) });
     this.boundingBox.show();
 
@@ -74,7 +74,7 @@ export class RoomPortal {
 
   load() {
     const fileURI: string = Config.AssetBaseURI + MODEL_URI;
-    this.modelFile = new GLTFModelLoader({
+    this.modelFile = new GLTFModelPreloader({
       path: fileURI,
       dracoPath: Config.Threejs.DracoCompressionURI,
     });
@@ -86,11 +86,11 @@ export class RoomPortal {
     if (this.modelFile && this.modelFile.getGLTF()) {
       const model = this.modelFile.getGLTF()!.scene.getObjectByName(MESH_NAME);
       if (!model) throw new Error("Model not found");
-      model.position.set(0, 0, 0);
-      model.rotation.set(-Math.PI / 2, 0, Math.PI / 2);
-      this.group.add(model);
-      this.group.add(this.boundingBox.model);
-      this.labelTitle.mesh.position.set(2.3, 0, 0);
+      // model.position.set(0, 0, 0);
+      // model.rotation.set(-Math.PI / 2, 0, Math.PI / 2);
+      // this.group.add(model);
+      // this.group.add(this.boundingBox.model);
+      this.labelTitle.mesh.position.set(0, 0.1, 0);
       this.group.add(this.labelTitle.mesh);
     }
     this.isLoaded = true;

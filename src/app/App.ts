@@ -30,16 +30,16 @@ export default class App {
   }
 
   onLoaded() {
-    console.log("App onLoaded");
+    log("App onLoaded");
     uiController.setLabel1(" ");
     this.sceneMain = new SceneMain({ parent: this.root });
-    this.sceneMain?.show();
     this.scenePreload?.hide();
+    this.sceneMain?.show();
     system.setSystemState(STATE_RUNNING);
   }
 
   onPreloaded() {
-    console.log("App onPreloaded");
+    log("App onPreloaded");
     this.scenePreload = new ScenePreload({ parent: this.root });
     this.scenePreload.addListener(EVENT_LOADED, this.onScenePreload);
   }
@@ -49,7 +49,7 @@ export default class App {
   }
 
   onScenePreload() {
-    log("onScenePreload");
+    log("App onScenePreload");
     this.scenePreload?.show();
     this.hud = new Hud({});
     model.load(this.onLoaded);

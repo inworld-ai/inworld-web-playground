@@ -79,6 +79,10 @@ export default class RoomPreload extends EventDispatcher {
     this.lightSpot.position.set(0, 10, 0);
   }
 
+  dispose() {
+    
+  }
+
   getFog() {
     return this.fog;
   }

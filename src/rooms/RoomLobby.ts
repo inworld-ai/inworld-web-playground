@@ -7,7 +7,7 @@ import ModelInnequin from '../models/ModelInnequin';
 import { RoomEnd } from '../models/roomparts/RoomEnd';
 import { RoomHall } from '../models/roomparts/RoomHall';
 import { RoomPortal } from '../models/roomparts/RoomPortal';
-import { Textbox } from '../ui/text/Textbox';
+import { TextAlign, Textbox } from '../ui/text/Textbox';
 import { log } from '../utils/log';
 import RoomBase, { RoomBaseProps } from './RoomBase';
 
@@ -53,8 +53,8 @@ export default class RoomLobby extends RoomBase {
     this.groupLobby.position.set(props.position?.x || 0, props.position?.y || 0, props.position?.z || 0);
     this.groupLobby.rotation.set(props.rotation?.x || 0, props.rotation?.y || 0, props.rotation?.z || 0);
 
-    this.labelHeader = new Textbox({ label: ROOM_TITLE, font: "Arial", fontSize: 60, color: "white", width: 650, height: 100 });
-    this.labelDescription = new Textbox({ label: ROOM_DESCRIPTION, font: "Arial", fontSize: 20, color: "white", width: 600, height: 400 });
+    this.labelHeader = new Textbox({ label: ROOM_TITLE, font: "Arial", fontSize: 100, color: "white", align: TextAlign.Center, width: 1100, height: 125 });
+    this.labelDescription = new Textbox({ label: ROOM_DESCRIPTION, font: "Arial", fontSize: 40, color: "white", align: TextAlign.Center, width: 1100, height: 60 });
 
     this.innequin = new ModelInnequin(
       {
@@ -151,7 +151,7 @@ export default class RoomLobby extends RoomBase {
   }
 
   onLoad() {
-    log('RoomLobby onLoad', this.innequin.isLoaded);
+    log('RoomLobby onLoad');
     if (
       this.roomHall1 &&
       this.roomHall1.isLoaded &&
@@ -211,8 +211,8 @@ export default class RoomLobby extends RoomBase {
       groupEnvironment.position.set(15, 3.5, -8.5);
 
 
-      this.labelHeader.mesh.position.set(0, 5.5, -8.5);
-      this.labelDescription.mesh.position.set(0, 3, -8.5);
+      this.labelHeader.mesh.position.set(0.1, 5, -8.5);
+      this.labelDescription.mesh.position.set(0.1, 4.4, -8.6);
 
       groupInteraction.add(this.roomPortalInteraction.portal);
       groupGoals.add(this.roomPortalGoals.portal);

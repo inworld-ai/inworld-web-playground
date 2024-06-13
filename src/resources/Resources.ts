@@ -1,8 +1,7 @@
 
-import { GLTFModelLoader } from '@inworld/web-threejs/build/src/loaders/GLTFModelLoader';
-
 import EventDispatcher from '../events/EventDispatcher';
 import { FileLoader } from '../loaders/FileLoader';
+import GLTFModelPreloader from '../loaders/GLTFModelPreloader';
 import { JSONFileLoader } from '../loaders/JSONFileLoader';
 import { Config } from '../utils/config';
 import { log } from '../utils/log';
@@ -49,6 +48,7 @@ class Resources extends EventDispatcher {
   }
 
   decrementCount() {
+    log("Resources decrementCount");
     this.loadCount--;
     const progress: number = Math.round((this.totalCount - this.loadCount) / this.totalCount * 100);
     this.dispatch(EVENT_PROGRESS, { progress } as ProgressType);
@@ -81,7 +81,7 @@ class Resources extends EventDispatcher {
   // TODO Currently not implemented correctly
   loadModel(fileURI: string, callback?: Function) {
     this.incrementCount();
-    const loader = new GLTFModelLoader({
+    const loader = new GLTFModelPreloader({
       path: fileURI,
       dracoPath: Config.Threejs.DracoCompressionURI,
     });

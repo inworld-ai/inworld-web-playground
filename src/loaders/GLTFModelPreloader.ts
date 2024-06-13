@@ -5,12 +5,12 @@ import { DRACOLoader, GLTF, GLTFLoader } from 'three-stdlib';
 import { log } from '../utils/log';
 import { IFileLoader } from './IFileLoader';
 
-export interface GLTFModelLoaderProps {
+export interface GLTFModelPreloaderProps {
   path: string;
   dracoPath?: string;
 }
 
-export class GLTFModelLoader implements IFileLoader {
+export default class GLTFModelPreloader implements IFileLoader {
   path: string;
   dracoLoader?: DRACOLoader;
   loader: GLTFLoader;
@@ -18,7 +18,7 @@ export class GLTFModelLoader implements IFileLoader {
   isLoaded: Boolean = false;
   model?: GLTF;
 
-  constructor(props: GLTFModelLoaderProps) {
+  constructor(props: GLTFModelPreloaderProps) {
     this.path = props.path;
     this.loader = new GLTFLoader();
     if (props.dracoPath) {
@@ -33,24 +33,24 @@ export class GLTFModelLoader implements IFileLoader {
 
   public getGLTF(): GLTF | undefined {
     if (!this.model) {
-      throw new Error('GLTFModelLoader model not loaded');
+      throw new Error('GLTFModelPreloader model not loaded');
     }
     return this.model;
   }
 
   public load(callback: Function) {
-    log('GLTFModelLoader load');
+    log('GLTFModelPreloader load');
     this.callback = callback;
     this.loader.load(this.path, this.onLoad, this.onUpdate, this.onError);
   }
 
   private onError(error: ErrorEvent) {
-    log('GLTFModelLoader onError', error);
+    log('GLTFModelPreloader onError', error);
     throw new Error('Error loading file ' + this.path + ' ' + error);
   }
 
   private onLoad(model: GLTF) {
-    log('GLTFModelLoader onLoad');
+    log('GLTFModelPreloader onLoad');
     this.model = model;
     this.model.scene.traverse((node) => {
       if ((node as Mesh).isMesh) {
@@ -63,6 +63,6 @@ export class GLTFModelLoader implements IFileLoader {
   }
 
   private onUpdate(event: ProgressEvent) {
-    // log('GLTFModelLoader onUpdate', event);
+    // log('GLTFModelPreloader onUpdate', event);
   }
 }

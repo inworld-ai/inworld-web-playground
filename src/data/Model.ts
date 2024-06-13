@@ -1,7 +1,7 @@
 import { S } from 'vite/dist/node/types.d-aGj9QkWt';
 
 import {
-  Innequin, InnequinAnimationType, InnequinConfiguration, RPMConfiguration
+    Innequin, InnequinAnimationType, InnequinConfiguration, RPMConfiguration
 } from '@inworld/web-threejs';
 import { EMOTIONS_FACE, FACE_TEXTURE_TYPES } from '@inworld/web-threejs/build/src/types/types';
 
@@ -97,8 +97,8 @@ class Model {
     resources.addListener(EVENT_COMPLETE, this.onPreload);
     resources.loadJSON(Config.CharactersDataURI, this.onLoadCharacters);
     resources.loadJSON(Config.SoundsDataURI, this.onLoadSounds);
-    resources.loadFile(Config.AssetBaseURI + LOGO_VIDEO_URI);
-    resources.loadFile(Config.AssetBaseURI + LOGO_MODEL_URI);
+    // resources.loadFile(Config.AssetBaseURI + LOGO_VIDEO_URI);
+    // resources.loadFile(Config.AssetBaseURI + LOGO_MODEL_URI);
   }
 
   // Loads the list of characters.

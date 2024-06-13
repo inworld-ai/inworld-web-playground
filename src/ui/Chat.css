@@ -1,15 +1,72 @@
-.chatUIInput {
-  font-size: 20px;
+.chatUI {
   top: 90vh;
-  width: 80vw;
-  left: 10vw;
+  width: 90vw;
+  left: 5vw;
+  height: 4vh;
+  display: grid;
+  column-gap: 20px;
   position: absolute;
 }
 
-.chatUICloseButton {
-  font-size: 20px;
-  top: 90vh;
-  width: 4vw;
-  right: 5vw;
-  position: absolute;
+.chatUIRound {
+  border-radius: 32px;
+}
+
+.chatUIInput {
+  color: rgb(128, 74, 240);
+  padding: 0 20px;
+  margin: 0;
+  border: 0;
+  font-size: 1.5vh;
+  height: 100%;
+  grid-column-start: 1;
+  grid-column-end: 14;
+}
+
+.chatUIInput:focus {
+  outline-offset: 0px !important;
+  outline: none !important;
+}
+
+.chatUIButton {
+  color: white;
+  padding: 0;
+  margin: 0;
+  font-size: 1.1vh;
+  font-weight: 500;
+  border: 0;
+  background-color: rgb(128, 74, 240);
+}
+
+.chatUIButton:hover {
+  cursor: pointer;
+}
+
+.chatUIButtonEnter { 
+  grid-column-start: 14;
+  grid-column-end: 15;
+}
+
+.chatUIButton embed {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+
+.chatUIButton embed:hover {
+  cursor: pointer;
+}
+
+.chatUIButtonRecord {
+  grid-column-start: 15;
+  grid-column-end: 16;
+}
+
+.chatUIButtonPTT {
+  grid-column-start: 16;
+  grid-column-end: 17;
+}
+
+.chatUIButtonClose {
+  grid-column-start: 17;
+  grid-column-end: 18;
 }

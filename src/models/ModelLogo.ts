@@ -4,7 +4,8 @@ import { SRGBColorSpace } from 'three/src/constants';
 import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial';
 import { VideoTexture } from 'three/src/textures/VideoTexture';
 
-import { GLTFModelLoader } from '../loaders/GLTFModelLoader';
+import { GLTFModelLoader } from '@inworld/web-threejs/build/src/loaders/GLTFModelLoader';
+
 import { Config } from '../utils/config';
 import { log } from '../utils/log';
 

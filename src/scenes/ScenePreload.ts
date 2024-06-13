@@ -52,8 +52,9 @@ export default class ScenePreload extends EventDispatcher {
   }
 
   hide() {
-    if (this.rafID !== 0) cancelAnimationFrame(this.rafID);
     window.removeEventListener("resize", this.onResizeWindow);
+    if (this.rafID !== 0) cancelAnimationFrame(this.rafID);
+    this.renderer.dispose();
     this.parent.removeChild(this.renderer.domElement);
   }
 
