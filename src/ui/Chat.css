@@ -35,11 +35,16 @@
   font-size: 1.1vh;
   font-weight: 500;
   border: 0;
-  background-color: rgb(128, 74, 240);
+  background-color: #561EE5;
 }
 
 .chatUIButton:hover {
   cursor: pointer;
+  background-color: rgb(128, 74, 240);
+}
+
+.chatUIButtonActive {
+  background-color: rgb(128, 74, 240) !important;
 }
 
 .chatUIButtonEnter { 

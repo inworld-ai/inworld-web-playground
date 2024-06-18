@@ -25,7 +25,8 @@ const TEXTURE_NORMAL_URI: string = "/textures/floor/preload/SurfaceImperfections
 
 export default class RoomPreload extends EventDispatcher {
 
-  fog: Fog;
+  // fog: Fog;
+  floor: Mesh;
   groupRoom: Group;
   ground: Reflector;
   // groundTextureBase: TextureFileLoader;
@@ -57,14 +58,14 @@ export default class RoomPreload extends EventDispatcher {
       onProgress: this.onProgress,
     });
 
-    this.fog = new Fog(new Color('black'), 30, 40);
+    // this.fog = new Fog(new Color('black'), 30, 40);
 
-    const floor = new Mesh(
+    this.floor = new Mesh(
       new PlaneGeometry(100, 100)
     );
-    floor.rotation.x = -Math.PI / 2;
+    this.floor.rotation.x = -Math.PI / 2;
 
-    this.ground = new Reflector(floor.geometry, {
+    this.ground = new Reflector(this.floor.geometry, {
       clipBias: 0.003,
       color: new Color(0xffffff),
       textureWidth: window.innerWidth * window.devicePixelRatio,
@@ -80,12 +81,21 @@ export default class RoomPreload extends EventDispatcher {
   }
 
   dispose() {
-    
+    this.groupRoom.remove(this.ground);
+    this.groupRoom.remove(this.lightAmbient);
+    this.groupRoom.remove(this.lightDirectional);
+    this.groupRoom.remove(this.lightSpot);
+    // this.groupRoom.remove(this.logo.getObject());
+    this.ground.dispose();
+    this.lightAmbient.dispose();
+    this.lightDirectional.dispose();
+    this.lightSpot.dispose();
+    this.logo.dispose();
   }
 
-  getFog() {
-    return this.fog;
-  }
+  // getFog() {
+  //   return this.fog;
+  // }
 
   getObject() {
     return this.groupRoom;

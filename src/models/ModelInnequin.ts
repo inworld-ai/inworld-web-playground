@@ -5,14 +5,14 @@ import { Euler, Group, Object3D, Object3DEventMap, Vector3 } from 'three';
 import { EmotionBehaviorCode, EmotionEvent } from '@inworld/web-core';
 import { AdditionalPhonemeInfo } from '@inworld/web-core/build/proto/ai/inworld/packets/packets.pb';
 import {
-  Innequin, InnequinBodyEmotionToBehavior, InnequinConfiguration
+    Innequin, InnequinBodyEmotionToBehavior, InnequinConfiguration
 } from '@inworld/web-threejs';
 import { GENDER_TYPES } from '@inworld/web-threejs/build/src/types/types';
 
 import EventDispatcher from '../events/EventDispatcher';
 import {
-  EVENT_EMOTION as EVENT_INWORLD_EMOTION, EVENT_PHONEMES_HISTORY, inworld, OpenConnectionType,
-  STATE_INIT
+    EVENT_EMOTION as EVENT_INWORLD_EMOTION, EVENT_PHONEMES_HISTORY, inworld, OpenConnectionType,
+    STATE_INIT
 } from '../inworld/Inworld';
 import { Config } from '../utils/config';
 import { log } from '../utils/log';
@@ -60,7 +60,7 @@ export default class ModelInnequin extends EventDispatcher {
     super();
 
     this.isLoaded = false;
-    this.group = new Group();
+  
     this.characterId = props.characterId;
     this.name = props.name;
     this.skinNameInitial = props.skinName || DEFAULT_SKIN;
@@ -74,6 +74,12 @@ export default class ModelInnequin extends EventDispatcher {
     this.onLoadInnequin = this.onLoadInnequin.bind(this);
     this.onPhonemes = this.onPhonemes.bind(this);
     this.onProgressInnequin = this.onProgressInnequin.bind(this);
+
+    this.group = new Group();
+    
+    if (props.position) {
+      this.group.position.set(props.position.x, props.position.y, props.position.z)
+    }
 
     this.innequin = new Innequin({
       baseURI: Config.AssetBaseURI + '/innequin',

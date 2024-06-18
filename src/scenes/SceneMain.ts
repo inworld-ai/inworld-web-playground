@@ -7,8 +7,7 @@ import ClickDetection from '../helpers/ClickDetection';
 import { InputController } from '../input/InputController';
 import ColidableCube from '../models/colidables/ColidableCube';
 import PlayerController from '../player/PlayerController';
-import RoomInteraction from '../rooms/RoomInteraction';
-import RoomLobby, { EVENT_LOADED } from '../rooms/RoomLobby';
+import RoomMain, { EVENT_LOADED } from '../rooms/RoomMain';
 import { log } from '../utils/log';
 
 export interface SceneMainProps {
@@ -17,7 +16,7 @@ export interface SceneMainProps {
 
 export default class SceneMain {
 
-  boundingBox: ColidableCube;
+  // boundingBox: ColidableCube;
   camera: CameraCore;
   clickDetection?: ClickDetection;
   clock: Clock;
@@ -26,8 +25,9 @@ export default class SceneMain {
   playerController: PlayerController;
   rafID: number;
   renderer: WebGLRenderer;
-  roomLobby: RoomLobby;
-  roomInteraction: RoomInteraction;
+  roomMain: RoomMain;
+  // roomLobby: RoomLobby;
+  // roomInteraction: RoomInteraction;
   scene: Scene;
 
   constructor(props: SceneMainProps) {
@@ -40,8 +40,8 @@ export default class SceneMain {
     this.scene = new Scene();
     this.camera = new CameraCore();
 
-    this.boundingBox = new ColidableCube({ length: 1, width: 1, height: 1, position: new Vector3(0, 0, 0) });
-    this.boundingBox.show();
+    // this.boundingBox = new ColidableCube({ length: 1, width: 1, height: 1, position: new Vector3(0, 0, 0) });
+    // this.boundingBox.show();
     this.inputController = new InputController();
     this.playerController = new PlayerController({ cameraCore: this.camera, inputController: this.inputController });
     this.renderer = new WebGLRenderer({ antialias: true });
@@ -52,10 +52,13 @@ export default class SceneMain {
     this.onResizeWindow = this.onResizeWindow.bind(this);
     this.onResizeWindow();
 
-    this.roomLobby = new RoomLobby({ position: new Vector3(0, 0, 0) });
-    this.roomInteraction = new RoomInteraction({ position: new Vector3(45, 0, 0) });
-    this.roomLobby.addListener(EVENT_LOADED, this.onLoadedRoom);
-    this.roomInteraction.addListener(EVENT_LOADED, this.onLoadedRoom);
+    this.roomMain = new RoomMain({ position: new Vector3(0, 0, 0) });
+    this.roomMain.addListener(EVENT_LOADED, this.onLoadedRoom);
+    
+    // this.roomLobby = new RoomLobby({ position: new Vector3(0, 0, 0) });
+    // this.roomInteraction = new RoomInteraction({ position: new Vector3(45, 0, 0) });
+    // this.roomLobby.addListener(EVENT_LOADED, this.onLoadedRoom);
+    // this.roomInteraction.addListener(EVENT_LOADED, this.onLoadedRoom);
 
   }
 
@@ -76,19 +79,22 @@ export default class SceneMain {
     let delta: number = this.clock.getDelta();
     this.playerController.onFrame(delta);
     this.renderer.render(this.scene, this.camera.camera);
-    this.roomLobby.onFrame(delta);
-    this.boundingBox.model.position.set(this.camera.camera.position.x, this.boundingBox.model.position.y, this.camera.camera.position.z);
+    this.roomMain.onFrame(delta);
+    // this.boundingBox.model.position.set(this.camera.camera.position.x, this.boundingBox.model.position.y, this.camera.camera.position.z);
   }
 
   onLoadedRoom() {
     log('SceneMain onLoadedRoom');
     if (
-      this.roomLobby.isLoaded &&
-      this.roomInteraction.isLoaded
+      this.roomMain.isLoaded
+      // this.roomLobby.isLoaded &&
+      // this.roomInteraction.isLoaded
     ) {
-      this.scene.add(this.roomLobby.getObject());
-      this.scene.add(this.roomInteraction.getObject());
-      this.scene.add(this.boundingBox.model);
+      log('SceneMain YO MAMA');
+      this.scene.add(this.roomMain.getObject());
+      // this.scene.add(this.roomLobby.getObject());
+      // this.scene.add(this.roomInteraction.getObject());
+      // this.scene.add(this.boundingBox.model);
       this.clickDetection = new ClickDetection({ cameraCore: this.camera, scene: this.scene });
     }
   }

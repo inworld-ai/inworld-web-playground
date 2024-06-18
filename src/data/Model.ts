@@ -6,12 +6,10 @@ import {
 import { EMOTIONS_FACE, FACE_TEXTURE_TYPES } from '@inworld/web-threejs/build/src/types/types';
 
 import { MODEL_URI as LOGO_MODEL_URI, VIDEO_URI as LOGO_VIDEO_URI } from '../models/ModelLogo';
-import { MODEL_URI as ROOMEND_MODEL_URI } from '../models/roomparts/RoomEnd';
-import { MODEL_URI as ROOMHALL_MODEL_URI } from '../models/roomparts/RoomHall';
-import { MODEL_URI as ROOMPORTAL_MODEL_URI } from '../models/roomparts/RoomPortal';
-import { MODEL_URI as ROOMSHOWCASE_MODEL_URI } from '../models/roomparts/RoomShowcase';
+import { MODEL_URI as ROOM_MODEL_URI } from '../models/roomparts/RoomModel';
 import { EVENT_COMPLETE, resources } from '../resources/Resources';
 import { CharactersDataType, SoundsDataType } from '../types/DataTypes';
+import { ICON_PTT_URI, ICON_RECORD_URI, ICON_RETURN_URI } from '../ui/Chat';
 import { Config } from '../utils/config';
 import { log } from '../utils/log';
 
@@ -40,10 +38,10 @@ class Model {
     log("Model - Load");
     this.onLoadCallback = onLoad;
     resources.addListener(EVENT_COMPLETE, this.onLoad);
-    resources.loadFile(Config.AssetBaseURI + ROOMEND_MODEL_URI);
-    resources.loadFile(Config.AssetBaseURI + ROOMHALL_MODEL_URI);
-    resources.loadFile(Config.AssetBaseURI + ROOMPORTAL_MODEL_URI);
-    resources.loadFile(Config.AssetBaseURI + ROOMSHOWCASE_MODEL_URI);
+    resources.loadFile(Config.AssetBaseURI + ROOM_MODEL_URI);
+    resources.loadFile(Config.AssetBaseURI + ICON_RETURN_URI);
+    resources.loadFile(Config.AssetBaseURI + ICON_RECORD_URI);
+    resources.loadFile(Config.AssetBaseURI + ICON_PTT_URI);
 
     const characterAssets = new Set();
 
@@ -97,8 +95,8 @@ class Model {
     resources.addListener(EVENT_COMPLETE, this.onPreload);
     resources.loadJSON(Config.CharactersDataURI, this.onLoadCharacters);
     resources.loadJSON(Config.SoundsDataURI, this.onLoadSounds);
-    // resources.loadFile(Config.AssetBaseURI + LOGO_VIDEO_URI);
-    // resources.loadFile(Config.AssetBaseURI + LOGO_MODEL_URI);
+    resources.loadFile(Config.AssetBaseURI + LOGO_VIDEO_URI);
+    resources.loadFile(Config.AssetBaseURI + LOGO_MODEL_URI);
   }
 
   // Loads the list of characters.

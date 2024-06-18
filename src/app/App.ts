@@ -4,7 +4,7 @@ import { model } from '../data/Model';
 import { EVENT_LOADED } from '../rooms/RoomPreload';
 import SceneMain from '../scenes/SceneMain';
 import ScenePreload from '../scenes/ScenePreload';
-import { STATE_RUNNING, system } from '../system/System';
+import { SCENE_MAIN, SCENE_PRELOAD, STATE_RUNNING, system } from '../system/System';
 import Hud from '../ui/Hud';
 import { uiController } from '../ui/UIController';
 import { log } from '../utils/log';
@@ -34,8 +34,10 @@ export default class App {
     uiController.setLabel1(" ");
     this.sceneMain = new SceneMain({ parent: this.root });
     this.scenePreload?.hide();
+    this.scenePreload?.dispose();
     this.sceneMain?.show();
     system.setSystemState(STATE_RUNNING);
+    system.setSceneState(SCENE_MAIN);
   }
 
   onPreloaded() {
@@ -53,6 +55,7 @@ export default class App {
     this.scenePreload?.show();
     this.hud = new Hud({});
     model.load(this.onLoaded);
+    system.setSceneState(SCENE_PRELOAD);
   }
 
 }

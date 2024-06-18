@@ -1,10 +1,17 @@
 import './Chat.css';
 
-import { EVENT_INWORLD_STATE, inworld, STATE_INIT, STATE_OPEN } from '../inworld/Inworld';
+import {
+    EVENT_INWORLD_STATE, EVENT_ISRECORDING, inworld, STATE_INIT, STATE_OPEN
+} from '../inworld/Inworld';
+import { Config } from '../utils/config';
 
 export interface ChatUIProps {
   parent: HTMLDivElement;
 }
+
+export const ICON_RETURN_URI = "/icons/return.svg";
+export const ICON_RECORD_URI = "/icons/microphone-outline.svg";
+export const ICON_PTT_URI = "/icons/microphone-settings.svg";
 
 export default class ChatUI {
 
@@ -27,21 +34,22 @@ export default class ChatUI {
     this.textInput = document.createElement('input');
     this.textInput.id = "chatUITextInput";
     this.textInput.className = "chatUIInput chatUIRound inter-regular";
+    this.textInput.placeholder = "Enter your message";
 
     this.buttonEnter = document.createElement('button');
     this.buttonEnter.id = "chatUIButtonEnter";
     this.buttonEnter.className = "chatUIButtonEnter chatUIRound chatUIButton inter-regular";
-    this.buttonEnter.innerHTML = "<embed src=\"/assets/v4.0/icons/return.svg\" />";
+    this.buttonEnter.innerHTML = `<embed src=\"${Config.AssetBaseURI}${ICON_RETURN_URI}\" />`;
 
     this.buttonRecord = document.createElement('button');
     this.buttonRecord.id = "chatUIButtonRecord";
     this.buttonRecord.className = "chatUIButtonRecord chatUIRound chatUIButton inter-regular";
-    this.buttonRecord.innerHTML = "<embed src=\"/assets/v4.0/icons/microphone-outline.svg\" />";
+    this.buttonRecord.innerHTML = `<embed src=\"${Config.AssetBaseURI}${ICON_RECORD_URI}\" />`;
     
     this.buttonPTT = document.createElement('button');
     this.buttonPTT.id = "chatUIButtonPTT";
     this.buttonPTT.className = "chatUIButtonPTT chatUIRound chatUIButton inter-regular";
-    this.buttonPTT.innerHTML = "<embed src=\"/assets/v4.0/icons/microphone-settings.svg\" />";
+    this.buttonPTT.innerHTML = `<embed src=\"${Config.AssetBaseURI}${ICON_PTT_URI}\" />`;
 
     this.buttonClose = document.createElement('button');
     this.buttonClose.id = "chatUIButtonClose";
@@ -55,8 +63,10 @@ export default class ChatUI {
     this.chatContainer.appendChild(this.buttonClose);
 
     this.onClickClose = this.onClickClose.bind(this);
-    this.onClickPTT = this.onClickPTT.bind(this);
+    this.onClickPTTOn = this.onClickPTTOn.bind(this);
+    this.onClickPTTOff = this.onClickPTTOff.bind(this);
     this.onClickRecord = this.onClickRecord.bind(this);
+    this.onInworldRecording = this.onInworldRecording.bind(this);
     this.onInworldState = this.onInworldState.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
     this.onPressSend = this.onPressSend.bind(this);
@@ -64,15 +74,15 @@ export default class ChatUI {
     this.textInput.addEventListener("keypress", this.onKeyPress);
     this.buttonEnter.addEventListener("mousedown", this.onPressSend);
     this.buttonRecord.addEventListener("mousedown", this.onClickRecord);
-    this.buttonPTT.addEventListener("mousedown", this.onClickPTT);
+    this.buttonPTT.addEventListener("mousedown", this.onClickPTTOn);
+    this.buttonPTT.addEventListener("mouseup", this.onClickPTTOff);
     this.buttonClose.addEventListener("mousedown", this.onClickClose);
 
     inworld.addListener(EVENT_INWORLD_STATE, this.onInworldState);
+    inworld.addListener(EVENT_ISRECORDING, this.onInworldRecording);
 
-
-    
-
-    this.parent.appendChild(this.chatContainer);
+    // TODO CAN DELETE USED TO PROTOTYPE
+    // this.parent.appendChild(this.chatContainer);
 
   }
 
@@ -80,12 +90,31 @@ export default class ChatUI {
     inworld.close();
   }
 
-  onClickPTT() {
-    console.log('Click PTT');
+  onClickPTTOn() {
+    console.log('onClickPTTOn');
+    inworld.startRecording();
+  }
+
+  onClickPTTOff() {
+    console.log('onClickPTTOff');
+    inworld.stopRecording();
   }
 
   onClickRecord() {
     console.log('Click Record');
+    if(!inworld.isRecording) {
+      inworld.startRecording();
+    } else {
+      inworld.stopRecording();
+    }
+  }
+
+  onInworldRecording(state: string) {
+    if (state) {
+      this.buttonRecord.classList.add('chatUIButtonActive');
+    } else {
+      this.buttonRecord.classList.remove('chatUIButtonActive');
+    }
   }
 
   onInworldState(state: string) {

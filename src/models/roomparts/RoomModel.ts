@@ -6,16 +6,16 @@ import { resources } from '../../resources/Resources';
 import { Config } from '../../utils/config';
 import { log } from '../../utils/log';
 
-export type RoomEndProps = {
+export type RoomModelProps = {
   id: string;
   onLoad: () => void;
   onProgress: (progress: number) => void;
 };
 
-export const MESH_NAME = "TeleportBlock";
-export const MODEL_URI = "/models/room_block_end.glb";
+export const MESH_NAME = "Lobby";
+export const MODEL_URI = "/models/room.glb";
 
-export class RoomEnd {
+export class RoomModel {
 
   id: string;
   isLoaded: boolean;
@@ -23,7 +23,7 @@ export class RoomEnd {
   onLoad: () => void;
   onProgress: (progress: number) => void;
 
-  constructor(props: RoomEndProps) {
+  constructor(props: RoomModelProps) {
     this.isLoaded = false;
     this.id = props.id;
     this.onLoad = props.onLoad;
@@ -41,8 +41,9 @@ export class RoomEnd {
   }
 
   getObject(): Object3D<Object3DEventMap> {
+    console.log(this.getScene());
     if (!this.getScene()?.getObjectByName(MESH_NAME))
-      throw new Error("Error: RoomEnd getObject object not found:",);
+      throw new Error("Error: RoomModel getObject object not found:",);
     return this.getGLTF()?.scene.getObjectByName(MESH_NAME)!;
   }
 
@@ -64,13 +65,13 @@ export class RoomEnd {
   }
 
   onLoadComplete() {
-    console.log('RoomEnd - Loaded.');
+    console.log('RoomModel - Loaded.');
     this.isLoaded = true;
     this.onLoad();
   }
 
   onLoadProgress(progress: number) {
-    console.log('-----> RoomEnd Loading Progress:', progress);
+    console.log('-----> RoomModel Loading Progress:', progress);
     this.onProgress(progress);
   }
 }

@@ -31,7 +31,9 @@ export default class ModelLogo {
   videoTexture: VideoTexture;
 
   constructor(props: ModelLogoProps) {
+
     log('ModelLogo - constructor.');
+
     this.isLoaded = false;
     this.id = props.id;
 
@@ -53,7 +55,13 @@ export default class ModelLogo {
 
     this.onLoadComplete = this.onLoadComplete.bind(this);
     this.onLoadProgress = this.onLoadProgress.bind(this);
+
     this.load();
+
+  }
+
+  dispose() {
+    console.log(this.getGLTF()?.scene);
   }
 
   getGLTF(): GLTF | undefined {
@@ -64,6 +72,7 @@ export default class ModelLogo {
   }
 
   getObject(): Object3D<Object3DEventMap> {
+    log('ModelLogo:getObject');
     if (!this.getScene()?.getObjectByName(MESH_NAME))
       throw new Error("Error: ModelLogo getObject object not found:",);
     return this.getGLTF()?.scene.getObjectByName(MESH_NAME)!;
@@ -97,4 +106,5 @@ export default class ModelLogo {
     log('-----> ModelLogo Loading Progress:', progress);
     this.onProgress(progress);
   }
+  
 }

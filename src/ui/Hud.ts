@@ -1,6 +1,7 @@
 import './Hud.css';
 
 import { EVENT_PROGRESS, ProgressType, resources } from '../resources/Resources';
+import { EVENT_SCENE_STATE, SCENE_MAIN, system } from '../system/System';
 import { log } from '../utils/log';
 import ChatUI from './Chat';
 import { EVENT_LABEL1, uiController } from './UIController';
@@ -51,11 +52,13 @@ export default class Hud {
 
     this.onLabel1 = this.onLabel1.bind(this);
     this.onProgress = this.onProgress.bind(this);
+    this.onScene = this.onScene.bind(this);
 
     this.chatUI = new ChatUI({ parent: this.parent });
 
     resources.addListener(EVENT_PROGRESS, this.onProgress);
-    uiController.addListener(EVENT_LABEL1, this.onLabel1)
+    uiController.addListener(EVENT_LABEL1, this.onLabel1);
+    system.addListener(EVENT_SCENE_STATE, this.onScene);
 
     // this.labelProjectTitle = document.createElement('p');
     // this.labelProjectTitle.id = "hudLabelUR";
@@ -71,6 +74,12 @@ export default class Hud {
 
   onProgress(progress: ProgressType) {
     this.progressBar.style.width = `${progress.progress}%`;
+  }
+
+  onScene(scene: string) {
+    if (scene === SCENE_MAIN) {
+      this.hudUpperLeft.removeChild(this.progressBar);
+    }
   }
 
 }

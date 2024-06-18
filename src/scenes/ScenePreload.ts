@@ -51,10 +51,15 @@ export default class ScenePreload extends EventDispatcher {
     this.roomPreload.addListener(EVENT_LOADED, this.onLoadedRoom);
   }
 
+  dispose() {
+    this.scene.remove(this.roomPreload.getObject());
+    this.roomPreload.dispose();
+    this.renderer.dispose();
+  }
+
   hide() {
     window.removeEventListener("resize", this.onResizeWindow);
     if (this.rafID !== 0) cancelAnimationFrame(this.rafID);
-    this.renderer.dispose();
     this.parent.removeChild(this.renderer.domElement);
   }
 
@@ -73,7 +78,7 @@ export default class ScenePreload extends EventDispatcher {
 
   onLoadedRoom() {
     log('ScenePreload onLoadedRoom');
-    this.scene.fog = this.roomPreload.getFog();
+    // this.scene.fog = this.roomPreload.getFog();
     this.scene.add(this.roomPreload.getObject());
     this.dispatch(EVENT_LOADED);
   }

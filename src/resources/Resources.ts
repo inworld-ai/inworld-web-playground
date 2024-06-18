@@ -48,7 +48,6 @@ class Resources extends EventDispatcher {
   }
 
   decrementCount() {
-    log("Resources decrementCount");
     this.loadCount--;
     const progress: number = Math.round((this.totalCount - this.loadCount) / this.totalCount * 100);
     this.dispatch(EVENT_PROGRESS, { progress } as ProgressType);
