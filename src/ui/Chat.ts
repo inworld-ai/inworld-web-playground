@@ -39,17 +39,17 @@ export default class ChatUI {
     this.buttonEnter = document.createElement('button');
     this.buttonEnter.id = "chatUIButtonEnter";
     this.buttonEnter.className = "chatUIButtonEnter chatUIRound chatUIButton inter-regular";
-    this.buttonEnter.innerHTML = `<img src=\"${Config.AssetBaseURI}${ICON_RETURN_URI}\" cross-origin=anonymous" />`;
+    this.buttonEnter.innerHTML = `<img src=\"${Config.AssetBaseURI}${ICON_RETURN_URI}\" cross-origin=\"anonymous\" />`;
 
     this.buttonRecord = document.createElement('button');
     this.buttonRecord.id = "chatUIButtonRecord";
     this.buttonRecord.className = "chatUIButtonRecord chatUIRound chatUIButton inter-regular";
-    this.buttonRecord.innerHTML = `<img src=\"${Config.AssetBaseURI}${ICON_RECORD_URI}\" cross-origin=anonymous" />`;
+    this.buttonRecord.innerHTML = `<img src=\"${Config.AssetBaseURI}${ICON_RECORD_URI}\" cross-origin=\"anonymous\" />`;
     
     this.buttonPTT = document.createElement('button');
     this.buttonPTT.id = "chatUIButtonPTT";
     this.buttonPTT.className = "chatUIButtonPTT chatUIRound chatUIButton inter-regular";
-    this.buttonPTT.innerHTML = `<img src=\"${Config.AssetBaseURI}${ICON_PTT_URI}\" cross-origin=anonymous" />`;
+    this.buttonPTT.innerHTML = `<img src=\"${Config.AssetBaseURI}${ICON_PTT_URI}\" cross-origin=\"anonymous\" />`;
 
     this.buttonClose = document.createElement('button');
     this.buttonClose.id = "chatUIButtonClose";
