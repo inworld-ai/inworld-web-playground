@@ -93,8 +93,8 @@ class Model {
     log("Model - Preload");
     this.onPreloadCallback = onPreload;
     resources.addListener(EVENT_COMPLETE, this.onPreload);
-    resources.loadJSON(Config.CharactersDataURI, this.onLoadCharacters);
-    resources.loadJSON(Config.SoundsDataURI, this.onLoadSounds);
+    resources.loadJSON(Config.AssetBaseURI + Config.CharactersDataURI, this.onLoadCharacters);
+    resources.loadJSON(Config.AssetBaseURI + Config.SoundsDataURI, this.onLoadSounds);
     resources.loadFile(Config.AssetBaseURI + LOGO_VIDEO_URI);
     resources.loadFile(Config.AssetBaseURI + LOGO_MODEL_URI);
   }

@@ -44,8 +44,8 @@ export type WorldConfigType = {
 
 export const Config: ConfigType = {
   AssetBaseURI: import.meta.env.VITE_ASSETS_BASE_URI || '',
-  CharactersDataURI: (import.meta.env.VITE_ASSETS_BASE_URI || '') + (import.meta.env.VITE_JSON_CHARACTERS_URI || ''),
-  SoundsDataURI: (import.meta.env.VITE_ASSETS_BASE_URI || '') + (import.meta.env.VITE_JSON_SOUNDS_URI || ''),
+  CharactersDataURI: import.meta.env.VITE_JSON_CHARACTERS_URI || '',
+  SoundsDataURI: import.meta.env.VITE_JSON_SOUNDS_URI || '',
   Inworld: {
     CharacterID: import.meta.env.VITE_INWORLD_CHARACTER_ID || '',
     SceneId: import.meta.env.VITE_INWORLD_SCENE_ID || '',
