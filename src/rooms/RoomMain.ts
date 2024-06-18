@@ -4,10 +4,7 @@ import { HemisphereLight } from 'three/src/lights/HemisphereLight';
 import { Group } from 'three/src/objects/Group';
 
 import ModelInnequin from '../models/ModelInnequin';
-import { RoomEnd } from '../models/roomparts/RoomEnd';
-import { RoomHall } from '../models/roomparts/RoomHall';
 import { RoomModel } from '../models/roomparts/RoomModel';
-import { RoomPortal } from '../models/roomparts/RoomPortal';
 import Portal from '../portal/Portal';
 import { TextAlign, Textbox } from '../ui/text/Textbox';
 import { log } from '../utils/log';
