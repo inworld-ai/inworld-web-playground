@@ -9,9 +9,9 @@ export interface ChatUIProps {
   parent: HTMLDivElement;
 }
 
-export const ICON_RETURN_URI = "/icons/return.svg";
-export const ICON_RECORD_URI = "/icons/microphone-outline.svg";
-export const ICON_PTT_URI = "/icons/microphone-settings.svg";
+export const ICON_RETURN_URI = "/icons/return.png";
+export const ICON_RECORD_URI = "/icons/microphone-outline.png";
+export const ICON_PTT_URI = "/icons/microphone-settings.png";
 
 export default class ChatUI {
 
