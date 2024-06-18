@@ -52,12 +52,12 @@
   grid-column-end: 15;
 }
 
-.chatUIButton embed {
+.chatUIButton img {
   width: 1.9rem;
   height: 1.9rem;
 }
 
-.chatUIButton embed:hover {
+.chatUIButton img:hover {
   cursor: pointer;
 }
 
