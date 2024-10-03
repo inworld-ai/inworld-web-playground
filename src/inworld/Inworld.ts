@@ -1,11 +1,10 @@
 
 import {
-  AdditionalPhonemeInfo, Character, EmotionEvent, HistoryItem, InworldConnectionService,
-  InworldPacket, TriggerEvent, TriggerParameter
+    AdditionalPhonemeInfo, Character, EmotionEvent, HistoryItem, InworldConnectionService,
+    InworldPacket, TriggerEvent, TriggerParameter
 } from '@inworld/web-core';
 
 import EventDispatcher from '../events/EventDispatcher';
-import { CursorTypes } from '../types/CursorTypes';
 import { uiController } from '../ui/UIController';
 import { Config } from '../utils/config';
 import { log } from '../utils/log';
@@ -254,12 +253,8 @@ class Inworld extends EventDispatcher {
 
   setState(state: string) {
     if (state !== this.state) {
+      uiController.setInworldState(state);
       this.state = state;
-      if (state === STATE_OPENING) {
-        uiController.setCursor(CursorTypes.Wait);
-      } else {
-        uiController.setCursor(CursorTypes.Auto);
-      }
       this.dispatch(EVENT_INWORLD_STATE, this.state);
     }
   }
@@ -291,11 +286,9 @@ class Inworld extends EventDispatcher {
     }
   }
 
-
   onHistoryChange(history: HistoryItem[]) {
     this.setChatHistory(history);
   }
-
 
 }
 

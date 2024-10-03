@@ -1,12 +1,8 @@
-
-
 import { Euler, Group, Object3D, Object3DEventMap, Vector3 } from 'three';
 
 import { EmotionBehaviorCode, EmotionEvent } from '@inworld/web-core';
 import { AdditionalPhonemeInfo } from '@inworld/web-core/build/proto/ai/inworld/packets/packets.pb';
-import {
-    Innequin, InnequinBodyEmotionToBehavior, InnequinConfiguration
-} from '@inworld/web-threejs';
+import { RPM, RPMBodyEmotionToBehavior, RPMConfiguration } from '@inworld/web-threejs';
 import { GENDER_TYPES } from '@inworld/web-threejs/build/src/types/types';
 
 import EventDispatcher from '../events/EventDispatcher';
@@ -18,7 +14,7 @@ import { Config } from '../utils/config';
 import { log } from '../utils/log';
 import ClickableCube from './clickables/ClickableCube';
 
-export interface ModelInnequinProps {
+export interface ModelRPMProps {
   isLoaded: boolean;
   animationCurrent?: string | undefined;
   emotionCurrent?: string | undefined;
@@ -27,34 +23,32 @@ export interface ModelInnequinProps {
   characterId?: string;
   position?: Vector3;
   rotation?: Euler;
-  skinName?: string;
-  setConfig?: (config: InnequinConfiguration) => void;
+  setConfig?: (config: RPMConfiguration) => void;
   onClick?: (name: string) => void;
   onChangeEmotion?: (emotion: EmotionBehaviorCode) => void;
 }
 
-export const DEFAULT_NAME = 'Innequin';
-export const DEFAULT_SKIN = 'WOOD1';
+
+export const DEFAULT_NAME = 'RPM';
 
 export const EVENT_EMOTION = 'event_emotion';
 export const EVENT_LOADED = 'event_loaded';
 
-export default class ModelInnequin extends EventDispatcher {
+export default class ModelRPM extends EventDispatcher {
 
   callbackClick?: (name: string) => void;
-  callbackSetConfig?: (config: InnequinConfiguration) => void;
+  callbackSetConfig?: (config: RPMConfiguration) => void;
   callbackSetEmotion?: (emotion: EmotionBehaviorCode) => void;
   boundingBox: ClickableCube;
   characterId?: string;
-  config?: InnequinConfiguration;
+  config?: RPMConfiguration;
   emotion?: EmotionBehaviorCode;
   group: Group;
-  innequin?: Innequin;
+  rpm?: RPM;
   isLoaded: boolean;
   name?: string;
-  skinNameInitial: string;
 
-  constructor(props: ModelInnequinProps) {
+  constructor(props: ModelRPMProps) {
 
     super();
 
@@ -62,7 +56,6 @@ export default class ModelInnequin extends EventDispatcher {
   
     this.characterId = props.characterId;
     this.name = props.name;
-    this.skinNameInitial = props.skinName || DEFAULT_SKIN;
 
     this.callbackClick = props.onClick;
     this.callbackSetConfig = props.setConfig;
@@ -70,9 +63,9 @@ export default class ModelInnequin extends EventDispatcher {
 
     this.onClick = this.onClick.bind(this);
     this.onEmotion = this.onEmotion.bind(this);
-    this.onLoadInnequin = this.onLoadInnequin.bind(this);
+    this.onLoadRPM = this.onLoadRPM.bind(this);
     this.onPhonemes = this.onPhonemes.bind(this);
-    this.onProgressInnequin = this.onProgressInnequin.bind(this);
+    this.onProgressRPM = this.onProgressRPM.bind(this);
 
     this.group = new Group();
     
@@ -80,13 +73,12 @@ export default class ModelInnequin extends EventDispatcher {
       this.group.position.set(props.position.x, props.position.y, props.position.z)
     }
 
-    this.innequin = new Innequin({
-      baseURI: Config.AssetBaseURI + '/innequin',
-      configURI: Config.AssetBaseURI + (props.gender === GENDER_TYPES.FEMALE ? '/innequin/config_female.json' : '/innequin/config_male.json'),
+    this.rpm = new RPM({
+      baseURI: Config.AssetBaseURI + '/rpm',
+      configURI: Config.AssetBaseURI + (props.gender === GENDER_TYPES.FEMALE ? '/rpm/config_female.json' : '/rpm/config_male.json'),
       dracoURI: Config.Threejs.DracoCompressionURI,
-      skinName: this.skinNameInitial,
-      onLoad: this.onLoadInnequin,
-      onProgress: this.onProgressInnequin,
+      onLoad: this.onLoadRPM,
+      onProgress: this.onProgressRPM,
     });
 
     this.boundingBox = new ClickableCube({ length: 0.5, width: 1.7, height: 0.5, position: new Vector3(0, 0.85, 0), onClick: this.onClick });
@@ -97,8 +89,8 @@ export default class ModelInnequin extends EventDispatcher {
   }
 
   frameUpdate(delta: number) {
-    if (this.innequin) {
-      this.innequin.updateFrame(delta);
+    if (this.rpm) {
+      this.rpm.updateFrame(delta);
     }
   }
 
@@ -107,19 +99,19 @@ export default class ModelInnequin extends EventDispatcher {
   }
 
   setAnimation(animationName: string) {
-    if (this.isLoaded && this.innequin && inworld.name === this.name) {
-      this.innequin.playAnimation(animationName);
+    if (this.isLoaded && this.rpm && inworld.name === this.name) {
+      this.rpm.playAnimation(animationName);
     }
   }
 
   setEmotion(emotion: EmotionBehaviorCode) {
-    if (this.isLoaded && this.innequin && inworld.name === this.name) {
+    if (this.isLoaded && this.rpm && inworld.name === this.name) {
       // if (this.callbackSetEmotion)
       //   this.callbackSetEmotion(emotion);
-      this.innequin.setEmotion(
+      this.rpm.setEmotion(
         EmotionBehaviorCode[
-        InnequinBodyEmotionToBehavior[
-        emotion.toUpperCase() as keyof typeof InnequinBodyEmotionToBehavior
+        RPMBodyEmotionToBehavior[
+        emotion.toUpperCase() as keyof typeof RPMBodyEmotionToBehavior
         ] as keyof typeof EmotionBehaviorCode
         ],
       );
@@ -147,22 +139,22 @@ export default class ModelInnequin extends EventDispatcher {
   }
 
   onEmotion(emotionEvent: EmotionEvent) {
-    if (this.isLoaded && this.innequin && inworld.name === this.name) {
+    if (this.isLoaded && this.rpm && inworld.name === this.name) {
       this.setEmotion(emotionEvent.behavior.code);
-      this.innequin.setEmotion(emotionEvent.behavior.code);
+      this.rpm.setEmotion(emotionEvent.behavior.code);
       if (this.callbackSetEmotion)
         this.callbackSetEmotion(emotionEvent.behavior.code);
     }
   }
 
-  onLoadInnequin(config: InnequinConfiguration) {
+  onLoadRPM(config: RPMConfiguration) {
     this.config = config;
-    if (this.innequin && this.innequin.getModel()) {
-      this.group.add(this.innequin?.getModel() as Object3D<Object3DEventMap>);
+    if (this.rpm && this.rpm.getModel()) {
+      this.group.add(this.rpm?.getModel() as Object3D<Object3DEventMap>);
       this.group.add(this.boundingBox.model);
-      this.setEmotion(config.innequin.defaults.EMOTION);
+      this.setEmotion(config.rpm.defaults.EMOTION);
       if (this.callbackSetEmotion)
-        this.callbackSetEmotion(config.innequin.defaults.EMOTION);
+        this.callbackSetEmotion(config.rpm.defaults.EMOTION);
       this.setLoaded(true);
     }
     if (this.callbackSetConfig) {
@@ -171,13 +163,13 @@ export default class ModelInnequin extends EventDispatcher {
   }
 
   onPhonemes(phonemes: AdditionalPhonemeInfo[]) {
-    if (this.isLoaded && this.innequin && inworld.name === this.name) {
-      this.innequin.setPhonemes(phonemes);
+    if (this.isLoaded && this.rpm && inworld.name === this.name) {
+      this.rpm.setPhonemes(phonemes);
     }
   }
 
-  onProgressInnequin(progress: number) {
-    // log('ModelInnequin onProgressInnequin', progress);
+  onProgressRPM(progress: number) {
+    // log('ModelRPM onProgressRPM', progress);
   }
 
 }

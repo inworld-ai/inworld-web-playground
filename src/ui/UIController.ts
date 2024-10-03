@@ -1,10 +1,21 @@
 import EventDispatcher from '../events/EventDispatcher';
+import { STATE_INIT, STATE_OPENING } from '../inworld/Inworld';
 import { CursorTypes } from '../types/CursorTypes';
 
-const EVENT_CURSOR = "event_cursor";
-const EVENT_LABEL1 = "event_label1";
-const EVENT_MENU_COLLAPSED = "event_menu_collapsed";
-const EVENT_MENU_WORLD = "event_menu_world";
+export const EVENT_CURSOR = "event_cursor";
+export const EVENT_LABEL1 = "event_label1";
+export const EVENT_MENU_COLLAPSED = "event_menu_collapsed";
+export const EVENT_MENU_ROOM = "event_menu_room";
+export const EVENT_MENU_DATA = "event_menu_data";
+export const EVENT_MENU_WORLD = "event_menu_world";
+
+export enum RoomMenuType { 
+  NONE = "NONE",
+  ANIMATIONS = "ANIMATIONS",
+  AVATARS = "AVATARS",
+  EMOTIONS = "EMOTIONS",
+  GOALS = "GOALS",
+}
 
 class UIController extends EventDispatcher {
 
@@ -12,6 +23,7 @@ class UIController extends EventDispatcher {
   label1: string;
   menuCollapsed: boolean;
   menuWorldBuilder: boolean;
+  roomMenu: RoomMenuType;
 
   constructor() {
     super();
@@ -19,12 +31,26 @@ class UIController extends EventDispatcher {
     this.label1 = '';
     this.menuCollapsed = true;
     this.menuWorldBuilder = true;
-  }
+    this.roomMenu = RoomMenuType.NONE;
 
+  }
+ 
   setCursor(cursor: string) {
     if (this.cursor !== cursor) {
       this.cursor = cursor;
       this.dispatch(EVENT_CURSOR, cursor);
+    }
+  }
+
+  setInworldState(state: string) {
+    console.log('UIController onInworldState', state);
+    if (state === STATE_INIT) {
+      this.setRoomMenuType(RoomMenuType.NONE);
+    }
+    if (state === STATE_OPENING) {
+      this.setCursor(CursorTypes.Wait);
+    } else {
+      this.setCursor(CursorTypes.Auto);
     }
   }
 
@@ -34,12 +60,14 @@ class UIController extends EventDispatcher {
       this.dispatch(EVENT_LABEL1, label1);
     }
   }
+
   setMenuCollapsed(menuCollapsed: boolean) {
     if (this.menuCollapsed !== menuCollapsed) {
       this.menuCollapsed = menuCollapsed;
       this.dispatch(EVENT_MENU_COLLAPSED, menuCollapsed);
     }
   }
+
   setMenuWorldBuilder(menuWorldBuilder: boolean) {
     if (this.menuWorldBuilder !== menuWorldBuilder) {
       this.menuWorldBuilder = menuWorldBuilder;
@@ -47,8 +75,17 @@ class UIController extends EventDispatcher {
     }
   }
 
-}
+  setRoomMenuType(type: RoomMenuType) {
+    if (this.roomMenu !== type) {
+      this.roomMenu = type;
+      this.dispatch(EVENT_MENU_ROOM, this.roomMenu);
+    }
+  }
 
-export { EVENT_CURSOR, EVENT_LABEL1, EVENT_MENU_COLLAPSED, EVENT_MENU_WORLD }
+  setRoomMenuData(data: any) {
+    this.dispatch(EVENT_MENU_DATA, data);
+  }
+
+}
 
 export const uiController = new UIController();

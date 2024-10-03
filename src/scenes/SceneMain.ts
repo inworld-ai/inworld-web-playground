@@ -42,6 +42,7 @@ export default class SceneMain {
 
     // this.boundingBox = new ColidableCube({ length: 1, width: 1, height: 1, position: new Vector3(0, 0, 0) });
     // this.boundingBox.show();
+    
     this.inputController = new InputController();
     this.playerController = new PlayerController({ cameraCore: this.camera, inputController: this.inputController });
     this.renderer = new WebGLRenderer({ antialias: true });
@@ -90,7 +91,6 @@ export default class SceneMain {
       // this.roomLobby.isLoaded &&
       // this.roomInteraction.isLoaded
     ) {
-      log('SceneMain YO MAMA');
       this.scene.add(this.roomMain.getObject());
       // this.scene.add(this.roomLobby.getObject());
       // this.scene.add(this.roomInteraction.getObject());

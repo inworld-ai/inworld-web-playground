@@ -2,9 +2,7 @@ import { Group, Object3D, Object3DEventMap } from 'three';
 import { GLTF } from 'three-stdlib';
 
 import GLTFModelPreloader from '../../loaders/GLTFModelPreloader';
-import { resources } from '../../resources/Resources';
 import { Config } from '../../utils/config';
-import { log } from '../../utils/log';
 
 export type RoomModelProps = {
   id: string;

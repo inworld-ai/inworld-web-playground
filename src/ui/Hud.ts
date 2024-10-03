@@ -4,7 +4,10 @@ import { EVENT_PROGRESS, ProgressType, resources } from '../resources/Resources'
 import { EVENT_SCENE_STATE, SCENE_MAIN, system } from '../system/System';
 import { log } from '../utils/log';
 import ChatUI from './Chat';
-import { EVENT_LABEL1, uiController } from './UIController';
+import AnimationsMenu from './menus/AnimationsMenu';
+import {
+    EVENT_LABEL1, EVENT_MENU_DATA, EVENT_MENU_ROOM, RoomMenuType, uiController
+} from './UIController';
 
 export interface HudProps {
 }
@@ -16,8 +19,10 @@ export default class Hud {
   labelCopywrite: HTMLParagraphElement;
   labelProjectName: HTMLParagraphElement;
   labelProjectTitle: HTMLParagraphElement;
+  menuAnimations: AnimationsMenu;
   parent: HTMLDivElement;
   progressBar: HTMLDivElement;
+  roomMenuTypeActive: RoomMenuType;
 
   constructor(props: HudProps) {
 
@@ -52,12 +57,17 @@ export default class Hud {
 
     this.onLabel1 = this.onLabel1.bind(this);
     this.onProgress = this.onProgress.bind(this);
+    this.onRoomData = this.onRoomData.bind(this);
+    this.onRoomMenu = this.onRoomMenu.bind(this);
     this.onScene = this.onScene.bind(this);
 
     this.chatUI = new ChatUI({ parent: this.parent });
+    this.menuAnimations = new AnimationsMenu({ parent: this.parent });
 
     resources.addListener(EVENT_PROGRESS, this.onProgress);
     uiController.addListener(EVENT_LABEL1, this.onLabel1);
+    uiController.addListener(EVENT_MENU_DATA, this.onRoomData);
+    uiController.addListener(EVENT_MENU_ROOM, this.onRoomMenu);
     system.addListener(EVENT_SCENE_STATE, this.onScene);
 
     // this.labelProjectTitle = document.createElement('p');
@@ -74,6 +84,31 @@ export default class Hud {
 
   onProgress(progress: ProgressType) {
     this.progressBar.style.width = `${progress.progress}%`;
+  }
+
+  onRoomData(data: any) {
+    switch(type) {
+      case RoomMenuType.ANIMATIONS:
+        if (!this.parent.contains(this.menuAnimations.container))
+          this.parent.appendChild(this.menuAnimations.container);
+        break;
+      default:
+        break;
+    }
+  }
+
+  onRoomMenu(type: RoomMenuType) {
+    console.log('Hud: onRoomMenu:', type);
+    if (this.parent.contains(this.menuAnimations.container))
+      this.parent.removeChild(this.menuAnimations.container);
+    switch(type) {
+      case RoomMenuType.ANIMATIONS:
+        if (!this.parent.contains(this.menuAnimations.container))
+          this.parent.appendChild(this.menuAnimations.container);
+        break;
+      default:
+        break;
+    }
   }
 
   onScene(scene: string) {
