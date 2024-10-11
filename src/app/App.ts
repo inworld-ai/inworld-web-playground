@@ -53,7 +53,7 @@ export default class App {
   onScenePreload() {
     log("App onScenePreload");
     this.scenePreload?.show();
-    this.hud = new Hud({});
+    this.hud = new Hud();
     model.load(this.onLoaded);
     system.setSceneState(SCENE_PRELOAD);
   }

@@ -31,7 +31,6 @@ export default class Hud {
     this.parent = document.getElementById('hud') as HTMLDivElement;
 
     this.roomMenuTypeActive = RoomMenuType.NONE;
-
     this.labelProjectName = document.createElement('p');
     this.labelProjectName.id = "hudLabelLL";
     this.labelProjectName.className = "hudLabelLower inter-regular";
