@@ -4,7 +4,6 @@ import './menus/Menus.css';
 import { EVENT_PROGRESS, ProgressType, resources } from '../resources/Resources';
 import { EVENT_SCENE_STATE, SCENE_MAIN, system } from '../system/System';
 import { RoomTypes } from '../types/RoomTypes';
-import { log } from '../utils/log';
 import ChatUI from './Chat';
 import AnimationsMenu from './menus/AnimationsMenu';
 import EmotionsMenu from './menus/EmotionsMenu';
@@ -12,9 +11,6 @@ import GoalsMenu from './menus/GoalsMenu';
 import {
     EVENT_LABEL1, EVENT_MENU_DATA, EVENT_MENU_ROOM, RoomMenuType, uiController
 } from './UIController';
-
-export interface HudProps {
-}
 
 export default class Hud {
 
@@ -30,9 +26,11 @@ export default class Hud {
   progressBar: HTMLDivElement;
   roomMenuTypeActive: RoomMenuType;
 
-  constructor(props: HudProps) {
+  constructor() {
 
     this.parent = document.getElementById('hud') as HTMLDivElement;
+
+    this.roomMenuTypeActive = RoomMenuType.NONE;
 
     this.labelProjectName = document.createElement('p');
     this.labelProjectName.id = "hudLabelLL";
@@ -72,19 +70,11 @@ export default class Hud {
     this.menuEmotions = new EmotionsMenu({parent: this.parent });
     this.menuGoals = new GoalsMenu({parent: this.parent });
 
-    this.roomMenuTypeActive = RoomMenuType.NONE;
-
     resources.addListener(EVENT_PROGRESS, this.onProgress);
     uiController.addListener(EVENT_LABEL1, this.onLabel1);
     uiController.addListener(EVENT_MENU_DATA, this.onRoomData);
     uiController.addListener(EVENT_MENU_ROOM, this.onRoomMenu);
     system.addListener(EVENT_SCENE_STATE, this.onScene);
-
-    // this.labelProjectTitle = document.createElement('p');
-    // this.labelProjectTitle.id = "hudLabelUR";
-    // this.labelProjectTitle.className = "hudLabel inter-regular";
-    // this.labelProjectTitle.innerHTML = "";
-    // this.parent.appendChild(this.labelProjectTitle);
 
   }
 
@@ -98,7 +88,7 @@ export default class Hud {
 
   onRoomData(data: any) {
     // console.log('Hud: onRoomData:', data);
-    switch(data.type) {
+    switch(data.type as RoomTypes) {
       case RoomTypes.ANIMATIONS:
         this.menuAnimations.setData(data);
         break;
