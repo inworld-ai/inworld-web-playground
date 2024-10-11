@@ -73,6 +73,10 @@ export default class ModelRPM extends EventDispatcher {
       this.group.position.set(props.position.x, props.position.y, props.position.z)
     }
 
+    if (props.rotation) {
+      this.group.rotation.set(props.rotation.x, props.rotation.y, props.rotation.z)
+    }
+
     this.rpm = new RPM({
       baseURI: Config.AssetBaseURI + '/rpm',
       configURI: Config.AssetBaseURI + (props.gender === GENDER_TYPES.FEMALE ? '/rpm/config_female.json' : '/rpm/config_male.json'),

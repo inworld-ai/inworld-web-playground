@@ -1,5 +1,5 @@
 import {
-  BoxGeometry, BufferGeometry, Mesh, MeshBasicMaterial, MeshPhongMaterial, Vector3
+    BoxGeometry, BufferGeometry, Mesh, MeshBasicMaterial, MeshPhongMaterial, Vector3
 } from 'three';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -26,7 +26,7 @@ export default class ClickableCube {
 
     this.geometry = new BoxGeometry(props.length, props.width, props.height);
 
-    this.cube = new Mesh(this.geometry, new MeshPhongMaterial({ color: 0x00ff00, depthWrite: false, opacity: 0.5 }));
+    this.cube = new Mesh(this.geometry, new MeshPhongMaterial({ color: 0x0000ff, depthWrite: false, opacity: 0.5 }));
     this.cube.name = Clickable.Cube + '_' + this.uuid;
     this.cube.position.set(props.position.x, props.position.y, props.position.z);
 

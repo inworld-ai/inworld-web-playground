@@ -80,6 +80,10 @@ export default class ModelInnequin extends EventDispatcher {
       this.group.position.set(props.position.x, props.position.y, props.position.z)
     }
 
+    if (props.rotation) {
+      this.group.rotation.set(props.rotation.x, props.rotation.y, props.rotation.z)
+    }
+
     this.innequin = new Innequin({
       baseURI: Config.AssetBaseURI + '/innequin',
       configURI: Config.AssetBaseURI + (props.gender === GENDER_TYPES.FEMALE ? '/innequin/config_female.json' : '/innequin/config_male.json'),

@@ -8,6 +8,9 @@ import { RoomModel } from '../models/roomparts/RoomModel';
 import { TextAlign, Textbox } from '../ui/text/Textbox';
 import { log } from '../utils/log';
 import GroupAnimations from './groups/GroupAnimations';
+import GroupAvatars from './groups/GroupAvatars';
+import GroupEmotions from './groups/GroupEmotions';
+import GroupGoals from './groups/GroupGoals';
 import RoomBase, { RoomBaseProps } from './RoomBase';
 
 const CHARACTER_ID =
@@ -37,6 +40,9 @@ export default class RoomMain extends RoomBase {
   lightPoint1: PointLight;
   lightPoint2: PointLight;
   roomAnimations: GroupAnimations;
+  roomAvatars: GroupAvatars;
+  roomEmotions: GroupEmotions;
+  roomGoals: GroupGoals;
   roomModel: RoomModel;
 
   constructor(props: RoomBaseProps) {
@@ -72,15 +78,13 @@ export default class RoomMain extends RoomBase {
     this.labelRoomGoals.mesh.position.set(29 * Math.cos(45 * Math.PI / 180), 5, 29 * Math.sin(45 * Math.PI / 180));
     this.labelRoomGoals.mesh.rotation.set(0, -Math.PI/180 * 135, 0);
 
-    this.innequin = new ModelInnequin(
-      {
-        name: NAME_INNEQUIN,
-        characterId: CHARACTER_ID,
-        isLoaded: true,
-        position: new Vector3(0, 0, -4),
-        setConfig: this.onLoad,
-      }
-    );
+    this.innequin = new ModelInnequin({
+      name: NAME_INNEQUIN,
+      characterId: CHARACTER_ID,
+      isLoaded: true,
+      position: new Vector3(0, 0, -4),
+      setConfig: this.onLoad,
+    });
 
     this.roomModel = new RoomModel({
       id: 'roomModel',
@@ -92,6 +96,25 @@ export default class RoomMain extends RoomBase {
       position: new Vector3(0, 0, -36),
       onLoad: this.onLoad,
     });
+
+    this.roomAvatars = new GroupAvatars({
+      position: new Vector3(36 * Math.cos(45 * Math.PI / 180), 0, -36 * Math.sin(45 * Math.PI / 180)),
+      rotation: new Vector3(0, -Math.PI/180 * 45, 0),
+      onLoad: this.onLoad,
+    });
+
+    this.roomEmotions = new GroupEmotions({
+      position: new Vector3(36, 0, 0),
+      rotation: new Vector3(0, -Math.PI/180 * 90, 0),
+      onLoad: this.onLoad,
+    })
+
+    this.roomGoals = new GroupGoals({
+      position: new Vector3(36 * Math.cos(45 * Math.PI / 180), 0, 36 * Math.sin(45 * Math.PI / 180)),
+      rotation: new Vector3(0, -Math.PI/180 * 135, 0),
+      onLoad: this.onLoad,
+    })
+
 
     this.lightAmbient = new AmbientLight();
     this.lightHemisphere = new HemisphereLight('#fff', '#333');
@@ -115,6 +138,15 @@ export default class RoomMain extends RoomBase {
     if (this.roomAnimations.isLoaded) {
       this.roomAnimations.onFrame(delta);
     }
+    if (this.roomAvatars.isLoaded) {
+      this.roomAvatars.onFrame(delta);
+    }
+    if (this.roomEmotions.isLoaded) {
+      this.roomEmotions.onFrame(delta);
+    }
+    if (this.roomGoals.isLoaded) {
+      this.roomGoals.onFrame(delta);
+    }
   }
 
   onLoad() {
@@ -125,13 +157,22 @@ export default class RoomMain extends RoomBase {
       this.innequin &&
       this.innequin.isLoaded &&
       this.roomAnimations && 
-      this.roomAnimations.isLoaded
+      this.roomAnimations.isLoaded &&
+      this.roomAvatars && 
+      this.roomAvatars.isLoaded &&
+      this.roomEmotions && 
+      this.roomEmotions.isLoaded &&
+      this.roomGoals && 
+      this.roomGoals.isLoaded
     ) {
       log('RoomMain Loaded');
 
       this.groupMain.add(this.roomModel.getObject());
       this.groupMain.add(this.innequin.group);
       this.groupMain.add(this.roomAnimations.group);
+      this.groupMain.add(this.roomAvatars.group);
+      this.groupMain.add(this.roomEmotions.group);
+      this.groupMain.add(this.roomGoals.group);
 
       this.groupMain.add(this.labelHeader.mesh);
       this.groupMain.add(this.labelDescription.mesh);
