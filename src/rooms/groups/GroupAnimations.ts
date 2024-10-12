@@ -10,13 +10,13 @@ import { RoomTypes } from '../../types/RoomTypes';
 import { RoomMenuType, uiController } from '../../ui/UIController';
 import { log } from '../../utils/log';
 import { camelize } from '../../utils/strings';
+import { TRIGGER_WELCOME } from '../RoomMain';
 import GroupBase from './GroupBase';
 
 const CHARACTER_ID =
   'workspaces/inworld-playground/characters/animation_bot_-_innequin';
 const NAME_INNEQUIN = 'InnequinAnimations';
 const NAME_RPM = 'RPMAnimations';
-const TRIGGER_WELCOME = 'greet_player';
 
 export interface GroupAnimationsProps {
   position?: Vector3;

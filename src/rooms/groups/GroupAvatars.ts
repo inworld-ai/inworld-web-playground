@@ -5,8 +5,8 @@ import ModelInnequin from '../../models/ModelInnequin';
 import ModelRPM from '../../models/ModelRPM';
 import ModelSphere from '../../models/ModelSphere';
 import { log } from '../../utils/log';
+import { TRIGGER_WELCOME } from '../RoomMain';
 import GroupBase from './GroupBase';
-import { TRIGGER_WELCOME } from './GroupGoals';
 
 const CHARACTER_ID =
   'workspaces/inworld-playground/characters/avatar_bot_-_innequin';

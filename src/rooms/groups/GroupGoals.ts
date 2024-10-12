@@ -7,6 +7,7 @@ import { RoomTypes } from '../../types/RoomTypes';
 import { RoomMenuType, uiController } from '../../ui/UIController';
 import { Config } from '../../utils/config';
 import { log } from '../../utils/log';
+import { TRIGGER_WELCOME } from '../RoomMain';
 import GroupBase from './GroupBase';
 
 const CHARACTER_ID =
@@ -24,7 +25,6 @@ export const TRIGGER_EXPLAIN_VERBATIM = 'explain_verbatim';
 export const TRIGGER_GET_POPULATION = 'get_population';
 export const TRIGGER_PROVIDE_POPULATION = 'provide_population';
 export const TRIGGER_SET_CHARACTER_NAME = 'set_character_name';
-export const TRIGGER_WELCOME = 'greet_player';
 
 export interface GroupGoalsProps {
   position?: Vector3;

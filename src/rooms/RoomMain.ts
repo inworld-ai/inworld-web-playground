@@ -3,6 +3,7 @@ import { AmbientLight } from 'three/src/lights/AmbientLight';
 import { HemisphereLight } from 'three/src/lights/HemisphereLight';
 import { Group } from 'three/src/objects/Group';
 
+import { EVENT_INWORLD_STATE, inworld, STATE_OPEN } from '../inworld/Inworld';
 import ModelInnequin from '../models/ModelInnequin';
 import { RoomModel } from '../models/roomparts/RoomModel';
 import { TextAlign, Textbox } from '../ui/text/Textbox';
@@ -24,6 +25,7 @@ const ROOM_LABEL_ANIMATIONS = 'Animations';
 const ROOM_LABEL_AVATARS = 'Avatars';
 const ROOM_LABEL_EMOTIONS = 'Emotions';
 const ROOM_LABEL_GOALS = 'Goals';
+export const TRIGGER_WELCOME = 'greet_player';
 
 export default class RoomMain extends RoomBase {
 
@@ -51,6 +53,7 @@ export default class RoomMain extends RoomBase {
 
     this.onLoad = this.onLoad.bind(this);
     this.onProgress = this.onProgress.bind(this);
+    this.onStateInworld = this.onStateInworld.bind(this);
 
     this.groupMain = new Group();
     this.groupMain.name = "GroupMain";
@@ -115,6 +118,8 @@ export default class RoomMain extends RoomBase {
       onLoad: this.onLoad,
     })
 
+
+    inworld.addListener(EVENT_INWORLD_STATE, this.onStateInworld);
 
     this.lightAmbient = new AmbientLight();
     this.lightHemisphere = new HemisphereLight('#fff', '#333');
@@ -209,4 +214,10 @@ export default class RoomMain extends RoomBase {
     log('RoomMain onProgress', progress);
   };
 
+  onStateInworld(state: string) {
+    if ((inworld.name === NAME_INNEQUIN) 
+      && state === STATE_OPEN) {
+        inworld.sendTrigger(TRIGGER_WELCOME);
+    }
+  }
 }

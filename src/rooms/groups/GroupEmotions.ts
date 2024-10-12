@@ -8,8 +8,8 @@ import ModelRPM from '../../models/ModelRPM';
 import { RoomTypes } from '../../types/RoomTypes';
 import { RoomMenuType, uiController } from '../../ui/UIController';
 import { camelize } from '../../utils/strings';
+import { TRIGGER_WELCOME } from '../RoomMain';
 import GroupBase from './GroupBase';
-import { TRIGGER_WELCOME } from './GroupGoals';
 
 const CHARACTER_ID =
   'workspaces/inworld-playground/characters/emotion_bot';
