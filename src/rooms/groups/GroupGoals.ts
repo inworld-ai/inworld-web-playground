@@ -11,7 +11,7 @@ import GroupBase from './GroupBase';
 
 const CHARACTER_ID =
   'workspaces/inworld-playground/characters/goals_bot_-_innequin';
-const DATA_URI = '.' + Config.AssetBaseURI + '/data/cities.json';
+const DATA_URI = Config.AssetBaseURI + '/data/cities.json';
 const NAME_INNEQUIN = 'InnequinGoals';
 const SKIN_INNEQUIN = 'CAMO';
 export const TRIGGER_DEMO_PARAMETERS = 'demo_parameters';
@@ -115,11 +115,13 @@ export default class GroupGoals extends GroupBase {
 
   onLoad() {
 
+    console.log('GroupGoals onLoad', this.innequin.isLoaded, !!this.loaderCities.data);
+
     if (
       this.innequin &&
       this.innequin.isLoaded && 
       this.loaderCities &&
-      this.loaderCities.data
+      !!this.loaderCities.data
     ) {
 
       uiController.setRoomMenuData({ 
@@ -141,8 +143,9 @@ export default class GroupGoals extends GroupBase {
 
   }
    
-  onLoadError() {
-    log('GroupGoals onLoadError: There was an error loading the cities data file.');
+  onLoadError(e: any) {
+    console.error(e);
+    console.error('GroupGoals onLoadError: There was an error loading the cities data file:' + DATA_URI);
   }
    
   onStateInworld(state: string) {

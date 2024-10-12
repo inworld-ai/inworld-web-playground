@@ -145,12 +145,22 @@ export default class RoomMain extends RoomBase {
       this.roomEmotions.onFrame(delta);
     }
     if (this.roomGoals.isLoaded) {
-      this.roomGoals.onFrame(delta);
+      this.roomGoals  .onFrame(delta);
     }
   }
 
   onLoad() {
-    log('RoomMain onLoad');
+    
+    log(
+      'RoomMain onLoad', 
+      this.roomModel.isLoaded, 
+      this.innequin.isLoaded, 
+      this.roomAnimations.isLoaded, 
+      this.roomAvatars.isLoaded, 
+      this.roomEmotions.isLoaded, 
+      this.roomGoals.isLoaded
+    );
+    
     if (
       this.roomModel &&
       this.roomModel.isLoaded &&
