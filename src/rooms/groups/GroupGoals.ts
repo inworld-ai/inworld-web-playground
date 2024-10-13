@@ -1,6 +1,8 @@
 import { Vector3 } from 'three';
 
-import { EVENT_INWORLD_STATE, inworld, STATE_OPEN } from '../../inworld/Inworld';
+import { TriggerEvent } from '@inworld/web-core';
+
+import { EVENT_INWORLD_STATE, EVENT_TRIGGER, inworld, STATE_OPEN } from '../../inworld/Inworld';
 import { JSONFileLoader } from '../../loaders/JSONFileLoader';
 import ModelInnequin from '../../models/ModelInnequin';
 import { RoomTypes } from '../../types/RoomTypes';
@@ -66,6 +68,7 @@ export default class GroupGoals extends GroupBase {
     this.onLoadError = this.onLoadError.bind(this);
     this.onLoaded = props.onLoad;
     this.onStateInworld = this.onStateInworld.bind(this);
+    this.onTriggerInworld = this.onTriggerInworld.bind(this);
 
     this.innequin = new ModelInnequin(
       {
@@ -79,6 +82,7 @@ export default class GroupGoals extends GroupBase {
       }
     );
 
+    inworld.addListener(EVENT_TRIGGER, this.onTriggerInworld);
     inworld.addListener(EVENT_INWORLD_STATE, this.onStateInworld);
 
     this.loaderCities = new JSONFileLoader({ name: 'cityData', fileURI: DATA_URI});
@@ -87,14 +91,18 @@ export default class GroupGoals extends GroupBase {
 
   onChangeMutation(mutation: string) {
     console.log('GroupGoals: onChangeMutation', mutation);
+    inworld.sendTrigger(TRIGGER_SET_CHARACTER_NAME, [
+      { name: 'character_name', value: mutation },
+    ]);
   }
 
   onChangeTrigger(trigger: string) {
-    console.log('GroupGoals: onChangeTrigger', trigger);
+    inworld.sendTrigger(TRIGGER_DEMO_PARAMETERS, [
+      { name: 'animal', value: trigger },
+    ]);
   }
 
   onClick(characterName: string) {
-    console.log('RoomAnimations: onClick', characterName);
     if (characterName === NAME_INNEQUIN) {
       uiController.setRoomMenuType(RoomMenuType.GOALS);
     }
@@ -151,7 +159,26 @@ export default class GroupGoals extends GroupBase {
   onStateInworld(state: string) {
     if ((inworld.name === NAME_INNEQUIN) 
       && state === STATE_OPEN) {
-        inworld.sendTrigger(TRIGGER_WELCOME);
+        // inworld.sendTrigger(TRIGGER_WELCOME);
+    }
+  }
+
+  onTriggerInworld(triggerEvent: TriggerEvent) {
+    if (
+      triggerEvent.name === TRIGGER_GET_POPULATION &&
+      !!triggerEvent.parameters
+    ) {
+      const cityName = triggerEvent.parameters[0].value;
+      const cityPopulation = this.loaderCities.data[cityName].population;
+      setTimeout(() => {
+        inworld.sendTrigger(TRIGGER_PROVIDE_POPULATION, [
+          { name: 'city', value: cityName },
+          {
+            name: 'population',
+            value: cityPopulation,
+          },
+        ]);
+      }, 2000);
     }
   }
 }

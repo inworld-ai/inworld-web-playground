@@ -135,10 +135,12 @@ class GoalsMenu {
     const goal: string = (evt.currentTarget as HTMLButtonElement).value;
     this.clickGoalCB(goal);
 
-    this.menuList.contains(this.menuLISelectMutation)
+    console.log('GoalsMenu onClickGoal', goal);
+
+    if (this.menuList.contains(this.menuLISelectMutation))
       this.menuList.removeChild(this.menuLISelectMutation);
 
-    this.menuList.contains(this.menuLISelectTrigger)
+    if (this.menuList.contains(this.menuLISelectTrigger))
       this.menuList.removeChild(this.menuLISelectTrigger);
 
     if (goal === TRIGGER_EXPLAIN_MUTATIONS) 

@@ -118,7 +118,6 @@ export default class RoomMain extends RoomBase {
       onLoad: this.onLoad,
     })
 
-
     inworld.addListener(EVENT_INWORLD_STATE, this.onStateInworld);
 
     this.lightAmbient = new AmbientLight();
